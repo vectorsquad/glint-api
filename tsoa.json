@@ -1,0 +1,14 @@
+{
+    "entryFile": "src/main.ts",
+    "noImplicitAdditionalProperties": "ignore",
+    "controllerPathGlobs": [
+        "src/**/*Controller.ts"
+    ],
+    "spec": {
+        "outputDirectory": "build/api",
+        "specVersion": 3
+    },
+    "routes": {
+        "routesDir": "build/api"
+    }
+}
