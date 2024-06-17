@@ -14,7 +14,7 @@
 		"contact": {}
 	},
 	"paths": {
-		"/api/register": {
+		"/api/v1/register": {
 			"post": {
 				"operationId": "RegisterUser",
 				"responses": {

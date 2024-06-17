@@ -12,7 +12,7 @@ import {
     SuccessResponse,
 } from "tsoa";
 
-@Route("/api/register")
+@Route("/api/v1/register")
 export class RegisterUserController extends Controller {
 
     @Post()
