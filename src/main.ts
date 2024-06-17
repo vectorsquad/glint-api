@@ -20,7 +20,7 @@ app.use("/api/docs", sw_ui.serve);
 app.get("/api/docs", sw_ui.setup(spec));
 
 // Frontend
-app.use(exp.static('frontend/public'))
+app.use(exp.static('public'))
 
 // Catch-all for index.html
 app.get("/", (req, res) => res.sendFile("/index.html"));
