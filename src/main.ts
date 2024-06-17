@@ -6,6 +6,7 @@ import { GlobalState as GS } from "@state";
 import { ValidateError } from "tsoa";
 
 // Initiate connection to MongoDB
+console.log("Connecting to MongoDB...");
 await GS.mongo_client.connect();
 
 // Default express app
@@ -17,6 +18,12 @@ RegisterRoutes(app);
 // API docs
 app.use("/api/docs", sw_ui.serve);
 app.get("/api/docs", sw_ui.setup(spec));
+
+// Frontend
+app.use(exp.static('frontend/public'))
+
+// Catch-all for index.html
+app.get("/", (req, res) => res.sendFile("/index.html"));
 
 // Error handling middleware
 app.use(function errorHandler(
