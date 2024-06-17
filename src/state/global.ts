@@ -8,6 +8,6 @@ const gs = {
     }
 };
 
-gs.mongo_client.on("connectionCreated", () => console.log("Connected to MongoDB"));
+gs.mongo_client.on("connectionCreated", () => console.log("Successfully created MongoDB connection"));
 
 export const GlobalState = gs;
