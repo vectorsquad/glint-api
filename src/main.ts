@@ -12,10 +12,7 @@ await GS.mongo_client.connect();
 // Default express app
 const app = exp.default();
 
-// API routes
-RegisterRoutes(app);
-
-// API docs
+// Swagger UI Docs
 app.use("/api/docs", sw_ui.serve);
 app.get("/api/docs", sw_ui.setup(spec));
 
@@ -24,6 +21,10 @@ app.use(exp.static('public'))
 
 // Catch-all for index.html
 app.get("/", (req, res) => res.sendFile("/index.html"));
+
+// API Routes
+app.use(exp.json());
+RegisterRoutes(app);
 
 // Error handling middleware
 app.use(function errorHandler(
