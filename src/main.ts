@@ -4,10 +4,11 @@ import { RegisterRoutes } from "@routes";
 import spec from "@spec";
 import { GlobalState as GS } from "@state";
 import { ValidateError } from "tsoa";
+import cookieParser from "cookie-parser";
 
 // Initiate connection to MongoDB
 console.log("Connecting to MongoDB...");
-await GS.mongo_client.connect();
+await GS.mongo.client.connect();
 
 // Default express app
 const app = exp.default();
@@ -24,6 +25,7 @@ app.get("/", (req, res) => res.sendFile("/index.html"));
 
 // API Routes
 app.use(exp.json());
+app.use(cookieParser());
 RegisterRoutes(app);
 
 // Error handling middleware
@@ -41,8 +43,9 @@ app.use(function errorHandler(
         });
     }
     if (err instanceof Error) {
+        console.warn(err.message);
         return res.status(500).json({
-            message: "Internal Server Error",
+            message: "Internal Server Error"
         });
     }
 
