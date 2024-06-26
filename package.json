@@ -7,12 +7,14 @@
   },
   "type": "module",
   "dependencies": {
+    "@types/nodemailer": "^6.4.15",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
     "express": "^4.19.2",
     "glint-core": "github:vectorsquad/glint-core",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "6.7",
+    "nodemailer": "^6.9.14",
     "swagger-ui-express": "^5.0.1",
     "tsx": "^4.15.5",
     "typescript": "^5.4.5"
