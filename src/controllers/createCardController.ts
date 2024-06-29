@@ -65,13 +65,13 @@ export class CreateCardController extends Controller {
         }
 
         // Retrieve just now inserted card
-        let cardDoc = await col("card").findOne({ side_front: body.side_back }) as Doc<ICard> | null;
+        let cardDoc = await col("card").findOne({_id: createResult.insertedId}) as Doc<ICard> | null;
 
         // Error early if unable to retrieve card
         if (cardDoc === null) {
             this.setStatus(500);
             let resp: CardErrorResponse = {
-                message: "unable to retrieve newly created card"
+                message: "unable to retrieve newly created card..." + createResult.insertedId
             };
             return resp;
         }
@@ -88,7 +88,12 @@ export class CreateCardController extends Controller {
         // Set cookie header to contain JWT authentication payload
         this.setHeader("Set-Cookie", `auth=${signedJwt}`);
 
-        return;
+        let res: Response
+        {
+            message : "Card created with ID:" + createResult.insertedId
+        };
+
+        return ;
     }
 
 }
