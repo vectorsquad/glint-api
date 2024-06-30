@@ -53,7 +53,7 @@ export class FindCardController extends Controller {
     public async findCard(@Body() body: FindCardParams, @Request() req: exp.Request) {
 
         // Retrieve card
-        let cardDoc = await col("card").findOne({ side_front: body.side_front, side_back: body.side_back }) as Doc<ICard> | null;
+        let cardDoc = await col("card").findOne({ side_front: { $regex: body.side_front }, side_back: { $regex: body.side_back } }) as Doc<ICard> | null;
 
         // Error early if unable to retrieve card
         if (cardDoc === null) {
