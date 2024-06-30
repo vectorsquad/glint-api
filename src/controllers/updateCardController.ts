@@ -4,16 +4,10 @@ import {
     Body,
     Controller,
     Request,
-    Get,
-    Header,
-    Path,
     Post,
-    Query,
     Route,
-    SuccessResponse,
 } from "tsoa";
-import * as bc from "bcrypt";
-import { ObjectId, WithId, Document } from "mongodb";
+import { WithId, Document, ObjectId } from "mongodb";
 import jwt from "jsonwebtoken";
 import * as exp from "express";
 
@@ -22,7 +16,12 @@ const bcryptSaltRounds = 10;
 /** 
 * Fields for Updating a card.
 */
-type UpdateCardParams = ICard;
+
+interface CardUpdates extends ICard { 
+    id: string;
+}
+
+type UpdateCardParams = CardUpdates;
 
 const col = (collection_name: string) => GS.mongo.db.collection(collection_name);
 
@@ -52,33 +51,34 @@ export class UpdateCardController extends Controller {
     @Post()
     public async updateCard(@Body() body: UpdateCardParams, @Request() req: exp.Request) {
 
-        // Attempt to create a card
-        let updateResult = await col("card").insertOne(body);
+
+        // Attempt to update an existing card
+        let updateResult = await col("card").findOneAndUpdate( 
+            { 
+                "_id": new ObjectId(body.id)
+            }, 
+            {
+                $set:
+                { 
+                    "side_front": body.side_front, 
+                    "side_back": body.side_back 
+                }
+            }
+        )
 
         // Respond with internal server error if could not insert
-        if (!updateResult.acknowledged) {
+        if (updateResult === null) {
             this.setStatus(500);
             let resp: UpdateCardErrorResponse = {
-                message: "database update of card was not acknowledged"
+                message: "unable to update card"
             };
             return resp;
         }
 
-        // Retrieve just now inserted card
-        let cardDoc = await col("card").findOne({ side_front: body.side_back }) as Doc<ICard> | null;
-
-        // Error early if unable to retrieve card
-        if (cardDoc === null) {
-            this.setStatus(500);
-            let resp: UpdateCardErrorResponse = {
-                message: "unable to retrieve updated card"
-            };
-            return resp;
-        }
-
+        
         // Create JWT payload
         let authPayload = {
-            sub: cardDoc._id.toString(),
+            sub: updateResult._id.toString(),
             exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 7 * 2)
         };
 

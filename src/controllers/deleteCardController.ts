@@ -20,9 +20,13 @@ import * as exp from "express";
 const bcryptSaltRounds = 10;
 
 /** 
-* Fields for Updating a card.
+* Fields for Deleting a card.
 */
-type DeleteCardParams = ICard;
+interface CardDelete { 
+    id: string;
+}
+
+type DeleteCardParams = CardDelete;
 
 const col = (collection_name: string) => GS.mongo.db.collection(collection_name);
 
@@ -53,10 +57,10 @@ export class DeleteCardController extends Controller {
     public async deleteCard(@Body() body: DeleteCardParams, @Request() req: exp.Request) {
 
         // Attempt to delete a card
-        let deleteResult = await col("card").deleteOne(body);
+        let deleteResult = await col("card").findOneAndDelete({"_id": new ObjectId(body.id)})
 
         // Respond with internal server error if could not insert
-        if (!deleteResult.acknowledged) {
+        if (deleteResult === null) {
             this.setStatus(500);
             let resp: DeleteCardErrorResponse = {
                 message: "database delete of card was not acknowledged"
@@ -64,21 +68,9 @@ export class DeleteCardController extends Controller {
             return resp;
         }
 
-        // Retrieve just now inserted card
-        let cardDoc = await col("card").findOne({ side_front: body.side_back }) as Doc<ICard> | null;
-
-        // Error early if unable to retrieve card
-        if (cardDoc === null) {
-            this.setStatus(500);
-            let resp: DeleteCardErrorResponse = {
-                message: "unable to retrieve updated card"
-            };
-            return resp;
-        }
-
         // Create JWT payload
         let authPayload = {
-            sub: cardDoc._id.toString(),
+            sub: deleteResult._id.toString(),
             exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 7 * 2)
         };
 

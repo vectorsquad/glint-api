@@ -31,25 +31,29 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"ICard": {
+			"CardUpdates": {
+				"description": "Fields for Updating a card.",
 				"properties": {
 					"side_front": {
 						"type": "string"
 					},
 					"side_back": {
 						"type": "string"
+					},
+					"id": {
+						"type": "string"
 					}
 				},
 				"required": [
 					"side_front",
-					"side_back"
+					"side_back",
+					"id"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
 			"UpdateCardParams": {
-				"$ref": "#/components/schemas/ICard",
-				"description": "Fields for Updating a card."
+				"$ref": "#/components/schemas/CardUpdates"
 			},
 			"ObjectId": {
 				"type": "string",
@@ -189,6 +193,22 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"ICard": {
+				"properties": {
+					"side_front": {
+						"type": "string"
+					},
+					"side_back": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"side_front",
+					"side_back"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"FindCardParams": {
 				"$ref": "#/components/schemas/ICard",
 				"description": "Fields for Updating a card."
@@ -205,9 +225,21 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"CardDelete": {
+				"description": "Fields for Deleting a card.",
+				"properties": {
+					"id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"DeleteCardParams": {
-				"$ref": "#/components/schemas/ICard",
-				"description": "Fields for Updating a card."
+				"$ref": "#/components/schemas/CardDelete"
 			},
 			"CardErrorResponse": {
 				"properties": {
@@ -357,7 +389,14 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/FindCardErrorResponse"
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/ObjectId"
+										},
+										{
+											"$ref": "#/components/schemas/FindCardErrorResponse"
+										}
+									]
 								}
 							}
 						}
