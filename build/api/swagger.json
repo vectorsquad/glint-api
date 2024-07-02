@@ -19,6 +19,63 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"ObjectId": {
+				"type": "string",
+				"description": "A class representation of the BSON ObjectId type."
+			},
+			"updatePasswordResponse": {
+				"properties": {
+					"id": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/ObjectId"
+							}
+						],
+						"nullable": true
+					},
+					"username": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"name_first": {
+						"type": "string"
+					},
+					"name_last": {
+						"type": "string"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"username",
+					"email",
+					"name_first",
+					"name_last",
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"updatePasswordParams": {
+				"properties": {
+					"password": {
+						"type": "string"
+					},
+					"password_repeat": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"password",
+					"password_repeat"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"UpdateCardErrorResponse": {
 				"properties": {
 					"message": {
@@ -55,9 +112,17 @@
 			"UpdateCardParams": {
 				"$ref": "#/components/schemas/CardUpdates"
 			},
-			"ObjectId": {
-				"type": "string",
-				"description": "A class representation of the BSON ObjectId type."
+			"sendPasswordRecoveryParams": {
+				"properties": {
+					"emailOrUsername": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"emailOrUsername"
+				],
+				"type": "object",
+				"additionalProperties": false
 			},
 			"ErrorResponse": {
 				"properties": {
@@ -167,7 +232,7 @@
 			},
 			"LoginParams": {
 				"properties": {
-					"email": {
+					"username": {
 						"type": "string"
 					},
 					"password_hash": {
@@ -175,7 +240,7 @@
 					}
 				},
 				"required": [
-					"email",
+					"username",
 					"password_hash"
 				],
 				"type": "object",
@@ -293,6 +358,44 @@
 				]
 			}
 		},
+		"/api/v1/updatePassword": {
+			"post": {
+				"operationId": "UpadatePassword",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/updatePasswordResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "user_code",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/updatePasswordParams"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/api/v1/update": {
 			"post": {
 				"operationId": "UpdateCard",
@@ -316,6 +419,33 @@
 						"application/json": {
 							"schema": {
 								"$ref": "#/components/schemas/UpdateCardParams"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/sendPasswordRecovery": {
+			"post": {
+				"operationId": "SendPasswordRecovery",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/sendPasswordRecoveryParams"
 							}
 						}
 					}

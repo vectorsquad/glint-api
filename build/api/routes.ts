@@ -5,7 +5,11 @@ import { TsoaRoute, fetchMiddlewares, ExpressTemplateService } from '@tsoa/runti
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { verificationController } from './../../src/controllers/verificationController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { updatePasswordController } from './../../src/controllers/updatePasswordController';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { UpdateCardController } from './../../src/controllers/updateCardController';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { sendPasswordRecoveryController } from './../../src/controllers/sendPasswordRecoveryController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { RegisterUserController } from './../../src/controllers/registerController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -27,6 +31,33 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "message": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ObjectId": {
+        "dataType": "refAlias",
+        "type": {"dataType":"string","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "updatePasswordResponse": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"union","subSchemas":[{"ref":"ObjectId"},{"dataType":"enum","enums":[null]}],"required":true},
+            "username": {"dataType":"string","required":true},
+            "email": {"dataType":"string","required":true},
+            "name_first": {"dataType":"string","required":true},
+            "name_last": {"dataType":"string","required":true},
+            "message": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "updatePasswordParams": {
+        "dataType": "refObject",
+        "properties": {
+            "password": {"dataType":"string","required":true},
+            "password_repeat": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
     },
@@ -54,9 +85,12 @@ const models: TsoaRoute.Models = {
         "type": {"ref":"CardUpdates","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "ObjectId": {
-        "dataType": "refAlias",
-        "type": {"dataType":"string","validators":{}},
+    "sendPasswordRecoveryParams": {
+        "dataType": "refObject",
+        "properties": {
+            "emailOrUsername": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ErrorResponse": {
@@ -105,7 +139,7 @@ const models: TsoaRoute.Models = {
     "LoginParams": {
         "dataType": "refObject",
         "properties": {
-            "email": {"dataType":"string","required":true},
+            "username": {"dataType":"string","required":true},
             "password_hash": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
@@ -207,6 +241,38 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/api/v1/updatePassword',
+            ...(fetchMiddlewares<RequestHandler>(updatePasswordController)),
+            ...(fetchMiddlewares<RequestHandler>(updatePasswordController.prototype.upadatePassword)),
+
+            async function updatePasswordController_upadatePassword(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    body: {"in":"body","name":"body","required":true,"ref":"updatePasswordParams"},
+                    req: {"in":"request","name":"req","required":true,"dataType":"object"},
+                    user_code: {"in":"query","name":"user_code","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new updatePasswordController();
+
+              await templateService.apiHandler({
+                methodName: 'upadatePassword',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/api/v1/update',
             ...(fetchMiddlewares<RequestHandler>(UpdateCardController)),
             ...(fetchMiddlewares<RequestHandler>(UpdateCardController.prototype.updateCard)),
@@ -227,6 +293,37 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'updateCard',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/api/v1/sendPasswordRecovery',
+            ...(fetchMiddlewares<RequestHandler>(sendPasswordRecoveryController)),
+            ...(fetchMiddlewares<RequestHandler>(sendPasswordRecoveryController.prototype.sendPasswordRecovery)),
+
+            async function sendPasswordRecoveryController_sendPasswordRecovery(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    body: {"in":"body","name":"body","required":true,"ref":"sendPasswordRecoveryParams"},
+                    req: {"in":"request","name":"req","required":true,"dataType":"object"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new sendPasswordRecoveryController();
+
+              await templateService.apiHandler({
+                methodName: 'sendPasswordRecovery',
                 controller,
                 response,
                 next,

@@ -17,6 +17,7 @@ import { ObjectId, WithId, Document } from "mongodb";
 import jwt from "jsonwebtoken";
 import * as exp from "express";
 import nodemailer, { Transporter } from "nodemailer";
+import sendMail from "../utils/email.ts";
 
 const bcryptSaltRounds = 10;
 
@@ -56,33 +57,19 @@ function randId(length: number) {
 
 const jwtSecret = randId(20);
 
-const sendMail = async (email:string, uniqueString:string) => {
-    const transporter: Transporter = nodemailer.createTransport({
-        host: "smtp-relay.brevo.com",
-        port: 587,
-        auth: {
-            user: "773785001@smtp-brevo.com",
-            pass: "FKaThAcJ0y7CwOzr"
-        }
-    });
+
+
+function sendEmailWithHtml(uniqueString:string, email:string, firstName:string) {
+    let link = "http://localhost:8080/api/v1/verify/?code=";
+
+    let bodyHtml =  `<p>Thank you for signing up with VectorSquad. Please click the button below to verify your email address.</p>
+            <div class="button-container">
+                <a href="${link}${uniqueString}" class="button">Verify Email</a>
+            </div>
+            <p>If you didn't create an account with us, please ignore this email.</p>`;
     
-
-    var mailOptions;
-    let sender = 'jefferson.pvpgamer@gmail.com';
-    mailOptions = {
-        from: sender,
-        to: email,
-        subject: "Email verification",
-        html: `Press <a href=http//localhost:8080/verify/code=${uniqueString}> here </a> to verify your email.`
-    };
-
-    try {
-        const info = await transporter.sendMail(mailOptions);
-        console.log('Email sent ' + info.response);
-    } catch (error) {
-        console.error('Error sending email ' + error);
-    }
-};
+    sendMail(email, firstName, bodyHtml);
+}
 
 @Route("/api/v1/register")
 export class RegisterUserController extends Controller {
@@ -131,7 +118,7 @@ export class RegisterUserController extends Controller {
 
         let rnd = randId(6);
 
-        sendMail(body.email, rnd);
+        
 
         let user = {
             username: body.username,
@@ -176,6 +163,8 @@ export class RegisterUserController extends Controller {
             };
             return resp;
         }
+
+        sendEmailWithHtml(rnd, body.email, body.name_first);
 
         this.setStatus(200);
         let res: ErrorResponse = {

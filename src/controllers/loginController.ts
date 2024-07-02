@@ -19,7 +19,7 @@ import { ObjectId, WithId, Document } from "mongodb";
 import * as bc from "bcrypt";
 
 interface LoginParams {
-    email: string;
+    username: string;
     password_hash: string;
 }
 
@@ -61,7 +61,7 @@ export class loginController extends Controller
     public async login(@Body() body: LoginParams, @Request() req: exp.Request)
         {
 
-            let user = (await col("user").findOne({ "email":body.email })) as Doc<IUserDb> | null
+            let user = (await col("user").findOne({ "username":body.username })) as Doc<IUserDb> | null
 
             if(user === null) {
                 this.setStatus(404);
