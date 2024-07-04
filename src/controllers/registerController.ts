@@ -188,7 +188,7 @@ export class RegisterUserController extends Controller {
         // Set cookie header to contain JWT authentication payload
         this.setHeader("Set-Cookie", `auth=${signedJwt}`);
 
-        return;
+        return res;
     }
 
 }
