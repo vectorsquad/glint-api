@@ -17,7 +17,7 @@ import { ObjectId, WithId, Document } from "mongodb";
 import jwt from "jsonwebtoken";
 import * as exp from "express";
 import nodemailer, { Transporter } from "nodemailer";
-import sendMail from "../utils/email.ts";
+import { sendMail } from "../utils/email";
 
 const bcryptSaltRounds = 10;
 
@@ -59,15 +59,15 @@ const jwtSecret = randId(20);
 
 
 
-function sendEmailWithHtml(uniqueString:string, email:string, firstName:string) {
+function sendEmailWithHtml(uniqueString: string, email: string, firstName: string) {
     let link = "http://localhost:8080/api/v1/verify/?code=";
 
-    let bodyHtml =  `<p>Thank you for signing up with VectorSquad. Please click the button below to verify your email address.</p>
+    let bodyHtml = `<p>Thank you for signing up with VectorSquad. Please click the button below to verify your email address.</p>
             <div class="button-container">
                 <a href="${link}${uniqueString}" class="button">Verify Email</a>
             </div>
             <p>If you didn't create an account with us, please ignore this email.</p>`;
-    
+
     sendMail(email, firstName, bodyHtml);
 }
 
@@ -118,7 +118,7 @@ export class RegisterUserController extends Controller {
 
         let rnd = randId(6);
 
-        
+
 
         let user = {
             username: body.username,
@@ -175,7 +175,6 @@ export class RegisterUserController extends Controller {
             name_last: userDoc.name_last,
             message: "Success: user registered"
         };
-        return res;
 
         // Create JWT payload
         let authPayload = {
