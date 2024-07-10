@@ -13,13 +13,12 @@ import {
     SuccessResponse,
 } from "tsoa";
 
-import jwt from "jsonwebtoken";
+
 import * as exp from "express";
 import { ObjectId, WithId, Document } from "mongodb";
-import * as bc from "bcrypt";
 import sendMail from "../utils/email.ts";
 
-interface sendPasswordRecoveryParams {
+interface sendEmailVerificationParams {
     emailOrUsername:string
 }
 
@@ -31,7 +30,7 @@ interface IUserDb extends IUser {
     email_verified: boolean;
 }
 
-interface sendPasswordResponse {
+interface sendEmailResponse {
     id: ObjectId | null;
     username: string;
     email: string;
@@ -52,23 +51,23 @@ function randId(length: number) {
     return result;
 }
 
-function sendEmailWithHtml(uniqueString:string, email:string, firstName:string) {
-    let link = "https://glint.cleanmango.com/api/v1/updatePassword/?user_code=";
+function sendEmailWithHtml(uniqueString: string, email: string, firstName: string) {
+    let link = "https://glint.cleanmango.com/api/v1/verify/?code=";
 
-    let bodyHtml =  `<p>This is a request to change your Glint account's password. Please click the button below change your password.</p>
+    let bodyHtml = `<p>Thank you for signing up with VectorSquad. Please click the button below to verify your email address.</p>
             <div class="button-container">
-                <a href="${link}${uniqueString}" class="button">Change Password</a>
+                <a href="${link}${uniqueString}" class="button">Verify Email</a>
             </div>
-            <p>If you didn't order a request to change your password, please ignore this email.</p>`;
-    
+            <p>If you didn't create an account with us, please ignore this email.</p>`;
+
     sendMail(email, firstName, bodyHtml);
 }
 
-@Route('/api/v1/sendPasswordRecovery')
-export class sendPasswordRecoveryController extends Controller
+@Route('/api/v1/sendEmailVerification')
+export class sendEmailVerificationController extends Controller
 {
     @Post()
-    public async sendPasswordRecovery(@Body() body: sendPasswordRecoveryParams, @Request() req: exp.Request)
+    public async sendEmailVerification(@Body() body: sendEmailVerificationParams, @Request() req: exp.Request)
     {
         let user = (await col("user").findOne({ "email":body.emailOrUsername })) as Doc<IUserDb> | null
 
@@ -77,11 +76,11 @@ export class sendPasswordRecoveryController extends Controller
                 user = (await col("user").findOne({ "username":body.emailOrUsername })) as Doc<IUserDb> | null
             }
 
-        if(user !== null)
+        if(user !== null && user.email_verified == false)
             {
-                let rnd = randId(6);
-                await col("user").updateOne({ _id: user._id }, { $set: { verification_code: rnd } });
-                sendEmailWithHtml(rnd, user.email, user.name_first);
+                //let rnd = randId(6);
+                //await col("user").updateOne({ _id: user._id }, { $set: { verification_code: rnd } });
+                sendEmailWithHtml(user.verification_code, user.email, user.name_first);
 
                 this.setStatus(200);
                 let res:sendPasswordResponse = {
@@ -90,7 +89,7 @@ export class sendPasswordRecoveryController extends Controller
                     email: user.email,
                     name_first: user.name_first,
                     name_last: user.name_last,
-                    message: "Success: Password recovery request sent"
+                    message: "Success: Email verification sent"
                 } 
                 return res;
             }

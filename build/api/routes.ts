@@ -11,6 +11,8 @@ import { UpdateCardController } from './../../src/controllers/updateCardControll
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { sendPasswordRecoveryController } from './../../src/controllers/sendPasswordRecoveryController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { sendEmailVerificationController } from './../../src/controllers/sendEmailVerificationController';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { RegisterUserController } from './../../src/controllers/registerController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { loginController } from './../../src/controllers/loginController';
@@ -86,6 +88,14 @@ const models: TsoaRoute.Models = {
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "sendPasswordRecoveryParams": {
+        "dataType": "refObject",
+        "properties": {
+            "emailOrUsername": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "sendEmailVerificationParams": {
         "dataType": "refObject",
         "properties": {
             "emailOrUsername": {"dataType":"string","required":true},
@@ -324,6 +334,37 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'sendPasswordRecovery',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/api/v1/sendEmailVerification',
+            ...(fetchMiddlewares<RequestHandler>(sendEmailVerificationController)),
+            ...(fetchMiddlewares<RequestHandler>(sendEmailVerificationController.prototype.sendEmailVerification)),
+
+            async function sendEmailVerificationController_sendEmailVerification(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    body: {"in":"body","name":"body","required":true,"ref":"sendEmailVerificationParams"},
+                    req: {"in":"request","name":"req","required":true,"dataType":"object"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new sendEmailVerificationController();
+
+              await templateService.apiHandler({
+                methodName: 'sendEmailVerification',
                 controller,
                 response,
                 next,

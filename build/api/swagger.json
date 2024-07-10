@@ -124,6 +124,18 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"sendEmailVerificationParams": {
+				"properties": {
+					"emailOrUsername": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"emailOrUsername"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"ErrorResponse": {
 				"properties": {
 					"id": {
@@ -446,6 +458,33 @@
 						"application/json": {
 							"schema": {
 								"$ref": "#/components/schemas/sendPasswordRecoveryParams"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/sendEmailVerification": {
+			"post": {
+				"operationId": "SendEmailVerification",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/sendEmailVerificationParams"
 							}
 						}
 					}

@@ -60,7 +60,7 @@ const jwtSecret = randId(20);
 
 
 function sendEmailWithHtml(uniqueString: string, email: string, firstName: string) {
-    let link = "http://localhost:8080/api/v1/verify/?code=";
+    let link = "https://glint.cleanmango.com/api/v1/verify/?code=";
 
     let bodyHtml = `<p>Thank you for signing up with VectorSquad. Please click the button below to verify your email address.</p>
             <div class="button-container">
