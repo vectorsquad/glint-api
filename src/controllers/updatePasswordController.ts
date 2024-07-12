@@ -53,18 +53,6 @@ function randId(length: number) {
     return result;
 }
 
-function sendEmailWithHtml(uniqueString:string, email:string, firstName:string) {
-    let link = "http://large.1stclassusalogistics.com:8080/api/v1/verify/?code=";
-
-    let bodyHtml =  `<p>Thank you for signing up with VectorSquad. Please click the button below to verify your email address.</p>
-            <div class="button-container">
-                <a href="${link}${uniqueString}" class="button">Verify Email</a>
-            </div>
-            <p>If you didn't create an account with us, please ignore this email.</p>`;
-    
-    sendMail(email, firstName, bodyHtml);
-}
-
 const bcryptSaltRounds = 10;
 
 @Route('/api/v1/updatePassword')

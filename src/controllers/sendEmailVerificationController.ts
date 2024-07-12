@@ -53,6 +53,7 @@ function randId(length: number) {
 
 function sendEmailWithHtml(uniqueString: string, email: string, firstName: string) {
     let link = "https://glint.cleanmango.com/api/v1/verify/?code=";
+    let emailSubject = "Email Verification"
 
     let bodyHtml = `<p>Thank you for signing up with VectorSquad. Please click the button below to verify your email address.</p>
             <div class="button-container">
@@ -60,7 +61,7 @@ function sendEmailWithHtml(uniqueString: string, email: string, firstName: strin
             </div>
             <p>If you didn't create an account with us, please ignore this email.</p>`;
 
-    sendMail(email, firstName, bodyHtml);
+    sendMail(email, firstName, bodyHtml, emailSubject);
 }
 
 @Route('/api/v1/sendEmailVerification')

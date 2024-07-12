@@ -1,21 +1,21 @@
 import nodemailer, { Transporter } from "nodemailer";
 
-export async function sendMail(email: string, firstName: string, bodyHtml: string) {
+export async function sendMail(email: string, firstName: string, bodyHtml: string, emailSubject: string) {
     const transporter: Transporter = nodemailer.createTransport({
         host: "smtp-relay.brevo.com",
         port: 587,
         auth: {
-            user: "773785001@smtp-brevo.com",
-            pass: "FKaThAcJ0y7CwOzr"
+            user: "787671001@smtp-brevo.com",
+            pass: "I5dWzcJ8k1qxYDTs"
         }
     });
 
     var mailOptions;
-    let sender = 'jefferson.pvpgamer@gmail.com';
+    let sender = 'glintflashcards@gmail.com';
     mailOptions = {
         from: sender,
         to: email,
-        subject: "Email verification",
+        subject: emailSubject,
         html: `<!DOCTYPE html>
 <html>
 <head>

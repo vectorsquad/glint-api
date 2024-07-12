@@ -54,6 +54,7 @@ function randId(length: number) {
 
 function sendEmailWithHtml(uniqueString:string, email:string, firstName:string) {
     let link = "https://glint.cleanmango.com/api/v1/updatePassword/?user_code=";
+    let emailSubject = "Password Recovery Request"
 
     let bodyHtml =  `<p>This is a request to change your Glint account's password. Please click the button below change your password.</p>
             <div class="button-container">
@@ -61,7 +62,7 @@ function sendEmailWithHtml(uniqueString:string, email:string, firstName:string) 
             </div>
             <p>If you didn't order a request to change your password, please ignore this email.</p>`;
     
-    sendMail(email, firstName, bodyHtml);
+    sendMail(email, firstName, bodyHtml, emailSubject);
 }
 
 @Route('/api/v1/sendPasswordRecovery')
