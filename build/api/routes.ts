@@ -7,6 +7,8 @@ import { verificationController } from './../../src/controllers/verificationCont
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { updatePasswordController } from './../../src/controllers/updatePasswordController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { UpdateDeckController } from './../../src/controllers/updateDeckController';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { UpdateCardController } from './../../src/controllers/updateCardController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { sendPasswordRecoveryController } from './../../src/controllers/sendPasswordRecoveryController';
@@ -17,9 +19,15 @@ import { RegisterUserController } from './../../src/controllers/registerControll
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { loginController } from './../../src/controllers/loginController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { FindDeckController } from './../../src/controllers/findDeckController';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { FindCardController } from './../../src/controllers/findCardController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { DeleteDeckController } from './../../src/controllers/deleteDeckController';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { DeleteCardController } from './../../src/controllers/deleteCardController';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { CreateDeckController } from './../../src/controllers/createDeckController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { CreateCardController } from './../../src/controllers/createCardController';
 import type { Request as ExRequest, Response as ExResponse, RequestHandler, Router } from 'express';
@@ -60,6 +68,27 @@ const models: TsoaRoute.Models = {
         "properties": {
             "password": {"dataType":"string","required":true},
             "password_repeat": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "UpdateDeckResponse": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"union","subSchemas":[{"ref":"ObjectId"},{"dataType":"enum","enums":[null]}],"required":true},
+            "userId": {"dataType":"union","subSchemas":[{"ref":"ObjectId"},{"dataType":"enum","enums":[null]}],"required":true},
+            "name": {"dataType":"string","required":true},
+            "message": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "updateDeckParams": {
+        "dataType": "refObject",
+        "properties": {
+            "user_id": {"dataType":"string","required":true},
+            "deck_id": {"dataType":"string","required":true},
+            "deck_name": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
     },
@@ -155,6 +184,35 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "IDeck": {
+        "dataType": "refObject",
+        "properties": {
+            "_id": {"ref":"ObjectId","required":true},
+            "id_user": {"ref":"ObjectId","required":true},
+            "name": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "FindDeckResponse": {
+        "dataType": "refObject",
+        "properties": {
+            "decks": {"dataType":"union","subSchemas":[{"dataType":"array","array":{"dataType":"refObject","ref":"IDeck"}},{"dataType":"enum","enums":[null]}],"required":true},
+            "quantity": {"dataType":"double","required":true},
+            "message": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "FindDeckParams": {
+        "dataType": "refObject",
+        "properties": {
+            "user_id": {"dataType":"string","required":true},
+            "deck_name": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "FindCardErrorResponse": {
         "dataType": "refObject",
         "properties": {
@@ -177,6 +235,25 @@ const models: TsoaRoute.Models = {
         "type": {"ref":"ICard","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "DeleteDeckResponse": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"union","subSchemas":[{"ref":"ObjectId"},{"dataType":"enum","enums":[null]}],"required":true},
+            "userId": {"dataType":"union","subSchemas":[{"ref":"ObjectId"},{"dataType":"enum","enums":[null]}],"required":true},
+            "name": {"dataType":"string","required":true},
+            "message": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "DeleteDeckParams": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "DeleteCardErrorResponse": {
         "dataType": "refObject",
         "properties": {
@@ -196,6 +273,26 @@ const models: TsoaRoute.Models = {
     "DeleteCardParams": {
         "dataType": "refAlias",
         "type": {"ref":"CardDelete","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "DeckResponse": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"union","subSchemas":[{"ref":"ObjectId"},{"dataType":"enum","enums":[null]}],"required":true},
+            "userId": {"dataType":"union","subSchemas":[{"ref":"ObjectId"},{"dataType":"enum","enums":[null]}],"required":true},
+            "name": {"dataType":"string","required":true},
+            "message": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "CreateDeckParams": {
+        "dataType": "refObject",
+        "properties": {
+            "user_id": {"dataType":"string","required":true},
+            "deck_name": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "CardErrorResponse": {
@@ -272,6 +369,37 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'upadatePassword',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/api/v1/updateDeck',
+            ...(fetchMiddlewares<RequestHandler>(UpdateDeckController)),
+            ...(fetchMiddlewares<RequestHandler>(UpdateDeckController.prototype.FindDeck)),
+
+            async function UpdateDeckController_FindDeck(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    body: {"in":"body","name":"body","required":true,"ref":"updateDeckParams"},
+                    req: {"in":"request","name":"req","required":true,"dataType":"object"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new UpdateDeckController();
+
+              await templateService.apiHandler({
+                methodName: 'FindDeck',
                 controller,
                 response,
                 next,
@@ -438,6 +566,37 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/api/v1/findDeck',
+            ...(fetchMiddlewares<RequestHandler>(FindDeckController)),
+            ...(fetchMiddlewares<RequestHandler>(FindDeckController.prototype.findDeck)),
+
+            async function FindDeckController_findDeck(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    body: {"in":"body","name":"body","required":true,"ref":"FindDeckParams"},
+                    req: {"in":"request","name":"req","required":true,"dataType":"object"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new FindDeckController();
+
+              await templateService.apiHandler({
+                methodName: 'findDeck',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/api/v1/find',
             ...(fetchMiddlewares<RequestHandler>(FindCardController)),
             ...(fetchMiddlewares<RequestHandler>(FindCardController.prototype.findCard)),
@@ -469,6 +628,37 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/api/v1/deleteDeck',
+            ...(fetchMiddlewares<RequestHandler>(DeleteDeckController)),
+            ...(fetchMiddlewares<RequestHandler>(DeleteDeckController.prototype.deleteCard)),
+
+            async function DeleteDeckController_deleteCard(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    body: {"in":"body","name":"body","required":true,"ref":"DeleteDeckParams"},
+                    req: {"in":"request","name":"req","required":true,"dataType":"object"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new DeleteDeckController();
+
+              await templateService.apiHandler({
+                methodName: 'deleteCard',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/api/v1/delete',
             ...(fetchMiddlewares<RequestHandler>(DeleteCardController)),
             ...(fetchMiddlewares<RequestHandler>(DeleteCardController.prototype.deleteCard)),
@@ -489,6 +679,37 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'deleteCard',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/api/v1/createDeck',
+            ...(fetchMiddlewares<RequestHandler>(CreateDeckController)),
+            ...(fetchMiddlewares<RequestHandler>(CreateDeckController.prototype.createDeck)),
+
+            async function CreateDeckController_createDeck(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    body: {"in":"body","name":"body","required":true,"ref":"CreateDeckParams"},
+                    req: {"in":"request","name":"req","required":true,"dataType":"object"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new CreateDeckController();
+
+              await templateService.apiHandler({
+                methodName: 'createDeck',
                 controller,
                 response,
                 next,

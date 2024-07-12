@@ -76,6 +76,60 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"UpdateDeckResponse": {
+				"properties": {
+					"id": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/ObjectId"
+							}
+						],
+						"nullable": true
+					},
+					"userId": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/ObjectId"
+							}
+						],
+						"nullable": true
+					},
+					"name": {
+						"type": "string"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"userId",
+					"name",
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"updateDeckParams": {
+				"properties": {
+					"user_id": {
+						"type": "string"
+					},
+					"deck_id": {
+						"type": "string"
+					},
+					"deck_name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"user_id",
+					"deck_id",
+					"deck_name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"UpdateCardErrorResponse": {
 				"properties": {
 					"message": {
@@ -258,6 +312,67 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"IDeck": {
+				"properties": {
+					"_id": {
+						"$ref": "#/components/schemas/ObjectId"
+					},
+					"id_user": {
+						"$ref": "#/components/schemas/ObjectId"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"_id",
+					"id_user",
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"FindDeckResponse": {
+				"properties": {
+					"decks": {
+						"items": {
+							"$ref": "#/components/schemas/IDeck"
+						},
+						"type": "array",
+						"nullable": true
+					},
+					"quantity": {
+						"type": "number",
+						"format": "double"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"decks",
+					"quantity",
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"FindDeckParams": {
+				"properties": {
+					"user_id": {
+						"type": "string"
+					},
+					"deck_name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"user_id",
+					"deck_name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"FindCardErrorResponse": {
 				"properties": {
 					"message": {
@@ -290,6 +405,52 @@
 				"$ref": "#/components/schemas/ICard",
 				"description": "Fields for Updating a card."
 			},
+			"DeleteDeckResponse": {
+				"properties": {
+					"id": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/ObjectId"
+							}
+						],
+						"nullable": true
+					},
+					"userId": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/ObjectId"
+							}
+						],
+						"nullable": true
+					},
+					"name": {
+						"type": "string"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"userId",
+					"name",
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"DeleteDeckParams": {
+				"properties": {
+					"id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"DeleteCardErrorResponse": {
 				"properties": {
 					"message": {
@@ -317,6 +478,56 @@
 			},
 			"DeleteCardParams": {
 				"$ref": "#/components/schemas/CardDelete"
+			},
+			"DeckResponse": {
+				"properties": {
+					"id": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/ObjectId"
+							}
+						],
+						"nullable": true
+					},
+					"userId": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/ObjectId"
+							}
+						],
+						"nullable": true
+					},
+					"name": {
+						"type": "string"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"userId",
+					"name",
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateDeckParams": {
+				"properties": {
+					"user_id": {
+						"type": "string"
+					},
+					"deck_name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"user_id",
+					"deck_name"
+				],
+				"type": "object",
+				"additionalProperties": false
 			},
 			"CardErrorResponse": {
 				"properties": {
@@ -402,6 +613,35 @@
 						"application/json": {
 							"schema": {
 								"$ref": "#/components/schemas/updatePasswordParams"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/updateDeck": {
+			"post": {
+				"operationId": "FindDeck",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UpdateDeckResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/updateDeckParams"
 							}
 						}
 					}
@@ -549,6 +789,35 @@
 				}
 			}
 		},
+		"/api/v1/findDeck": {
+			"post": {
+				"operationId": "FindDeck",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FindDeckResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/FindDeckParams"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/api/v1/find": {
 			"post": {
 				"operationId": "FindCard",
@@ -585,6 +854,35 @@
 				}
 			}
 		},
+		"/api/v1/deleteDeck": {
+			"post": {
+				"operationId": "DeleteCard",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DeleteDeckResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/DeleteDeckParams"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/api/v1/delete": {
 			"post": {
 				"operationId": "DeleteCard",
@@ -608,6 +906,35 @@
 						"application/json": {
 							"schema": {
 								"$ref": "#/components/schemas/DeleteCardParams"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/createDeck": {
+			"post": {
+				"operationId": "CreateDeck",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DeckResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateDeckParams"
 							}
 						}
 					}
