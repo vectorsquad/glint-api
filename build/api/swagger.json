@@ -19,19 +19,10 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"ObjectId": {
-				"type": "string",
-				"description": "A class representation of the BSON ObjectId type."
-			},
 			"updatePasswordResponse": {
 				"properties": {
 					"id": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/ObjectId"
-							}
-						],
-						"nullable": true
+						"type": "string"
 					},
 					"username": {
 						"type": "string"
@@ -75,6 +66,10 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"ObjectId": {
+				"type": "string",
+				"description": "A class representation of the BSON ObjectId type."
 			},
 			"UpdateDeckResponse": {
 				"properties": {
@@ -166,6 +161,38 @@
 			"UpdateCardParams": {
 				"$ref": "#/components/schemas/CardUpdates"
 			},
+			"sendPasswordResponse": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"name_first": {
+						"type": "string"
+					},
+					"name_last": {
+						"type": "string"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"username",
+					"email",
+					"name_first",
+					"name_last",
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"sendPasswordRecoveryParams": {
 				"properties": {
 					"emailOrUsername": {
@@ -174,6 +201,38 @@
 				},
 				"required": [
 					"emailOrUsername"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"sendEmailResponse": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"name_first": {
+						"type": "string"
+					},
+					"name_last": {
+						"type": "string"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"username",
+					"email",
+					"name_first",
+					"name_last",
+					"message"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -685,7 +744,9 @@
 						"description": "Ok",
 						"content": {
 							"application/json": {
-								"schema": {}
+								"schema": {
+									"$ref": "#/components/schemas/sendPasswordResponse"
+								}
 							}
 						}
 					}
@@ -712,7 +773,9 @@
 						"description": "Ok",
 						"content": {
 							"application/json": {
-								"schema": {}
+								"schema": {
+									"$ref": "#/components/schemas/sendEmailResponse"
+								}
 							}
 						}
 					}

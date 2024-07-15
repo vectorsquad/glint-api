@@ -55,70 +55,68 @@ function randId(length: number) {
 const jwtSecret = randId(20);
 
 @Route('/api/v1/login')
-export class loginController extends Controller
-{
+export class loginController extends Controller {
     @Post()
-    public async login(@Body() body: LoginParams, @Request() req: exp.Request)
-        {
+    public async login(@Body() body: LoginParams, @Request() req: exp.Request) {
 
-            let user = (await col("user").findOne({ "username":body.username })) as Doc<IUserDb> | null
+        let user = (await col("user").findOne({ "username": body.username })) as Doc<IUserDb> | null
 
-            if(user === null) {
-                this.setStatus(404);
-                let res: LoginErrorResponse = {
-                    id: null,
-                    username: "",
-                    email: "",
-                    name_first: "",
-                    name_last: "",
-                    message: "Error: user does not exist"
-                };
+        if (user === null) {
+            this.setStatus(404);
+            let res: LoginErrorResponse = {
+                id: null,
+                username: "",
+                email: "",
+                name_first: "",
+                name_last: "",
+                message: "Error: user does not exist"
+            };
 
-                return res;
-            }
+            return res;
+        }
 
-            if(!user.email_verified) {
-                this.setStatus(400);
-                let res: LoginErrorResponse = {
-                    id: user._id,
-                    username: user.username,
-                    email: user.email,
-                    name_first: user.name_first,
-                    name_last: user.name_last,
-                    message: "Error: user email not verified"
-                };
-                return res;
-            }
-
-
-            let validPassword = await bc.compare(body.password_hash, user.password);
-
-            if(!validPassword) {
-                this.setStatus(400);
-                let res: LoginErrorResponse = {
-                    id: null,
-                    username: "",
-                    email: "",
-                    name_first: "",
-                    name_last: "",
-                    message: "Error: invalid email or password"
-                };
-
-                return res;
-            }
-
-
-            this.setStatus(200);
+        if (!user.email_verified) {
+            this.setStatus(400);
             let res: LoginErrorResponse = {
                 id: user._id,
                 username: user.username,
                 email: user.email,
                 name_first: user.name_first,
                 name_last: user.name_last,
-                message: "Success: user logged in"
+                message: "Error: user email not verified"
+            };
+            return res;
+        }
+
+
+        let validPassword = await bc.compare(body.password_hash, user.password);
+
+        if (!validPassword) {
+            this.setStatus(400);
+            let res: LoginErrorResponse = {
+                id: null,
+                username: "",
+                email: "",
+                name_first: "",
+                name_last: "",
+                message: "Error: invalid email or password"
             };
 
             return res;
+        }
+
+
+        this.setStatus(200);
+        let res: LoginErrorResponse = {
+            id: user._id,
+            username: user.username,
+            email: user.email,
+            name_first: user.name_first,
+            name_last: user.name_last,
+            message: "Success: user logged in"
+        };
+
+        return res;
     }
 
 }
