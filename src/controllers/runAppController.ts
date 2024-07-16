@@ -1,4 +1,4 @@
-import { ICard} from "glint-core/src/models.js";
+import { ICard } from "glint-core/src/models.js";
 import { GlobalState as GS } from "@state";
 import {
     Body,
@@ -15,7 +15,7 @@ import {
 import { ObjectId, WithId, Document } from "mongodb";
 import * as exp from "express";
 
-interface runAppParameters { 
+interface runAppParameters {
     id: string,
     deckId: string
 }
@@ -49,30 +49,30 @@ interface runAppResponse {
 export class runAppController extends Controller {
 
     @Post()
-    public async runApp(@Body body:runAppParameters, @Request() req: exp.Request) {
+    public async runApp(@Body() body: runAppParameters, @Request() req: exp.Request) {
 
         var user_id = new ObjectId(body.id);
         var deck_id = new ObjectId(body.deckId);
 
-        let deck = (await col("deck").findOne({"id_user": user_id, "_id": deck_id})) as Doc<IDeck> | null
+        let deck = (await col("deck").findOne({ "id_user": user_id, "_id": deck_id })) as Doc<IDeck> | null
 
-        if(deck === null) {
+        if (deck === null) {
             this.setStatus(404);
-                let res: runAppResponse = {
-                    id: null,
-                    side_back: "",
-                    side_front: "",
-                    quantity_cards_left: -1,
-                    quantity_cards_total: -1,
-                    message: "Error: deck not found"
-                };
+            let res: runAppResponse = {
+                id: null,
+                side_back: "",
+                side_front: "",
+                quantity_cards_left: -1,
+                quantity_cards_total: -1,
+                message: "Error: deck not found"
+            };
             return res;
         }
 
-        let cards_in_deck = await col("card").find({"id_deck": deck._id}).toArray() as Doc<ICard>[];
-        let cards_not_shown = await col("card").find({"id_deck": deck._id, "card_shown": false}).toArray() as Doc<ICard>[];
+        let cards_in_deck = await col("card").find({ "id_deck": deck._id }).toArray() as Doc<ICard>[];
+        let cards_not_shown = await col("card").find({ "id_deck": deck._id, "card_shown": false }).toArray() as Doc<ICard>[];
 
-        if(cards_in_deck.length === 0) {
+        if (cards_in_deck.length === 0) {
             this.setStatus(404);
             let res: runAppResponse = {
                 id: null,
@@ -85,7 +85,7 @@ export class runAppController extends Controller {
             return res;
         }
 
-        if(cards_not_shown.length === 0) {
+        if (cards_not_shown.length === 0) {
             this.setStatus(200);
             let res: runAppResponse = {
                 id: null,
@@ -102,14 +102,14 @@ export class runAppController extends Controller {
 
         let chosen_card = cards_not_shown[random_card_number] as Doc<ICardDb>;
 
-        await col("card").updateOne({ "_id": chosen_card._id  }, { $set: { "card_shown": true } });
+        await col("card").updateOne({ "_id": chosen_card._id }, { $set: { "card_shown": true } });
 
         this.setStatus(200);
         let res: runAppResponse = {
             id: chosen_card._id,
             side_back: chosen_card.side_back,
             side_front: chosen_card.side_front,
-            quantity_cards_left: cards_not_shown.length-1,
+            quantity_cards_left: cards_not_shown.length - 1,
             quantity_cards_total: cards_in_deck.length,
             message: "Success: Card retrieved succesfully"
         };

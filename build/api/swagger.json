@@ -639,19 +639,11 @@
 			"DeckResponse": {
 				"properties": {
 					"id": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/ObjectId"
-							}
-						],
+						"type": "string",
 						"nullable": true
 					},
 					"userId": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/ObjectId"
-							}
-						],
+						"type": "string",
 						"nullable": true
 					},
 					"name": {

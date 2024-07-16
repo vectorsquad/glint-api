@@ -347,8 +347,8 @@ const models: TsoaRoute.Models = {
     "DeckResponse": {
         "dataType": "refObject",
         "properties": {
-            "id": {"dataType":"union","subSchemas":[{"ref":"ObjectId"},{"dataType":"enum","enums":[null]}],"required":true},
-            "userId": {"dataType":"union","subSchemas":[{"ref":"ObjectId"},{"dataType":"enum","enums":[null]}],"required":true},
+            "id": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
+            "userId": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
             "name": {"dataType":"string","required":true},
             "message": {"dataType":"string","required":true},
         },
@@ -379,18 +379,11 @@ const templateService = new ExpressTemplateService(models, {"noImplicitAdditiona
 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
-
-
-
 export function RegisterRoutes(app: Router) {
-
     // ###########################################################################################################
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
-
-
-    
         app.get('/api/v1/verify',
             ...(fetchMiddlewares<RequestHandler>(verificationController)),
             ...(fetchMiddlewares<RequestHandler>(verificationController.prototype.verifyEmail)),

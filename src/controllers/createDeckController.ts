@@ -21,8 +21,8 @@ const col = (collection_name: string) => GS.mongo.db.collection(collection_name)
 type Doc<T> = (T & WithId<Document>);
 
 interface DeckResponse {
-    id: ObjectId | null,
-    userId: ObjectId | null,
+    id: string | null,
+    userId: string | null,
     name: string,
     message: string
 }
@@ -40,45 +40,44 @@ export class CreateDeckController extends Controller {
 
         var user_id = new ObjectId(body.user_id);
 
-        let deck = (await col("deck").findOne({ "name":body.deck_name, "id_user": user_id })) as Doc<IDeck> | null
+        let deck = (await col("deck").findOne({ "name": body.deck_name, "id_user": user_id })) as Doc<IDeck> | null
 
-        if(deck !== null)
-        {
+        if (deck !== null) {
             this.setStatus(400);
-            let res:DeckResponse = {
-                id: deck._id,
-                userId: deck.id_user,
+            let res: DeckResponse = {
+                id: deck._id.toString(),
+                userId: deck.id_user.toString(),
                 name: deck.name,
                 message: "Error: A deck with this name already exists"
-            }; 
+            };
             return res;
         }
 
-        deckDb = {
+        let deckDb = {
             id_user: user_id,
             name: body.deck_name
         };
 
-        let insertDeckDB = await col("deck").insertOne(deck);
+        let insertDeckDB = await col("deck").insertOne(deckDb);
 
-        if(!insertDeckDB.acknowledged) {
+        if (!insertDeckDB.acknowledged) {
             this.setStatus(502);
-                let res:DeckResponse = {
-                    id: null,
-                    userId: null,
-                    name: "",
-                    message: "Error: Could not add the deck to the database"
-                }; 
-                return res;
+            let res: DeckResponse = {
+                id: null,
+                userId: null,
+                name: "",
+                message: "Error: Could not add the deck to the database"
+            };
+            return res;
         }
 
         this.setStatus(200);
-        let resp:DeckResponse = {
-            id: deck._id,
-            userId: user_id,
-            name: deck.name,
+        let resp: DeckResponse = {
+            id: insertDeckDB.insertedId.toString(),
+            userId: user_id.toString(),
+            name: deckDb.name,
             message: "Success: The deck was created"
-        }; 
+        };
 
         return resp;
     }

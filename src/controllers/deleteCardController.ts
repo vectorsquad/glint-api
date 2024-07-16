@@ -14,7 +14,7 @@ import randId from "../utils/randId";
 /** 
 * Fields for Deleting a card.
 */
-interface CardDelete { 
+interface CardDelete {
     id: string;
 }
 
@@ -33,7 +33,7 @@ export class DeleteCardController extends Controller {
     public async deleteCard(@Body() body: DeleteCardParams, @Request() req: exp.Request) {
 
         // Attempt to delete a card
-        let deleteResult = await col("card").findOneAndDelete({"_id": new ObjectId(body.id)})
+        let deleteResult = await col("card").findOneAndDelete({ "_id": new ObjectId(body.id) })
 
         // Respond with internal server error if could not insert
         if (deleteResult === null) {
