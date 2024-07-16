@@ -1,22 +1,12 @@
 import { IUser } from "glint-core/src/models.js";
 import { GlobalState as GS } from "@state";
 import {
-    Body,
     Controller,
-    Request,
     Get,
-    Header,
-    Path,
-    Post,
     Query,
     Route,
-    SuccessResponse,
 } from "tsoa";
-import * as bc from "bcrypt";
-import { ObjectId, WithId, Document } from "mongodb";
-import jwt from "jsonwebtoken";
-import * as exp from "express";
-import { createTransport } from "nodemailer";
+import { WithId, Document } from "mongodb";
 
 const col = (collection_name: string) => GS.mongo.db.collection(collection_name);
 

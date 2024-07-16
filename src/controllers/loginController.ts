@@ -12,11 +12,11 @@ import {
     Route,
     SuccessResponse,
 } from "tsoa";
-
 import jwt from "jsonwebtoken";
 import * as exp from "express";
 import { ObjectId, WithId, Document } from "mongodb";
 import * as bc from "bcrypt";
+import randId from "../utils/randId";
 
 interface LoginParams {
     username: string;
@@ -38,18 +38,6 @@ interface LoginErrorResponse {
     name_first: string;
     name_last: string;
     message: string;
-}
-
-function randId(length: number) {
-    let result = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    let counter = 0;
-    while (counter < length) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        counter += 1;
-    }
-    return result;
 }
 
 const jwtSecret = randId(20);
@@ -117,6 +105,18 @@ export class loginController extends Controller
                 name_last: user.name_last,
                 message: "Success: user logged in"
             };
+
+            // Create JWT payload
+            let authPayload = {
+                sub: user._id.toString(),
+                exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 7 * 2)
+            };
+
+            // Sign payload
+            let signedJwt = jwt.sign(authPayload, jwtSecret);
+
+            // Set cookie header to contain JWT authentication payload
+            this.setHeader("Set-Cookie", `auth=${signedJwt}`);
 
             return res;
     }

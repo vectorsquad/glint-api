@@ -13,11 +13,13 @@ import {
     SuccessResponse,
 } from "tsoa";
 
-import jwt from "jsonwebtoken";
 import * as exp from "express";
 import { ObjectId, WithId, Document } from "mongodb";
 import * as bc from "bcrypt";
-import sendMail from "../utils/email.ts";
+import sendMail from "../utils/email"
+import randId from "../utils/randId";
+
+const bcryptSaltRounds = 10;
 
 interface updatePasswordParams {
     password: string;
@@ -41,19 +43,18 @@ interface updatePasswordResponse {
     message: string;
 }
 
-function randId(length: number) {
-    let result = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    let counter = 0;
-    while (counter < length) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        counter += 1;
-    }
-    return result;
-}
+function sendEmailWithHtml(uniqueString:string, email:string, firstName:string) {
+    let link = "https://glint.cleanmango.com/api/v1/updatePassword/?user_code=";
+    let emailSubject = "Password Recovery Request"
 
-const bcryptSaltRounds = 10;
+    let bodyHtml =  `<p>This is a request to change your Glint account's password. Please click the button below change your password.</p>
+            <div class="button-container">
+                <a href="${link}${uniqueString}" class="button">Change Password</a>
+            </div>
+            <p>If you didn't order a request to change your password, please ignore this email.</p>`;
+    
+    sendMail(email, firstName, bodyHtml, emailSubject);
+}
 
 @Route('/api/v1/updatePassword')
 export class updatePasswordController extends Controller
@@ -68,7 +69,7 @@ export class updatePasswordController extends Controller
                 {
                     this.setStatus(404);
                     let res:updatePasswordResponse = {
-                        id:"",
+                        id:null,
                         username:"",
                         email: "",
                         name_first: "",
@@ -82,7 +83,7 @@ export class updatePasswordController extends Controller
                 {
                     this.setStatus(400);
                     let res:updatePasswordResponse = {
-                        id:"",
+                        id:null,
                         username:"",
                         email: "",
                         name_first: "",

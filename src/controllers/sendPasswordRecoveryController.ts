@@ -4,20 +4,14 @@ import {
     Body,
     Controller,
     Request,
-    Get,
-    Header,
-    Path,
     Post,
-    Query,
     Route,
-    SuccessResponse,
 } from "tsoa";
 
-import jwt from "jsonwebtoken";
 import * as exp from "express";
 import { ObjectId, WithId, Document } from "mongodb";
-import * as bc from "bcrypt";
-import sendMail from "../utils/email.ts";
+import { sendMail } from "../utils/email";
+import randId from "../utils/randId";
 
 interface sendPasswordRecoveryParams {
     emailOrUsername:string
@@ -38,18 +32,6 @@ interface sendPasswordResponse {
     name_first: string;
     name_last: string;
     message: string;
-}
-
-function randId(length: number) {
-    let result = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    let counter = 0;
-    while (counter < length) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        counter += 1;
-    }
-    return result;
 }
 
 function sendEmailWithHtml(uniqueString:string, email:string, firstName:string) {
@@ -97,8 +79,8 @@ export class sendPasswordRecoveryController extends Controller
             }
 
             this.setStatus(404);
-            let res:updatePasswordResponse = {
-                id:"",
+            let res:sendPasswordResponse = {
+                id:null,
                 username:"",
                 email: "",
                 name_first: "",

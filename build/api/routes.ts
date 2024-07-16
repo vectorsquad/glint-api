@@ -15,6 +15,10 @@ import { sendPasswordRecoveryController } from './../../src/controllers/sendPass
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { sendEmailVerificationController } from './../../src/controllers/sendEmailVerificationController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { runAppController } from './../../src/controllers/runAppController';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { restartAppController } from './../../src/controllers/restartAppController';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { RegisterUserController } from './../../src/controllers/registerController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { loginController } from './../../src/controllers/loginController';
@@ -116,6 +120,19 @@ const models: TsoaRoute.Models = {
         "type": {"ref":"CardUpdates","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "sendPasswordResponse": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"union","subSchemas":[{"ref":"ObjectId"},{"dataType":"enum","enums":[null]}],"required":true},
+            "username": {"dataType":"string","required":true},
+            "email": {"dataType":"string","required":true},
+            "name_first": {"dataType":"string","required":true},
+            "name_last": {"dataType":"string","required":true},
+            "message": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "sendPasswordRecoveryParams": {
         "dataType": "refObject",
         "properties": {
@@ -124,10 +141,62 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "sendEmailResponse": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"union","subSchemas":[{"ref":"ObjectId"},{"dataType":"enum","enums":[null]}],"required":true},
+            "username": {"dataType":"string","required":true},
+            "email": {"dataType":"string","required":true},
+            "name_first": {"dataType":"string","required":true},
+            "name_last": {"dataType":"string","required":true},
+            "message": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "sendEmailVerificationParams": {
         "dataType": "refObject",
         "properties": {
             "emailOrUsername": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "runAppResponse": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"union","subSchemas":[{"ref":"ObjectId"},{"dataType":"enum","enums":[null]}],"required":true},
+            "side_front": {"dataType":"string","required":true},
+            "side_back": {"dataType":"string","required":true},
+            "quantity_cards_left": {"dataType":"double","required":true},
+            "quantity_cards_total": {"dataType":"double","required":true},
+            "message": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "runAppParameters": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"string","required":true},
+            "deckId": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "restartAppResponse": {
+        "dataType": "refObject",
+        "properties": {
+            "message": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "restartAppParameters": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"string","required":true},
+            "deckId": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
     },
@@ -295,17 +364,14 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "CardErrorResponse": {
+    "CreateCardParams": {
         "dataType": "refObject",
         "properties": {
-            "message": {"dataType":"string","required":true},
+            "side_front": {"dataType":"string","required":true},
+            "side_back": {"dataType":"string","required":true},
+            "id_deck": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "CreateCardParams": {
-        "dataType": "refAlias",
-        "type": {"ref":"ICard","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
@@ -313,11 +379,18 @@ const templateService = new ExpressTemplateService(models, {"noImplicitAdditiona
 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
+
+
+
 export function RegisterRoutes(app: Router) {
+
     // ###########################################################################################################
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
+
+
+    
         app.get('/api/v1/verify',
             ...(fetchMiddlewares<RequestHandler>(verificationController)),
             ...(fetchMiddlewares<RequestHandler>(verificationController.prototype.verifyEmail)),
@@ -493,6 +566,68 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'sendEmailVerification',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/api/v1/runApp',
+            ...(fetchMiddlewares<RequestHandler>(runAppController)),
+            ...(fetchMiddlewares<RequestHandler>(runAppController.prototype.runApp)),
+
+            async function runAppController_runApp(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    body: {"in":"body","name":"body","required":true,"ref":"runAppParameters"},
+                    req: {"in":"request","name":"req","required":true,"dataType":"object"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new runAppController();
+
+              await templateService.apiHandler({
+                methodName: 'runApp',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/api/v1/restartApp',
+            ...(fetchMiddlewares<RequestHandler>(restartAppController)),
+            ...(fetchMiddlewares<RequestHandler>(restartAppController.prototype.runApp)),
+
+            async function restartAppController_runApp(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    body: {"in":"body","name":"body","required":true,"ref":"restartAppParameters"},
+                    req: {"in":"request","name":"req","required":true,"dataType":"object"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new restartAppController();
+
+              await templateService.apiHandler({
+                methodName: 'runApp',
                 controller,
                 response,
                 next,

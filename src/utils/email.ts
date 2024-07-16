@@ -36,7 +36,7 @@ export async function sendMail(email: string, firstName: string, bodyHtml: strin
             overflow: hidden;
         }
         .header {
-            background-color: #007bff;
+            background-color: #16dc65;
             color: #ffffff;
             text-align: center;
             padding: 20px 0;
@@ -58,13 +58,16 @@ export async function sendMail(email: string, firstName: string, bodyHtml: strin
             text-align: center;
         }
         .button {
-            background-color: #007bff;
+            background-color: #16dc65;
             color: #ffffff;
             padding: 10px 20px;
             text-decoration: none;
             border-radius: 5px;
             font-size: 16px;
+        }
+        a:visited {
             text-decoration: none;
+            color: #fff;
         }
         .footer {
             background-color: #f4f4f4;
@@ -74,7 +77,7 @@ export async function sendMail(email: string, firstName: string, bodyHtml: strin
             font-size: 12px;
         }
         .footer a {
-            color: #007bff;
+            color: #16dc65;
             text-decoration: none;
         }
     </style>

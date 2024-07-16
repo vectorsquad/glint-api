@@ -4,19 +4,13 @@ import {
     Body,
     Controller,
     Request,
-    Get,
-    Header,
-    Path,
     Post,
-    Query,
     Route,
-    SuccessResponse,
 } from "tsoa";
 
-
 import * as exp from "express";
-import { ObjectId, WithId, Document } from "mongodb";
-import sendMail from "../utils/email.ts";
+import { WithId, Document, ObjectId } from "mongodb";
+import { sendMail } from "../utils/email";
 
 interface sendEmailVerificationParams {
     emailOrUsername:string
@@ -37,18 +31,6 @@ interface sendEmailResponse {
     name_first: string;
     name_last: string;
     message: string;
-}
-
-function randId(length: number) {
-    let result = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    let counter = 0;
-    while (counter < length) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        counter += 1;
-    }
-    return result;
 }
 
 function sendEmailWithHtml(uniqueString: string, email: string, firstName: string) {
@@ -84,7 +66,7 @@ export class sendEmailVerificationController extends Controller
                 sendEmailWithHtml(user.verification_code, user.email, user.name_first);
 
                 this.setStatus(200);
-                let res:sendPasswordResponse = {
+                let res:sendEmailResponse = {
                     id:user._id,
                     username:user.username,
                     email: user.email,
@@ -96,8 +78,8 @@ export class sendEmailVerificationController extends Controller
             }
 
             this.setStatus(404);
-            let res:updatePasswordResponse = {
-                id:"",
+            let res:sendEmailResponse = {
+                id:null,
                 username:"",
                 email: "",
                 name_first: "",

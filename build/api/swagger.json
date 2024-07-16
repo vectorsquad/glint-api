@@ -166,6 +166,43 @@
 			"UpdateCardParams": {
 				"$ref": "#/components/schemas/CardUpdates"
 			},
+			"sendPasswordResponse": {
+				"properties": {
+					"id": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/ObjectId"
+							}
+						],
+						"nullable": true
+					},
+					"username": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"name_first": {
+						"type": "string"
+					},
+					"name_last": {
+						"type": "string"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"username",
+					"email",
+					"name_first",
+					"name_last",
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"sendPasswordRecoveryParams": {
 				"properties": {
 					"emailOrUsername": {
@@ -178,6 +215,43 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"sendEmailResponse": {
+				"properties": {
+					"id": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/ObjectId"
+							}
+						],
+						"nullable": true
+					},
+					"username": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"name_first": {
+						"type": "string"
+					},
+					"name_last": {
+						"type": "string"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"username",
+					"email",
+					"name_first",
+					"name_last",
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"sendEmailVerificationParams": {
 				"properties": {
 					"emailOrUsername": {
@@ -186,6 +260,89 @@
 				},
 				"required": [
 					"emailOrUsername"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"runAppResponse": {
+				"properties": {
+					"id": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/ObjectId"
+							}
+						],
+						"nullable": true
+					},
+					"side_front": {
+						"type": "string"
+					},
+					"side_back": {
+						"type": "string"
+					},
+					"quantity_cards_left": {
+						"type": "number",
+						"format": "double"
+					},
+					"quantity_cards_total": {
+						"type": "number",
+						"format": "double"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"side_front",
+					"side_back",
+					"quantity_cards_left",
+					"quantity_cards_total",
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"runAppParameters": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"deckId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"deckId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"restartAppResponse": {
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"restartAppParameters": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"deckId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"deckId"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -529,21 +686,26 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"CardErrorResponse": {
+			"CreateCardParams": {
+				"description": "Fields for creating a new card.",
 				"properties": {
-					"message": {
+					"side_front": {
+						"type": "string"
+					},
+					"side_back": {
+						"type": "string"
+					},
+					"id_deck": {
 						"type": "string"
 					}
 				},
 				"required": [
-					"message"
+					"side_front",
+					"side_back",
+					"id_deck"
 				],
 				"type": "object",
 				"additionalProperties": false
-			},
-			"CreateCardParams": {
-				"$ref": "#/components/schemas/ICard",
-				"description": "Fields for creating a new card."
 			}
 		},
 		"securitySchemes": {}
@@ -685,7 +847,9 @@
 						"description": "Ok",
 						"content": {
 							"application/json": {
-								"schema": {}
+								"schema": {
+									"$ref": "#/components/schemas/sendPasswordResponse"
+								}
 							}
 						}
 					}
@@ -712,7 +876,9 @@
 						"description": "Ok",
 						"content": {
 							"application/json": {
-								"schema": {}
+								"schema": {
+									"$ref": "#/components/schemas/sendEmailResponse"
+								}
 							}
 						}
 					}
@@ -725,6 +891,64 @@
 						"application/json": {
 							"schema": {
 								"$ref": "#/components/schemas/sendEmailVerificationParams"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/runApp": {
+			"post": {
+				"operationId": "RunApp",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/runAppResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/runAppParameters"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/restartApp": {
+			"post": {
+				"operationId": "RunApp",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/restartAppResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/restartAppParameters"
 							}
 						}
 					}
@@ -950,7 +1174,15 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/CardErrorResponse"
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
 								}
 							}
 						}
