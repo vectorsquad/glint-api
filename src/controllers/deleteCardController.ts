@@ -8,8 +8,6 @@ import {
 } from "tsoa";
 import { ObjectId, } from "mongodb";
 import * as exp from "express";
-import randId from "../utils/randId";
-
 
 /** 
 * Fields for Deleting a card.

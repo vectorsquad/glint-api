@@ -9,14 +9,12 @@ import {
 } from "tsoa";
 import { WithId, Document, ObjectId } from "mongodb";
 import * as exp from "express";
-import randId from "../utils/randId";
-
 
 /** 
 * Fields for Updating a card.
 */
 
-interface CardUpdates extends ICard { 
+interface CardUpdates extends ICard {
     id: string;
 }
 
@@ -38,15 +36,15 @@ export class UpdateCardController extends Controller {
 
 
         // Attempt to update an existing card
-        let updateResult = await col("card").findOneAndUpdate( 
-            { 
+        let updateResult = await col("card").findOneAndUpdate(
+            {
                 "_id": new ObjectId(body.id)
-            }, 
+            },
             {
                 $set:
-                { 
-                    "side_front": body.side_front, 
-                    "side_back": body.side_back 
+                {
+                    "side_front": body.side_front,
+                    "side_back": body.side_back
                 }
             }
         )

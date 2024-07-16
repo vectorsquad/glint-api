@@ -8,7 +8,6 @@ import {
 } from "tsoa";
 import { ObjectId, WithId, Document } from "mongodb";
 import * as exp from "express";
-import randId from "../utils/randId";
 
 interface IDeck {
     _id: ObjectId,

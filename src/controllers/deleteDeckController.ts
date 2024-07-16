@@ -1,4 +1,3 @@
-import { IUser } from "glint-core/src/models.js";
 import { GlobalState as GS } from "@state";
 import {
     Body,
@@ -9,7 +8,6 @@ import {
 } from "tsoa";
 import { ObjectId, WithId, Document } from "mongodb";
 import * as exp from "express";
-import randId from "../utils/randId";
 
 interface IDeck {
     _id: ObjectId,
@@ -40,27 +38,27 @@ export class DeleteDeckController extends Controller {
 
         var deck_id = new ObjectId(body.id);
 
-        let deck = (await col("deck").findOneAndDelete({ "_id":deck_id})) as Doc<IDeck> | null
+        let deck = (await col("deck").findOneAndDelete({ "_id": deck_id })) as Doc<IDeck> | null
 
-        if(deck === null) {
+        if (deck === null) {
             this.setStatus(502);
-                let res:DeleteDeckResponse = {
-                    id: null,
-                    userId: null,
-                    name: "",
-                    message: "Error: Could not find deck to delete"
-                }; 
-                return res;
+            let res: DeleteDeckResponse = {
+                id: null,
+                userId: null,
+                name: "",
+                message: "Error: Could not find deck to delete"
+            };
+            return res;
         }
 
         this.setStatus(200);
-        let res:DeleteDeckResponse = {
+        let res: DeleteDeckResponse = {
             id: deck._id,
             userId: deck.id_user,
             name: deck.name,
             message: "Success: The deck was deleted"
-        }; 
-        
+        };
+
         //return res;
         return res;
     }

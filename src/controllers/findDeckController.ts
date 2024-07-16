@@ -8,7 +8,6 @@ import {
 } from "tsoa";
 import { ObjectId, WithId, Document } from "mongodb";
 import * as exp from "express";
-import randId from "../utils/randId";
 
 interface IDeck {
     _id: ObjectId,
@@ -39,9 +38,9 @@ export class FindDeckController extends Controller {
 
         const user_id = new ObjectId(body.user_id);
 
-        const deckQuery = { 
-            name: { $regex: body.deck_name, $options: 'i' }, 
-            id_user: user_id 
+        const deckQuery = {
+            name: { $regex: body.deck_name, $options: 'i' },
+            id_user: user_id
         };
 
         const decks = await col("deck").find(deckQuery).toArray() as Doc<IDeck>[];
@@ -52,7 +51,7 @@ export class FindDeckController extends Controller {
                 decks: [],
                 quantity: 0,
                 message: "Error: No results"
-            }; 
+            };
         }
 
         this.setStatus(200);
@@ -60,7 +59,7 @@ export class FindDeckController extends Controller {
             decks: decks,
             quantity: decks.length,
             message: "Success: Searched"
-        }; 
+        };
     }
 
     // Optional: JWT handling can remain as per your original implementation

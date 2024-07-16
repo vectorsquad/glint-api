@@ -9,7 +9,6 @@ import {
 } from "tsoa";
 import { WithId, Document, ObjectId } from "mongodb";
 import * as exp from "express";
-import randId from "../utils/randId";
 
 /** 
 * Fields for creating a new card.
@@ -34,9 +33,9 @@ export class CreateCardController extends Controller {
 
         let id_deck = new ObjectId(body.id_deck);
 
-        let deck = await col("deck").findOne({"_id": id_deck}) as Doc<IDeck> | null;
+        let deck = await col("deck").findOne({ "_id": id_deck }) as Doc<IDeck> | null;
 
-        if(deck === null) {
+        if (deck === null) {
             this.setStatus(404);
             return {
                 message: "Error: deck not found"
@@ -63,7 +62,7 @@ export class CreateCardController extends Controller {
         }
 
         // Retrieve just now inserted card
-        let cardDoc = await col("card").findOne({_id: createResult.insertedId}) as Doc<ICard> | null;
+        let cardDoc = await col("card").findOne({ _id: createResult.insertedId }) as Doc<ICard> | null;
 
         // Error early if unable to retrieve card
         if (cardDoc === null) {
@@ -81,7 +80,7 @@ export class CreateCardController extends Controller {
         };
 
         let res: CardErrorResponse = {
-            message : "Card created with ID:" + createResult.insertedId
+            message: "Card created with ID:" + createResult.insertedId
         };
 
         return res;

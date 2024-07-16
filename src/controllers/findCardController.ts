@@ -10,8 +10,6 @@ import {
 import { WithId, Document } from "mongodb";
 import * as exp from "express";
 
-import randId from "../utils/randId";
-
 /** 
 * Fields for Updating a card.
 */
