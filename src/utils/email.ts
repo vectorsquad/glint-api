@@ -104,21 +104,22 @@ export async function sendMail(email: string, firstName: string, bodyHtml: strin
     }
 };
 
-export function sendEmailVerificationCode(uniqueString: string, email: string, firstName: string) {
-    let link = `https://glint.cleanmango.com/api/v1/verify/?code=${uniqueString}`;
+export function sendEmailVerificationCode(code: string, email: string, firstName: string) {
+    let link = `https://glint.cleanmango.com/api/v1/verify/?code=${code}`;
     let emailSubject = "Email Verification"
 
-    let bodyHtml = `<p>Thank you for signing up with Glint. Please click the button below to verify your email address.</p>
+    let bodyHtml = `<p>Thank you for signing up with Glint.</p>
+            <p>Please click the button below to verify your email address, or manually input the verification code: <b>${code}</b></p>
             <div class="button-container">
                 <a href="${link}" class="button">Verify Email</a>
             </div>
-            <p>If you didn't create an account with us, please ignore this email.</p>`;
+            <p>If you did not create an account with us, please ignore this email.</p>`;
 
     sendMail(email, firstName, bodyHtml, emailSubject);
 }
 
-export function sendEmailPasswordUpdateCode(uniqueString: string, email: string, firstName: string) {
-    let link = `https://glint.cleanmango.com/api/v1/updatePassword/?user_code=${uniqueString}`;
+export function sendEmailPasswordUpdateCode(code: string, email: string, firstName: string) {
+    let link = `https://glint.cleanmango.com/api/v1/updatePassword/?user_code=${code}`;
     let emailSubject = "Password Recovery Request"
 
     let bodyHtml = `<p>This is a request to change your Glint account's password. Please click the button below change your password.</p>

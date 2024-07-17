@@ -27,11 +27,6 @@ interface IUserDb extends IUser {
 }
 
 interface ErrorResponse {
-    id: ObjectId | null;
-    username: string;
-    email: string;
-    name_first: string;
-    name_last: string;
     message: string;
 }
 
@@ -51,11 +46,6 @@ export class RegisterUserController extends Controller {
             if (!userWithEmail.email_verified) {
                 this.setStatus(400);
                 let res: ErrorResponse = {
-                    id: userWithEmail._id,
-                    username: userWithEmail.username,
-                    email: userWithEmail.email,
-                    name_first: userWithEmail.name_first,
-                    name_last: userWithEmail.name_last,
                     message: "User exists, Email not verified."
                 };
 
@@ -65,11 +55,6 @@ export class RegisterUserController extends Controller {
             // Verified: can't register with already used email
             this.setStatus(400);
             let res: ErrorResponse = {
-                id: userWithEmail._id,
-                username: userWithEmail.username,
-                email: userWithEmail.email,
-                name_first: userWithEmail.name_first,
-                name_last: userWithEmail.name_last,
                 message: "User with provided email already exists."
             };
 
@@ -99,11 +84,6 @@ export class RegisterUserController extends Controller {
         if (!insertResult.acknowledged) {
             this.setStatus(500);
             let resp: ErrorResponse = {
-                id: null,
-                username: "",
-                email: "",
-                name_first: "",
-                name_last: "",
                 message: "Server could not save user."
             };
             return resp;
@@ -116,11 +96,6 @@ export class RegisterUserController extends Controller {
         if (userDoc === null) {
             this.setStatus(500);
             let resp: ErrorResponse = {
-                id: null,
-                username: "",
-                email: "",
-                name_first: "",
-                name_last: "",
                 message: "Server could not retrieve previously saved user."
             };
             return resp;
@@ -130,11 +105,6 @@ export class RegisterUserController extends Controller {
 
         this.setStatus(200);
         let res: ErrorResponse = {
-            id: userDoc._id,
-            username: userDoc.username,
-            email: userDoc.email,
-            name_first: userDoc.name_first,
-            name_last: userDoc.name_last,
             message: "Success: user registered"
         };
 

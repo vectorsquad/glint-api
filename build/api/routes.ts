@@ -203,11 +203,6 @@ const models: TsoaRoute.Models = {
     "ErrorResponse": {
         "dataType": "refObject",
         "properties": {
-            "id": {"dataType":"union","subSchemas":[{"ref":"ObjectId"},{"dataType":"enum","enums":[null]}],"required":true},
-            "username": {"dataType":"string","required":true},
-            "email": {"dataType":"string","required":true},
-            "name_first": {"dataType":"string","required":true},
-            "name_last": {"dataType":"string","required":true},
             "message": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
