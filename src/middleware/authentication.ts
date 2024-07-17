@@ -6,6 +6,8 @@ function isApiRequest(path: string) {
     return path.startsWith("/api/v1");
 }
 
+const whitelistedApiRoutes = ["register", "login", "sendEmailVerification", "sendPasswordRecovery"];
+
 function MiddlewareAuthentication(req: Request, res: Response, next: NextFunction) {
 
     // If request is not for an API, then always allow.
