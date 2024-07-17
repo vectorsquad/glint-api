@@ -39,7 +39,7 @@ function sendEmailWithHtml(uniqueString: string, email: string, firstName: strin
     let link = "https://glint.cleanmango.com/api/v1/verify/?code=";
     let emailSubject = "Email Verification"
 
-    let bodyHtml = `<p>Thank you for signing up with VectorSquad. Please click the button below to verify your email address.</p>
+    let bodyHtml = `<p>Thank you for signing up with Glint. Please click the button below to verify your email address.</p>
             <div class="button-container">
                 <a href="${link}${uniqueString}" class="button">Verify Email</a>
             </div>
