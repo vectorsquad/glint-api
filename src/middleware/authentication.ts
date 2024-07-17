@@ -6,7 +6,13 @@ function isApiRequest(path: string) {
     return path.startsWith("/api/v1");
 }
 
-const whitelistedApiRoutes = ["register", "login", "sendEmailVerification", "sendPasswordRecovery"];
+const whitelistedApiRoutes = [
+    "register",
+    "login",
+    "sendEmailVerification",
+    "sendPasswordRecovery",
+    "verify",
+];
 
 function isWhitelistedRequest(path: string) {
 
