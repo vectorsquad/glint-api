@@ -44,21 +44,12 @@ export class DeleteDeckController extends Controller {
                 id: null,
                 userId: null,
                 name: "",
-                message: "Error: Could not find deck to delete"
+                message: "Server could not find and delete deck."
             };
             return res;
         }
 
-        this.setStatus(200);
-        let res: DeleteDeckResponse = {
-            id: deck._id,
-            userId: deck.id_user,
-            name: deck.name,
-            message: "Success: The deck was deleted"
-        };
-
-        //return res;
-        return res;
+        return;
     }
 
 }

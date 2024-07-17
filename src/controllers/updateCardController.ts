@@ -49,7 +49,7 @@ export class UpdateCardController extends Controller {
         if (updateResult === null) {
             this.setStatus(500);
             let resp: UpdateCardErrorResponse = {
-                message: "unable to update card"
+                message: "Server could not update card."
             };
             return resp;
         }

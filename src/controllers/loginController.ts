@@ -50,7 +50,7 @@ export class loginController extends Controller {
                 email: "",
                 name_first: "",
                 name_last: "",
-                message: "Error: user does not exist"
+                message: "Server could not find user."
             };
 
             return res;
@@ -64,7 +64,7 @@ export class loginController extends Controller {
                 email: user.email,
                 name_first: user.name_first,
                 name_last: user.name_last,
-                message: "Error: user email not verified"
+                message: "Email not verified."
             };
             return res;
         }
@@ -80,7 +80,7 @@ export class loginController extends Controller {
                 email: "",
                 name_first: "",
                 name_last: "",
-                message: "Error: invalid email or password"
+                message: "Invalid Email or Password."
             };
 
             return res;

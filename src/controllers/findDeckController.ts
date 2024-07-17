@@ -48,7 +48,7 @@ export class FindDeckController extends Controller {
             return {
                 decks: [],
                 quantity: 0,
-                message: "Error: No results"
+                message: "Server could not find deck."
             };
         }
 

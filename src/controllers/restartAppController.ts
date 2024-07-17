@@ -47,7 +47,7 @@ export class restartAppController extends Controller {
         if (deck === null) {
             this.setStatus(404);
             let res: restartAppResponse = {
-                message: "Error: deck not found"
+                message: "Server could not find deck."
             };
             return res;
         }
@@ -57,7 +57,7 @@ export class restartAppController extends Controller {
         if (cards_shown.length === 0) {
             this.setStatus(404);
             let res: restartAppResponse = {
-                message: "Error: Deck is already restarted"
+                message: "Deck has already been restarted."
             };
             return res;
         }
@@ -66,7 +66,7 @@ export class restartAppController extends Controller {
 
         this.setStatus(200);
         let res: restartAppResponse = {
-            message: "Success: Deck was restarted"
+            message: "Restarted deck."
         };
 
         return res;

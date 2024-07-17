@@ -47,7 +47,7 @@ export class UpdateDeckController extends Controller {
                 id: null,
                 userId: null,
                 name: "",
-                message: "Error: Deck not found"
+                message: "Server could not find deck."
             };
             return res;
         }
@@ -59,7 +59,7 @@ export class UpdateDeckController extends Controller {
             id: deck._id,
             userId: deck.id_user,
             name: deck.name,
-            message: "Success: Deck name updated"
+            message: "Updated deck name."
         };
 
         return res;

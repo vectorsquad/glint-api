@@ -57,7 +57,7 @@ export class runAppController extends Controller {
                 side_front: "",
                 quantity_cards_left: -1,
                 quantity_cards_total: -1,
-                message: "Error: deck not found"
+                message: "Server could not find deck."
             };
             return res;
         }
@@ -73,7 +73,7 @@ export class runAppController extends Controller {
                 side_front: "",
                 quantity_cards_left: -1,
                 quantity_cards_total: 0,
-                message: "Error: Deck is empty, please add more cards to be able to start"
+                message: "Deck is empty, please add at least one card before starting."
             };
             return res;
         }
@@ -86,7 +86,7 @@ export class runAppController extends Controller {
                 side_front: "",
                 quantity_cards_left: 0,
                 quantity_cards_total: cards_in_deck.length,
-                message: "Error: All cards in the deck were shown, no more cards remaining"
+                message: "All cards in the deck were shown, no more cards remaining."
             };
             return res;
         }
@@ -104,7 +104,7 @@ export class runAppController extends Controller {
             side_front: chosen_card.side_front,
             quantity_cards_left: cards_not_shown.length - 1,
             quantity_cards_total: cards_in_deck.length,
-            message: "Success: Card retrieved succesfully"
+            message: "Card retrieved succesfully."
         };
 
         return res;

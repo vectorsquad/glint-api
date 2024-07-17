@@ -36,7 +36,7 @@ export class CreateCardController extends Controller {
         if (deck === null) {
             this.setStatus(404);
             return {
-                message: "Error: deck not found"
+                message: "Server could not find deck."
             };
         }
 
@@ -54,7 +54,7 @@ export class CreateCardController extends Controller {
         if (!createResult.acknowledged) {
             this.setStatus(500);
             let resp: CardErrorResponse = {
-                message: "database create of card was not acknowledged"
+                message: "Server could not save card."
             };
             return resp;
         }
@@ -66,7 +66,7 @@ export class CreateCardController extends Controller {
         if (cardDoc === null) {
             this.setStatus(500);
             let resp: CardErrorResponse = {
-                message: "unable to retrieve newly created card..." + createResult.insertedId
+                message: "Server could not find card."
             };
             return resp;
         }
@@ -78,7 +78,7 @@ export class CreateCardController extends Controller {
         };
 
         let res: CardErrorResponse = {
-            message: "Card created with ID:" + createResult.insertedId
+            message: createResult.insertedId.toString()
         };
 
         return res;

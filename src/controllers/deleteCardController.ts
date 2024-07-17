@@ -35,7 +35,7 @@ export class DeleteCardController extends Controller {
         if (deleteResult === null) {
             this.setStatus(500);
             let resp: DeleteCardErrorResponse = {
-                message: "database delete of card was not acknowledged"
+                message: "Server could not delete card."
             };
             return resp;
         }

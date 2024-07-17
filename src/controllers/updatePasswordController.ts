@@ -66,7 +66,7 @@ export class updatePasswordController extends Controller {
                 email: "",
                 name_first: "",
                 name_last: "",
-                message: "Error: The user was not found"
+                message: "Server could not find user."
             }
             return res;
         }
@@ -79,7 +79,7 @@ export class updatePasswordController extends Controller {
                 email: "",
                 name_first: "",
                 name_last: "",
-                message: "Error: The passwords do not match"
+                message: "Passwords do not match."
             }
             return res;
         }
@@ -103,7 +103,7 @@ export class updatePasswordController extends Controller {
             email: user.email,
             name_first: user.name_first,
             name_last: user.name_last,
-            message: "Success: Password updated successfully"
+            message: "Password updated successfully."
         }
         return res;
     }

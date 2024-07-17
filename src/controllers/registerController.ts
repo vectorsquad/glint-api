@@ -69,7 +69,7 @@ export class RegisterUserController extends Controller {
                     email: userWithEmail.email,
                     name_first: userWithEmail.name_first,
                     name_last: userWithEmail.name_last,
-                    message: "Error: user exists, email not verified"
+                    message: "User exists, Email not verified."
                 };
 
                 return res;
@@ -83,7 +83,7 @@ export class RegisterUserController extends Controller {
                 email: userWithEmail.email,
                 name_first: userWithEmail.name_first,
                 name_last: userWithEmail.name_last,
-                message: "Error: User already exists"
+                message: "User with provided email already exists."
             };
 
             return res;
@@ -117,7 +117,7 @@ export class RegisterUserController extends Controller {
                 email: "",
                 name_first: "",
                 name_last: "",
-                message: "Error: database insertion of user was not acknowledged"
+                message: "Server could not save user."
             };
             return resp;
         }
@@ -134,7 +134,7 @@ export class RegisterUserController extends Controller {
                 email: "",
                 name_first: "",
                 name_last: "",
-                message: "Error: unable to retrieve inserted registered user"
+                message: "Server could not retrieve previously saved user."
             };
             return resp;
         }

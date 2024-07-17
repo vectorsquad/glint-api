@@ -31,7 +31,7 @@ export class verificationController extends Controller {
             await col("user").updateOne({ _id: user._id }, { $set: { email_verified: true, verification_code: null } });
             this.setStatus(200);
             let res: VerificationErrorResponse = {
-                message: "Success: email verified"
+                message: "Verified Email."
             };
 
             return res;
@@ -39,7 +39,7 @@ export class verificationController extends Controller {
 
         this.setStatus(500);
         let res: VerificationErrorResponse = {
-            message: "Error: user not found"
+            message: "Server could not find user."
         };
 
         return res;

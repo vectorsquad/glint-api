@@ -34,7 +34,7 @@ export class FindCardController extends Controller {
         if (cardDoc === null) {
             this.setStatus(500);
             let resp: FindCardErrorResponse = {
-                message: "unable to retrieve card"
+                message: "Server could not find card."
             };
             return resp;
         }

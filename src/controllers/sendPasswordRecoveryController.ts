@@ -66,7 +66,7 @@ export class sendPasswordRecoveryController extends Controller {
                 email: user.email,
                 name_first: user.name_first,
                 name_last: user.name_last,
-                message: "Success: Password recovery request sent"
+                message: "Password recovery request sent."
             }
             return res;
         }
@@ -78,7 +78,7 @@ export class sendPasswordRecoveryController extends Controller {
             email: "",
             name_first: "",
             name_last: "",
-            message: "Error: The user was not found"
+            message: "Server could not find user."
         }
         return res;
     }

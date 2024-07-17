@@ -45,7 +45,7 @@ export class CreateDeckController extends Controller {
                 id: deck._id.toString(),
                 userId: deck.id_user.toString(),
                 name: deck.name,
-                message: "Error: A deck with this name already exists"
+                message: "Client provided a name for a deck that already exists."
             };
             return res;
         }
@@ -63,7 +63,7 @@ export class CreateDeckController extends Controller {
                 id: null,
                 userId: null,
                 name: "",
-                message: "Error: Could not add the deck to the database"
+                message: "Server could not save deck."
             };
             return res;
         }
