@@ -8,10 +8,10 @@ import {
 } from "tsoa";
 import jwt from "jsonwebtoken";
 import * as exp from "express";
-import { ObjectId, WithId, Document } from "mongodb";
+import { WithId, Document } from "mongodb";
 import * as bc from "bcrypt";
-import { randId } from "../utils";
 import { col } from "../utils";
+import { GlobalState } from "@state";
 
 interface LoginParams {
     username: string;
@@ -27,8 +27,6 @@ interface IUserDb extends IUser {
 interface LoginErrorResponse {
     message: string;
 }
-
-const jwtSecret = randId(20);
 
 @Route('/api/v1/login')
 export class loginController extends Controller {
@@ -79,7 +77,7 @@ export class loginController extends Controller {
         };
 
         // Sign payload
-        let signedJwt = jwt.sign(authPayload, jwtSecret);
+        let signedJwt = jwt.sign(authPayload, GlobalState.jwt.secret);
 
         // Set cookie header to contain JWT authentication payload
         this.setHeader("Set-Cookie", `auth=${signedJwt}`);

@@ -1,5 +1,5 @@
 import { Db, MongoClient } from "mongodb";
-import * as jwt from "jsonwebtoken";
+import { randId } from "../utils";
 
 let host = process.env.MONGO_HOST || "127.0.0.1";
 let port = process.env.MONGO_PORT ? ":" + process.env.MONGO_PORT : "";
@@ -7,7 +7,9 @@ let port = process.env.MONGO_PORT ? ":" + process.env.MONGO_PORT : "";
 let mongo_url = `mongodb://${host}${port}`
 
 const gs = {
-    authenticated: new Map<string, jwt.Jwt>(),
+    jwt: {
+        secret: randId(20)
+    },
     mongo: {
         client: new MongoClient(mongo_url),
         db: {} as Db

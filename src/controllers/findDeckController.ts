@@ -24,7 +24,6 @@ interface FindDeckResponse {
 }
 
 interface FindDeckParams {
-    user_id: string,
     deck_name: string
 }
 
@@ -34,7 +33,7 @@ export class FindDeckController extends Controller {
     @Post()
     public async findDeck(@Body() body: FindDeckParams, @Request() req: exp.Request): Promise<FindDeckResponse> {
 
-        const user_id = new ObjectId(body.user_id);
+        const user_id = new ObjectId(req.res?.locals.jwt.sub);
 
         const deckQuery = {
             name: { $regex: body.deck_name, $options: 'i' },

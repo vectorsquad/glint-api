@@ -25,7 +25,6 @@ interface DeckResponse {
 }
 
 interface CreateDeckParams {
-    user_id: string,
     deck_name: string
 }
 
@@ -35,7 +34,7 @@ export class CreateDeckController extends Controller {
     @Post()
     public async createDeck(@Body() body: CreateDeckParams, @Request() req: exp.Request) {
 
-        var user_id = new ObjectId(body.user_id);
+        var user_id = new ObjectId(req.res?.locals.jwt.sub);
 
         let deck = (await col("deck").findOne({ "name": body.deck_name, "id_user": user_id })) as Doc<IDeck> | null
 

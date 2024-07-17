@@ -25,7 +25,6 @@ interface UpdateDeckResponse {
 }
 
 interface updateDeckParams {
-    user_id: string,
     deck_id: string,
     deck_name: string
 }
@@ -36,7 +35,7 @@ export class UpdateDeckController extends Controller {
     @Post()
     public async FindDeck(@Body() body: updateDeckParams, @Request() req: exp.Request) {
 
-        var user_id = new ObjectId(body.user_id);
+        const user_id = new ObjectId(req.res?.locals.jwt.sub);
         var deck_id = new ObjectId(body.deck_id);
 
         let deck = (await col("deck").findOne({ "_id": deck_id, "id_user": user_id })) as Doc<IDeck> | null

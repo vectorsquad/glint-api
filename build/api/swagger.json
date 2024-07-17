@@ -112,9 +112,6 @@
 			},
 			"updateDeckParams": {
 				"properties": {
-					"user_id": {
-						"type": "string"
-					},
 					"deck_id": {
 						"type": "string"
 					},
@@ -123,7 +120,6 @@
 					}
 				},
 				"required": [
-					"user_id",
 					"deck_id",
 					"deck_name"
 				],
@@ -491,15 +487,11 @@
 			},
 			"FindDeckParams": {
 				"properties": {
-					"user_id": {
-						"type": "string"
-					},
 					"deck_name": {
 						"type": "string"
 					}
 				},
 				"required": [
-					"user_id",
 					"deck_name"
 				],
 				"type": "object",
@@ -639,15 +631,11 @@
 			},
 			"CreateDeckParams": {
 				"properties": {
-					"user_id": {
-						"type": "string"
-					},
 					"deck_name": {
 						"type": "string"
 					}
 				},
 				"required": [
-					"user_id",
 					"deck_name"
 				],
 				"type": "object",

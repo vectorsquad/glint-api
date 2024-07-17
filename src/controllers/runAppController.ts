@@ -19,7 +19,6 @@ type Doc<T> = (T & WithId<Document>);
 
 interface IDeck {
     _id: ObjectId,
-    id_user: ObjectId,
     name: string
 }
 
@@ -44,7 +43,7 @@ export class runAppController extends Controller {
     @Post()
     public async runApp(@Body() body: runAppParameters, @Request() req: exp.Request) {
 
-        var user_id = new ObjectId(body.id);
+        const user_id = new ObjectId(req.res?.locals.jwt.sub);
         var deck_id = new ObjectId(body.deckId);
 
         let deck = (await col("deck").findOne({ "id_user": user_id, "_id": deck_id })) as Doc<IDeck> | null

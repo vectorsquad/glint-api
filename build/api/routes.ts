@@ -90,7 +90,6 @@ const models: TsoaRoute.Models = {
     "updateDeckParams": {
         "dataType": "refObject",
         "properties": {
-            "user_id": {"dataType":"string","required":true},
             "deck_id": {"dataType":"string","required":true},
             "deck_name": {"dataType":"string","required":true},
         },
@@ -271,7 +270,6 @@ const models: TsoaRoute.Models = {
     "FindDeckParams": {
         "dataType": "refObject",
         "properties": {
-            "user_id": {"dataType":"string","required":true},
             "deck_name": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
@@ -353,7 +351,6 @@ const models: TsoaRoute.Models = {
     "CreateDeckParams": {
         "dataType": "refObject",
         "properties": {
-            "user_id": {"dataType":"string","required":true},
             "deck_name": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
