@@ -1,5 +1,4 @@
 import { IUser } from "glint-core/src/models.js";
-import { GlobalState as GS } from "@state";
 import {
     Controller,
     Get,
@@ -7,8 +6,7 @@ import {
     Route,
 } from "tsoa";
 import { WithId, Document } from "mongodb";
-
-const col = (collection_name: string) => GS.mongo.db.collection(collection_name);
+import { col } from "../utils";
 
 type Doc<T> = (T & WithId<Document>);
 
@@ -24,11 +22,11 @@ interface VerificationErrorResponse {
 export class verificationController extends Controller {
 
     @Get()
-    public async verifyEmail( @Query() code: string) {
-        
+    public async verifyEmail(@Query() code: string) {
+
         const user = (await col("user").findOne({ "verification_code": code })) as Doc<IUserDb> | null
 
-        if(user !== null) {
+        if (user !== null) {
             user.email_verified = true;
             await col("user").updateOne({ _id: user._id }, { $set: { email_verified: true, verification_code: null } });
             this.setStatus(200);

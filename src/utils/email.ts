@@ -103,5 +103,3 @@ export async function sendMail(email: string, firstName: string, bodyHtml: strin
         console.error('Error sending email ' + error);
     }
 };
-
-export default sendMail;

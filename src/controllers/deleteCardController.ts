@@ -1,4 +1,3 @@
-import { GlobalState as GS } from "@state";
 import {
     Body,
     Controller,
@@ -8,6 +7,7 @@ import {
 } from "tsoa";
 import { ObjectId, } from "mongodb";
 import * as exp from "express";
+import { col } from "../utils";
 
 /** 
 * Fields for Deleting a card.
@@ -17,8 +17,6 @@ interface CardDelete {
 }
 
 type DeleteCardParams = CardDelete;
-
-const col = (collection_name: string) => GS.mongo.db.collection(collection_name);
 
 interface DeleteCardErrorResponse {
     message: string

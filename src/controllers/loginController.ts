@@ -1,5 +1,4 @@
 import { IUser } from "glint-core/src/models.js";
-import { GlobalState as GS } from "@state";
 import {
     Body,
     Controller,
@@ -11,14 +10,13 @@ import jwt from "jsonwebtoken";
 import * as exp from "express";
 import { ObjectId, WithId, Document } from "mongodb";
 import * as bc from "bcrypt";
-import randId from "../utils/randId";
+import { randId } from "../utils";
+import { col } from "../utils";
 
 interface LoginParams {
     username: string;
     password_hash: string;
 }
-
-const col = (collection_name: string) => GS.mongo.db.collection(collection_name);
 
 type Doc<T> = (T & WithId<Document>);
 

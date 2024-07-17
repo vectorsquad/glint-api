@@ -1,5 +1,4 @@
 import { ICard } from "glint-core/src/models.js";
-import { GlobalState as GS } from "@state";
 import {
     Body,
     Controller,
@@ -7,8 +6,9 @@ import {
     Post,
     Route,
 } from "tsoa";
-import { WithId, Document, ObjectId } from "mongodb";
+import { ObjectId } from "mongodb";
 import * as exp from "express";
+import { col } from "../utils";
 
 /** 
 * Fields for Updating a card.
@@ -19,10 +19,6 @@ interface CardUpdates extends ICard {
 }
 
 type UpdateCardParams = CardUpdates;
-
-const col = (collection_name: string) => GS.mongo.db.collection(collection_name);
-
-type Doc<T> = (T & WithId<Document>);
 
 interface UpdateCardErrorResponse {
     message: string

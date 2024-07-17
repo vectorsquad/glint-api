@@ -1,5 +1,4 @@
 import { ICard, IDeck } from "glint-core/src/models.js";
-import { GlobalState as GS } from "@state";
 import {
     Body,
     Controller,
@@ -9,6 +8,7 @@ import {
 } from "tsoa";
 import { WithId, Document, ObjectId } from "mongodb";
 import * as exp from "express";
+import { col } from "../utils";
 
 /** 
 * Fields for creating a new card.
@@ -16,8 +16,6 @@ import * as exp from "express";
 interface CreateCardParams extends ICard {
     id_deck: string
 }
-
-const col = (collection_name: string) => GS.mongo.db.collection(collection_name);
 
 type Doc<T> = (T & WithId<Document>);
 

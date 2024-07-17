@@ -1,5 +1,4 @@
 import { IUser } from "glint-core/src/models.js";
-import { GlobalState as GS } from "@state";
 import {
     Body,
     Controller,
@@ -10,13 +9,12 @@ import {
 
 import * as exp from "express";
 import { WithId, Document, ObjectId } from "mongodb";
-import { sendMail } from "../utils/email";
+import { sendMail } from "../utils";
+import { col } from "../utils";
 
 interface sendEmailVerificationParams {
-    emailOrUsername:string
+    emailOrUsername: string
 }
-
-const col = (collection_name: string) => GS.mongo.db.collection(collection_name);
 
 type Doc<T> = (T & WithId<Document>);
 
@@ -47,45 +45,41 @@ function sendEmailWithHtml(uniqueString: string, email: string, firstName: strin
 }
 
 @Route('/api/v1/sendEmailVerification')
-export class sendEmailVerificationController extends Controller
-{
+export class sendEmailVerificationController extends Controller {
     @Post()
-    public async sendEmailVerification(@Body() body: sendEmailVerificationParams, @Request() req: exp.Request)
-    {
-        let user = (await col("user").findOne({ "email":body.emailOrUsername })) as Doc<IUserDb> | null
+    public async sendEmailVerification(@Body() body: sendEmailVerificationParams, @Request() req: exp.Request) {
+        let user = (await col("user").findOne({ "email": body.emailOrUsername })) as Doc<IUserDb> | null
 
-        if(user === null)
-            {
-                user = (await col("user").findOne({ "username":body.emailOrUsername })) as Doc<IUserDb> | null
+        if (user === null) {
+            user = (await col("user").findOne({ "username": body.emailOrUsername })) as Doc<IUserDb> | null
+        }
+
+        if (user !== null && user.email_verified == false) {
+            //let rnd = randId(6);
+            //await col("user").updateOne({ _id: user._id }, { $set: { verification_code: rnd } });
+            sendEmailWithHtml(user.verification_code, user.email, user.name_first);
+
+            this.setStatus(200);
+            let res: sendEmailResponse = {
+                id: user._id,
+                username: user.username,
+                email: user.email,
+                name_first: user.name_first,
+                name_last: user.name_last,
+                message: "Success: Email verification sent"
             }
-
-        if(user !== null && user.email_verified == false)
-            {
-                //let rnd = randId(6);
-                //await col("user").updateOne({ _id: user._id }, { $set: { verification_code: rnd } });
-                sendEmailWithHtml(user.verification_code, user.email, user.name_first);
-
-                this.setStatus(200);
-                let res:sendEmailResponse = {
-                    id:user._id,
-                    username:user.username,
-                    email: user.email,
-                    name_first: user.name_first,
-                    name_last: user.name_last,
-                    message: "Success: Email verification sent"
-                } 
-                return res;
-            }
-
-            this.setStatus(404);
-            let res:sendEmailResponse = {
-                id:null,
-                username:"",
-                email: "",
-                name_first: "",
-                name_last: "",
-                message: "Error: The user was not found"
-            } 
             return res;
+        }
+
+        this.setStatus(404);
+        let res: sendEmailResponse = {
+            id: null,
+            username: "",
+            email: "",
+            name_first: "",
+            name_last: "",
+            message: "Error: The user was not found"
+        }
+        return res;
     }
 }

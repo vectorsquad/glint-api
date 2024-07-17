@@ -1,4 +1,3 @@
-import { GlobalState as GS } from "@state";
 import {
     Body,
     Controller,
@@ -8,14 +7,13 @@ import {
 } from "tsoa";
 import { ObjectId, WithId, Document } from "mongodb";
 import * as exp from "express";
+import { col } from "../utils";
 
 interface IDeck {
     _id: ObjectId,
     id_user: ObjectId,
     name: string
 }
-
-const col = (collection_name: string) => GS.mongo.db.collection(collection_name);
 
 type Doc<T> = T & WithId<Document>;
 

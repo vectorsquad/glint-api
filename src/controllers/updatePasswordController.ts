@@ -12,8 +12,7 @@ import {
 import * as exp from "express";
 import { ObjectId, WithId, Document } from "mongodb";
 import * as bc from "bcrypt";
-import sendMail from "../utils/email"
-import randId from "../utils/randId";
+import { randId, sendMail } from "../utils"
 
 const bcryptSaltRounds = 10;
 

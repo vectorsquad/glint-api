@@ -1,4 +1,6 @@
-function randId(length: number) {
+import { GlobalState } from "@state";
+
+export function randId(length: number) {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
@@ -10,4 +12,6 @@ function randId(length: number) {
     return result;
 }
 
-export default randId;
+export function col(collection_name: string) {
+    return GlobalState.mongo.db.collection(collection_name);
+}
