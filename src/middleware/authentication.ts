@@ -9,12 +9,19 @@ function isApiRequest(path: string) {
 const whitelistedApiRoutes = ["register", "login", "sendEmailVerification", "sendPasswordRecovery"];
 
 function isWhitelistedRequest(path: string) {
-    return whitelistedApiRoutes.every(e => path.startsWith(`/api/v1/${e}`));
+
+    for (const whitelistedRoute of whitelistedApiRoutes) {
+        if (path.startsWith(`/api/v1/${whitelistedRoute}`)) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 export function Authenticate(req: Request, res: Response, next: NextFunction) {
 
-    // If request is not for an API, or for a whitelisted API, allow.
+    // If request is not for any API, or is for a whitelisted API, allow.
     if (!isApiRequest(req.path) || isWhitelistedRequest(req.path)) {
         next();
         return;
