@@ -8,10 +8,14 @@ function isApiRequest(path: string) {
 
 const whitelistedApiRoutes = ["register", "login", "sendEmailVerification", "sendPasswordRecovery"];
 
-function MiddlewareAuthentication(req: Request, res: Response, next: NextFunction) {
+function isWhitelistedRequest(path: string) {
+    return whitelistedApiRoutes.every(e => path.startsWith(`/api/v1/${e}`));
+}
 
-    // If request is not for an API, then always allow.
-    if (!isApiRequest(req.path)) {
+export function Authenticate(req: Request, res: Response, next: NextFunction) {
+
+    // If request is not for an API, or for a whitelisted API, allow.
+    if (!isApiRequest(req.path) || isWhitelistedRequest(req.path)) {
         next();
         return;
     }

@@ -5,6 +5,7 @@ import spec from "@spec";
 import { GlobalState as GS } from "@state";
 import { ValidateError } from "tsoa";
 import cookieParser from "cookie-parser";
+import { Authenticate } from "./middleware/authentication";
 
 // Initiate connection to MongoDB
 console.log("Connecting to MongoDB...");
@@ -12,6 +13,9 @@ await GS.mongo.client.connect();
 
 // Default express app
 const app = exp.default();
+
+// Middleware
+app.use(Authenticate);
 
 // Swagger UI Docs
 app.use("/api/docs", sw_ui.serve);
