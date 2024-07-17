@@ -103,3 +103,42 @@ export async function sendMail(email: string, firstName: string, bodyHtml: strin
         console.error('Error sending email ' + error);
     }
 };
+
+export function sendEmailVerificationCode(uniqueString: string, email: string, firstName: string) {
+    let link = `https://glint.cleanmango.com/api/v1/verify/?code=${uniqueString}`;
+    let emailSubject = "Email Verification"
+
+    let bodyHtml = `<p>Thank you for signing up with Glint. Please click the button below to verify your email address.</p>
+            <div class="button-container">
+                <a href="${link}" class="button">Verify Email</a>
+            </div>
+            <p>If you didn't create an account with us, please ignore this email.</p>`;
+
+    sendMail(email, firstName, bodyHtml, emailSubject);
+}
+
+export function sendEmailPasswordUpdateCode(uniqueString: string, email: string, firstName: string) {
+    let link = `https://glint.cleanmango.com/api/v1/updatePassword/?user_code=${uniqueString}`;
+    let emailSubject = "Password Recovery Request"
+
+    let bodyHtml = `<p>This is a request to change your Glint account's password. Please click the button below change your password.</p>
+            <div class="button-container">
+                <a href="${link}" class="button">Change Password</a>
+            </div>
+            <p>If you didn't order a request to change your password, please ignore this email.</p>`;
+
+    sendMail(email, firstName, bodyHtml, emailSubject);
+}
+
+export function sendEmailPasswordRecovery(uniqueString: string, email: string, firstName: string) {
+    let link = "https://glint.cleanmango.com/api/v1/updatePassword/?user_code=";
+    let emailSubject = "Password Recovery Request"
+
+    let bodyHtml = `<p>This is a request to change your Glint account's password. Please click the button below change your password.</p>
+            <div class="button-container">
+                <a href="${link}${uniqueString}" class="button">Change Password</a>
+            </div>
+            <p>If you didn't order a request to change your password, please ignore this email.</p>`;
+
+    sendMail(email, firstName, bodyHtml, emailSubject);
+}

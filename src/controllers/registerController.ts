@@ -9,7 +9,7 @@ import {
 import * as bc from "bcrypt";
 import { ObjectId, WithId, Document } from "mongodb";
 import * as exp from "express";
-import { sendMail } from "../utils/email";
+import { sendEmailVerificationCode, sendMail } from "../utils/email";
 import { randId } from "../utils";
 import { col } from "../utils";
 
@@ -33,19 +33,6 @@ interface ErrorResponse {
     name_first: string;
     name_last: string;
     message: string;
-}
-
-function sendEmailWithHtml(uniqueString: string, email: string, firstName: string) {
-    let link = "https://glint.cleanmango.com/api/v1/verify/?code=";
-    let emailSubject = "Email Verification"
-
-    let bodyHtml = `<p>Thank you for signing up with Glint. Please click the button below to verify your email address.</p>
-            <div class="button-container">
-                <a href="${link}${uniqueString}" class="button">Verify Email</a>
-            </div>
-            <p>If you didn't create an account with us, please ignore this email.</p>`;
-
-    sendMail(email, firstName, bodyHtml, emailSubject);
 }
 
 @Route("/api/v1/register")
@@ -139,7 +126,7 @@ export class RegisterUserController extends Controller {
             return resp;
         }
 
-        sendEmailWithHtml(rnd, body.email, body.name_first);
+        sendEmailVerificationCode(rnd, body.email, body.name_first);
 
         this.setStatus(200);
         let res: ErrorResponse = {

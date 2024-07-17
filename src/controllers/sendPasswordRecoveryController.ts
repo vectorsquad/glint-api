@@ -9,7 +9,7 @@ import {
 
 import * as exp from "express";
 import { ObjectId, WithId, Document } from "mongodb";
-import { randId, sendMail } from "../utils";
+import { randId, sendEmailPasswordUpdateCode, sendMail } from "../utils";
 import { col } from "../utils";
 
 interface sendPasswordRecoveryParams {
@@ -31,19 +31,6 @@ interface sendPasswordResponse {
     message: string;
 }
 
-function sendEmailWithHtml(uniqueString: string, email: string, firstName: string) {
-    let link = "https://glint.cleanmango.com/api/v1/updatePassword/?user_code=";
-    let emailSubject = "Password Recovery Request"
-
-    let bodyHtml = `<p>This is a request to change your Glint account's password. Please click the button below change your password.</p>
-            <div class="button-container">
-                <a href="${link}${uniqueString}" class="button">Change Password</a>
-            </div>
-            <p>If you didn't order a request to change your password, please ignore this email.</p>`;
-
-    sendMail(email, firstName, bodyHtml, emailSubject);
-}
-
 @Route('/api/v1/sendPasswordRecovery')
 export class sendPasswordRecoveryController extends Controller {
     @Post()
@@ -57,7 +44,7 @@ export class sendPasswordRecoveryController extends Controller {
         if (user !== null) {
             let rnd = randId(6);
             await col("user").updateOne({ _id: user._id }, { $set: { verification_code: rnd } });
-            sendEmailWithHtml(rnd, user.email, user.name_first);
+            sendEmailPasswordUpdateCode(rnd, user.email, user.name_first);
 
             this.setStatus(200);
             let res: sendPasswordResponse = {

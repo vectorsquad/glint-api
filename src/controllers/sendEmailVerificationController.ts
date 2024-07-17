@@ -9,7 +9,7 @@ import {
 
 import * as exp from "express";
 import { WithId, Document, ObjectId } from "mongodb";
-import { sendMail } from "../utils";
+import { sendEmailVerificationCode, sendMail } from "../utils";
 import { col } from "../utils";
 
 interface sendEmailVerificationParams {
@@ -31,19 +31,6 @@ interface sendEmailResponse {
     message: string;
 }
 
-function sendEmailWithHtml(uniqueString: string, email: string, firstName: string) {
-    let link = "https://glint.cleanmango.com/api/v1/verify/?code=";
-    let emailSubject = "Email Verification"
-
-    let bodyHtml = `<p>Thank you for signing up with VectorSquad. Please click the button below to verify your email address.</p>
-            <div class="button-container">
-                <a href="${link}${uniqueString}" class="button">Verify Email</a>
-            </div>
-            <p>If you didn't create an account with us, please ignore this email.</p>`;
-
-    sendMail(email, firstName, bodyHtml, emailSubject);
-}
-
 @Route('/api/v1/sendEmailVerification')
 export class sendEmailVerificationController extends Controller {
     @Post()
@@ -55,9 +42,7 @@ export class sendEmailVerificationController extends Controller {
         }
 
         if (user !== null && user.email_verified == false) {
-            //let rnd = randId(6);
-            //await col("user").updateOne({ _id: user._id }, { $set: { verification_code: rnd } });
-            sendEmailWithHtml(user.verification_code, user.email, user.name_first);
+            sendEmailVerificationCode(user.verification_code, user.email, user.name_first);
 
             this.setStatus(200);
             let res: sendEmailResponse = {
