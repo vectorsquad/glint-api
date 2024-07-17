@@ -25,11 +25,6 @@ interface IUserDb extends IUser {
 }
 
 interface LoginErrorResponse {
-    id: ObjectId | null;
-    username: string;
-    email: string;
-    name_first: string;
-    name_last: string;
     message: string;
 }
 
@@ -45,11 +40,6 @@ export class loginController extends Controller {
         if (user === null) {
             this.setStatus(404);
             let res: LoginErrorResponse = {
-                id: null,
-                username: "",
-                email: "",
-                name_first: "",
-                name_last: "",
                 message: "Server could not find user."
             };
 
@@ -59,11 +49,6 @@ export class loginController extends Controller {
         if (!user.email_verified) {
             this.setStatus(400);
             let res: LoginErrorResponse = {
-                id: user._id,
-                username: user.username,
-                email: user.email,
-                name_first: user.name_first,
-                name_last: user.name_last,
                 message: "Email not verified."
             };
             return res;
@@ -75,11 +60,6 @@ export class loginController extends Controller {
         if (!validPassword) {
             this.setStatus(400);
             let res: LoginErrorResponse = {
-                id: null,
-                username: "",
-                email: "",
-                name_first: "",
-                name_last: "",
                 message: "Invalid Email or Password."
             };
 
@@ -89,11 +69,6 @@ export class loginController extends Controller {
 
         this.setStatus(200);
         let res: LoginErrorResponse = {
-            id: user._id,
-            username: user.username,
-            email: user.email,
-            name_first: user.name_first,
-            name_last: user.name_last,
             message: "Success: user logged in"
         };
 

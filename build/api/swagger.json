@@ -418,36 +418,11 @@
 			},
 			"LoginErrorResponse": {
 				"properties": {
-					"id": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/ObjectId"
-							}
-						],
-						"nullable": true
-					},
-					"username": {
-						"type": "string"
-					},
-					"email": {
-						"type": "string"
-					},
-					"name_first": {
-						"type": "string"
-					},
-					"name_last": {
-						"type": "string"
-					},
 					"message": {
 						"type": "string"
 					}
 				},
 				"required": [
-					"id",
-					"username",
-					"email",
-					"name_first",
-					"name_last",
 					"message"
 				],
 				"type": "object",
