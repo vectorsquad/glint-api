@@ -6,7 +6,7 @@ import {
     Route,
 } from "tsoa";
 import { WithId, Document } from "mongodb";
-import { col } from "../utils";
+import { col, setJwt } from "../utils";
 
 type Doc<T> = (T & WithId<Document>);
 
@@ -28,6 +28,9 @@ export class verificationController extends Controller {
 
         if (user !== null) {
             user.email_verified = true;
+
+            setJwt(this, user._id.toString());
+
             await col("user").updateOne({ _id: user._id }, { $set: { email_verified: true, verification_code: null } });
             this.setStatus(200);
             let res: VerificationErrorResponse = {

@@ -10,7 +10,7 @@ import jwt from "jsonwebtoken";
 import * as exp from "express";
 import { WithId, Document } from "mongodb";
 import * as bc from "bcrypt";
-import { col, getJwt } from "../utils";
+import { col, getJwt, setJwt } from "../utils";
 import { GlobalState } from "@state";
 
 interface LoginParamsWithoutJwt {
@@ -82,17 +82,7 @@ export class loginController extends Controller {
             return res;
         }
 
-        // Create JWT payload
-        let authPayload = {
-            sub: user._id.toString(),
-            exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 7 * 2)
-        };
-
-        // Sign payload
-        let signedJwt = jwt.sign(authPayload, GlobalState.jwt.secret);
-
-        // Set cookie header to contain JWT authentication payload
-        this.setHeader("Set-Cookie", `auth=${signedJwt}`);
+        setJwt(this, user._id.toString());
 
         return;
     }
