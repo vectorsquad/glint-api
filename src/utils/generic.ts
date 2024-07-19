@@ -1,7 +1,7 @@
 import { GlobalState } from "@state";
 import { CustomJwt } from "../types";
 import { Request } from "express";
-import * as jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import * as exp from "express";
 
 export function randId(length: number) {
