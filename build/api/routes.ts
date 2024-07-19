@@ -260,20 +260,10 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "FindDeckResponse": {
-        "dataType": "refObject",
-        "properties": {
-            "decks": {"dataType":"union","subSchemas":[{"dataType":"array","array":{"dataType":"refObject","ref":"IDeck"}},{"dataType":"enum","enums":[null]}],"required":true},
-            "quantity": {"dataType":"double","required":true},
-            "message": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "FindDeckParams": {
         "dataType": "refObject",
         "properties": {
-            "deck_name": {"dataType":"string","required":true},
+            "deck_name": {"dataType":"string"},
         },
         "additionalProperties": false,
     },
