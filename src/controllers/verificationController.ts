@@ -3,10 +3,12 @@ import {
     Controller,
     Get,
     Query,
+    Request,
     Route,
 } from "tsoa";
 import { WithId, Document } from "mongodb";
 import { col, setJwt } from "../utils";
+import * as exp from "express";
 
 type Doc<T> = (T & WithId<Document>);
 
@@ -22,14 +24,14 @@ interface VerificationErrorResponse {
 export class verificationController extends Controller {
 
     @Get()
-    public async verifyEmail(@Query() code: string) {
+    public async verifyEmail(@Query() code: string, @Request() req: exp.Request) {
 
         const user = (await col("user").findOne({ "verification_code": code })) as Doc<IUserDb> | null
 
         if (user !== null) {
             user.email_verified = true;
 
-            // setJwt(this, user._id.toString());
+            setJwt(req, user._id.toString());
 
             await col("user").updateOne({ _id: user._id }, { $set: { email_verified: true, verification_code: null } });
             this.setStatus(200);

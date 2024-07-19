@@ -386,6 +386,7 @@ export function RegisterRoutes(app: Router) {
             async function verificationController_verifyEmail(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
                     code: {"in":"query","name":"code","required":true,"dataType":"string"},
+                    req: {"in":"request","name":"req","required":true,"dataType":"object"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

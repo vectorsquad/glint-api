@@ -80,7 +80,7 @@ export class loginController extends Controller {
             return res;
         }
 
-        setJwt(this, user._id.toString());
+        setJwt(req, user._id.toString());
 
         return;
     }

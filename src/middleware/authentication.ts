@@ -1,4 +1,3 @@
-import { GlobalState } from "@state";
 import { NextFunction, Request, Response } from "express"
 import { getJwt } from "../utils";
 

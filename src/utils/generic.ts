@@ -2,7 +2,7 @@ import { GlobalState } from "@state";
 import { CustomJwt } from "../types";
 import { Request } from "express";
 import * as jwt from "jsonwebtoken";
-import { Controller } from "tsoa";
+import * as exp from "express";
 
 export function randId(length: number) {
     let result = '';
@@ -41,7 +41,7 @@ export function getJwt(req: Request): CustomJwt | undefined {
 
 }
 
-export function setJwt(controller: Controller, id_user: string) {
+export function setJwt(req: exp.Request, id_user: string) {
 
     // Create JWT payload
     let authPayload = {
@@ -53,5 +53,5 @@ export function setJwt(controller: Controller, id_user: string) {
     let signedJwt = jwt.sign(authPayload, GlobalState.jwt.secret);
 
     // Set cookie header to contain JWT authentication payload
-    controller.setHeader("Set-Cookie", `auth=${signedJwt}`);
+    req.res?.setHeader("Set-Cookie", `auth=${signedJwt}`);
 }
