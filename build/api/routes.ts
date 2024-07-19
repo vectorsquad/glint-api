@@ -657,7 +657,7 @@ export function RegisterRoutes(app: Router) {
             async function loginController_login(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
-                    body: {"in":"body","name":"body","ref":"LoginParams"},
+                    body: {"in":"body","name":"body","required":true,"dataType":"union","subSchemas":[{"ref":"LoginParams"},{"dataType":"enum","enums":[null]}]},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

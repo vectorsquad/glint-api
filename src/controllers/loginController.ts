@@ -31,9 +31,9 @@ interface LoginErrorResponse {
 @Route('/api/v1/login')
 export class loginController extends Controller {
     @Post()
-    public async login(@Request() req: exp.Request, @Body() body?: LoginParams) {
+    public async login(@Request() req: exp.Request, @Body() body: LoginParams | null) {
 
-        if (body === undefined) {
+        if (body === null) {
             let user_jwt = getJwt(req);
 
             if (user_jwt === undefined) {

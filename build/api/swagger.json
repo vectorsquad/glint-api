@@ -932,11 +932,16 @@
 				"security": [],
 				"parameters": [],
 				"requestBody": {
-					"required": false,
+					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/LoginParams"
+								"allOf": [
+									{
+										"$ref": "#/components/schemas/LoginParams"
+									}
+								],
+								"nullable": true
 							}
 						}
 					}
