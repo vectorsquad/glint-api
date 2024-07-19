@@ -448,6 +448,9 @@
 				"properties": {
 					"deck_name": {
 						"type": "string"
+					},
+					"deck_id": {
+						"type": "string"
 					}
 				},
 				"type": "object",

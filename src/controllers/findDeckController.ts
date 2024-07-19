@@ -17,6 +17,7 @@ interface IDeck {
 
 interface FindDeckParams {
     deck_name?: string
+    deck_id?: string
 }
 
 @Route("/api/v1/findDeck")
@@ -27,16 +28,15 @@ export class FindDeckController extends Controller {
 
         const user_id = new ObjectId(req.res?.locals.jwt.sub);
 
-        const deckQuery = {
-            id_user: user_id,
-            name: !body.deck_name ? undefined : {
-                $regex: body.deck_name,
-                $options: 'i'
-            }
+        const deckQuery: { [key: string]: any } = {
+            id_user: user_id
         };
 
-        if (deckQuery.name === undefined) {
-            delete deckQuery.name;
+        if (body.deck_name !== undefined) {
+            deckQuery.name = body.deck_name;
+
+        } else if (body.deck_id !== undefined) {
+            deckQuery.id_user = body.deck_id;
         }
 
         const decks = await col("deck").find(deckQuery).toArray() as IDeck[];

@@ -264,6 +264,7 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "deck_name": {"dataType":"string"},
+            "deck_id": {"dataType":"string"},
         },
         "additionalProperties": false,
     },
