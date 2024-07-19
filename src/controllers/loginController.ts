@@ -10,7 +10,7 @@ import jwt from "jsonwebtoken";
 import * as exp from "express";
 import { WithId, Document } from "mongodb";
 import * as bc from "bcrypt";
-import { col } from "../utils";
+import { col, getJwt } from "../utils";
 import { GlobalState } from "@state";
 
 interface LoginParams {
@@ -31,7 +31,21 @@ interface LoginErrorResponse {
 @Route('/api/v1/login')
 export class loginController extends Controller {
     @Post()
-    public async login(@Body() body: LoginParams, @Request() req: exp.Request) {
+    public async login(@Request() req: exp.Request, @Body() body?: LoginParams) {
+
+        if (body === undefined) {
+            let user_jwt = getJwt(req);
+
+            if (user_jwt === undefined) {
+                this.setStatus(400);
+                let res: LoginErrorResponse = {
+                    message: "Unable to fallback with JWT authentication."
+                };
+                return res;
+            }
+
+            return;
+        }
 
         let user = (await col("user").findOne({ "username": body.username })) as Doc<IUserDb> | null
 
@@ -64,12 +78,6 @@ export class loginController extends Controller {
             return res;
         }
 
-
-        this.setStatus(200);
-        let res: LoginErrorResponse = {
-            message: "Success: user logged in"
-        };
-
         // Create JWT payload
         let authPayload = {
             sub: user._id.toString(),
@@ -82,7 +90,7 @@ export class loginController extends Controller {
         // Set cookie header to contain JWT authentication payload
         this.setHeader("Set-Cookie", `auth=${signedJwt}`);
 
-        return res;
+        return;
     }
 
 }

@@ -2,7 +2,7 @@ import { JwtPayload } from "jsonwebtoken"
 
 export { }
 
-interface CustomJwt extends JwtPayload {
+export interface CustomJwt extends JwtPayload {
     sub: string
 }
 

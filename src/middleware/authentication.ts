@@ -1,6 +1,6 @@
 import { GlobalState } from "@state";
 import { NextFunction, Request, Response } from "express"
-import * as jwt from "jsonwebtoken";
+import { getJwt } from "../utils";
 
 function isApiRequest(path: string) {
     return path.startsWith("/api/v1");
@@ -27,31 +27,21 @@ function isWhitelistedRequest(path: string) {
 
 export function Authenticate(req: Request, res: Response, next: NextFunction) {
 
-    // If request is not for any API, or is for a whitelisted API, allow.
+    // If request is not for any API, or is for a whitelisted API, allow request.
     if (!isApiRequest(req.path) || isWhitelistedRequest(req.path)) {
         next();
         return;
     }
 
-    let auth_cookie = req.cookies["auth"];
+    // Get JWT from request; if cannot retrieve, deny request.
+    let user_jwt = getJwt(req);
 
-    let auth_jwt: string | jwt.JwtPayload;
-
-    try {
-        auth_jwt = jwt.verify(auth_cookie, GlobalState.jwt.secret);
-
-    } catch (e) {
-        res.send(e);
-        return;
-
-    }
-
-    if (typeof auth_jwt === "string") {
-        res.send("unable to authenticate; `auth` could only be coerced as a string");
+    if (user_jwt === undefined) {
         return;
     }
 
-    res.locals.jwt = auth_jwt as typeof res.locals.jwt;
+    // Store JWT for later usage in subsequent middleware/endpoints.
+    res.locals.jwt = user_jwt;
 
     next();
 }
