@@ -233,11 +233,19 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "LoginParamsWithoutJwt": {
+        "dataType": "refObject",
+        "properties": {
+            "username": {"dataType":"string","required":true},
+            "password_hash": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "LoginParams": {
         "dataType": "refObject",
         "properties": {
-            "username": {"dataType":"string"},
-            "password_hash": {"dataType":"string"},
+            "login": {"ref":"LoginParamsWithoutJwt"},
         },
         "additionalProperties": false,
     },

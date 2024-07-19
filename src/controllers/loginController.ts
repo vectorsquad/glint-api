@@ -13,9 +13,13 @@ import * as bc from "bcrypt";
 import { col, getJwt } from "../utils";
 import { GlobalState } from "@state";
 
+interface LoginParamsWithoutJwt {
+    username: string;
+    password_hash: string;
+}
+
 interface LoginParams {
-    username?: string;
-    password_hash?: string;
+    login?: LoginParamsWithoutJwt
 }
 
 type Doc<T> = (T & WithId<Document>);
@@ -33,7 +37,7 @@ export class loginController extends Controller {
     @Post()
     public async login(@Request() req: exp.Request, @Body() body: LoginParams) {
 
-        if (body.username === undefined || body.password_hash === undefined) {
+        if (body.login === undefined) {
             let user_jwt = getJwt(req);
 
             if (user_jwt === undefined) {
@@ -47,7 +51,7 @@ export class loginController extends Controller {
             return;
         }
 
-        let user = (await col("user").findOne({ "username": body.username })) as Doc<IUserDb> | null
+        let user = (await col("user").findOne({ "username": body.login.username })) as Doc<IUserDb> | null
 
         if (user === null) {
             this.setStatus(404);
@@ -67,7 +71,7 @@ export class loginController extends Controller {
         }
 
 
-        let validPassword = await bc.compare(body.password_hash, user.password);
+        let validPassword = await bc.compare(body.login.password_hash, user.password);
 
         if (!validPassword) {
             this.setStatus(400);

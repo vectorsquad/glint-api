@@ -399,13 +399,26 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"LoginParams": {
+			"LoginParamsWithoutJwt": {
 				"properties": {
 					"username": {
 						"type": "string"
 					},
 					"password_hash": {
 						"type": "string"
+					}
+				},
+				"required": [
+					"username",
+					"password_hash"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"LoginParams": {
+				"properties": {
+					"login": {
+						"$ref": "#/components/schemas/LoginParamsWithoutJwt"
 					}
 				},
 				"type": "object",
