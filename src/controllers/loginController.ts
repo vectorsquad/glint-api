@@ -14,8 +14,8 @@ import { col, getJwt } from "../utils";
 import { GlobalState } from "@state";
 
 interface LoginParams {
-    username: string;
-    password_hash: string;
+    username?: string;
+    password_hash?: string;
 }
 
 type Doc<T> = (T & WithId<Document>);
@@ -31,9 +31,9 @@ interface LoginErrorResponse {
 @Route('/api/v1/login')
 export class loginController extends Controller {
     @Post()
-    public async login(@Request() req: exp.Request, @Body() body: LoginParams | null) {
+    public async login(@Request() req: exp.Request, @Body() body: LoginParams) {
 
-        if (body === null) {
+        if (body.username === undefined || body.password_hash === undefined) {
             let user_jwt = getJwt(req);
 
             if (user_jwt === undefined) {

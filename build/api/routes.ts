@@ -236,8 +236,8 @@ const models: TsoaRoute.Models = {
     "LoginParams": {
         "dataType": "refObject",
         "properties": {
-            "username": {"dataType":"string","required":true},
-            "password_hash": {"dataType":"string","required":true},
+            "username": {"dataType":"string"},
+            "password_hash": {"dataType":"string"},
         },
         "additionalProperties": false,
     },
@@ -657,7 +657,7 @@ export function RegisterRoutes(app: Router) {
             async function loginController_login(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
-                    body: {"in":"body","name":"body","required":true,"dataType":"union","subSchemas":[{"ref":"LoginParams"},{"dataType":"enum","enums":[null]}]},
+                    body: {"in":"body","name":"body","required":true,"ref":"LoginParams"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
