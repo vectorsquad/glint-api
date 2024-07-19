@@ -6,12 +6,10 @@ import {
     Post,
     Route,
 } from "tsoa";
-import jwt from "jsonwebtoken";
 import * as exp from "express";
 import { WithId, Document } from "mongodb";
 import * as bc from "bcrypt";
 import { col, getJwt, setJwt } from "../utils";
-import { GlobalState } from "@state";
 
 interface LoginParamsWithoutJwt {
     username: string;
