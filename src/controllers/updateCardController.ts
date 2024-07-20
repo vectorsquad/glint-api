@@ -1,4 +1,3 @@
-import { ICard } from "glint-core/src/models.js";
 import {
     Body,
     Controller,
@@ -9,32 +8,19 @@ import {
 import { ObjectId } from "mongodb";
 import * as exp from "express";
 import { col } from "../utils";
-
-/** 
-* Fields for Updating a card.
-*/
-
-interface CardUpdates extends ICard {
-    id: string;
-}
-
-type UpdateCardParams = CardUpdates;
-
-interface UpdateCardErrorResponse {
-    message: string
-}
+import * as models from "glint-core/src/models";
 
 @Route("/api/v1/update")
 export class UpdateCardController extends Controller {
 
     @Post()
-    public async updateCard(@Body() body: UpdateCardParams, @Request() req: exp.Request) {
+    public async updateCard(@Body() body: models.IUpdateCardRequest, @Request() req: exp.Request) {
 
 
         // Attempt to update an existing card
         let updateResult = await col("card").findOneAndUpdate(
             {
-                "_id": new ObjectId(body.id)
+                "_id": new ObjectId(body._id)
             },
             {
                 $set:
@@ -48,7 +34,7 @@ export class UpdateCardController extends Controller {
         // Respond with internal server error if could not insert
         if (updateResult === null) {
             this.setStatus(500);
-            let resp: UpdateCardErrorResponse = {
+            let resp: models.ErrorResponse = {
                 message: "Server could not update card."
             };
             return resp;

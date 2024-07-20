@@ -1,5 +1,3 @@
-import { IUser } from "glint-core/src/models.js";
-import { GlobalState as GS } from "@state";
 import {
     Body,
     Controller,
@@ -10,70 +8,30 @@ import {
 } from "tsoa";
 
 import * as exp from "express";
-import { ObjectId, WithId, Document } from "mongodb";
 import * as bc from "bcrypt";
-import { randId, sendEmailPasswordRecovery } from "../utils"
+import { col, randId, sendEmailPasswordRecovery } from "../utils"
+import * as models from "glint-core/src/models";
 
 const bcryptSaltRounds = 10;
-
-interface updatePasswordParams {
-    password: string;
-    password_repeat: string;
-}
-
-const col = (collection_name: string) => GS.mongo.db.collection(collection_name);
-
-type Doc<T> = (T & WithId<Document>);
-
-interface IUserDb extends IUser {
-    email_verified: boolean;
-}
-
-interface updatePasswordResponse {
-    id: ObjectId | null;
-    username: string;
-    email: string;
-    name_first: string;
-    name_last: string;
-    message: string;
-}
 
 @Route('/api/v1/updatePassword')
 export class updatePasswordController extends Controller {
     @Post()
-    public async upadatePassword(@Body() body: updatePasswordParams, @Request() req: exp.Request, @Query() user_code: string) {
+    public async upadatePassword(@Body() body: models.IUpdatePasswordRequest, @Request() req: exp.Request, @Query() user_code: string) {
 
-        let user = (await col("user").findOne({ "verification_code": user_code })) as Doc<IUserDb> | null
+        let user = (await col("user").findOne({ "verification_code": user_code })) as models.IUserDoc | null
 
         if (user === null) {
             this.setStatus(404);
-            let res: updatePasswordResponse = {
-                id: null,
-                username: "",
-                email: "",
-                name_first: "",
-                name_last: "",
+            let res: models.ErrorResponse = {
                 message: "Server could not find user."
-            }
-            return res;
-        }
-
-        if (body.password !== body.password_repeat) {
-            this.setStatus(400);
-            let res: updatePasswordResponse = {
-                id: null,
-                username: "",
-                email: "",
-                name_first: "",
-                name_last: "",
-                message: "Passwords do not match."
             }
             return res;
         }
 
         body.password = await bc.hash(body.password, bcryptSaltRounds);
 
-        if (user.email_verified === true) {
+        if (user.email_verified) {
             await col("user").updateOne({ _id: user._id }, { $set: { password: body.password, verification_code: null } });
         }
         else {
@@ -82,16 +40,6 @@ export class updatePasswordController extends Controller {
             await col("user").updateOne({ _id: user._id }, { $set: { password: body.password, verification_code: rnd } });
         }
 
-
-        this.setStatus(200);
-        let res: updatePasswordResponse = {
-            id: user._id,
-            username: user.username,
-            email: user.email,
-            name_first: user.name_first,
-            name_last: user.name_last,
-            message: "Password updated successfully."
-        }
-        return res;
+        return;
     }
 }

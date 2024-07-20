@@ -8,42 +8,21 @@ import {
 import { ObjectId, WithId, Document } from "mongodb";
 import * as exp from "express";
 import { col } from "../utils";
-
-interface IDeck {
-    _id: ObjectId,
-    id_user: ObjectId,
-    name: string
-}
-
-type Doc<T> = (T & WithId<Document>);
-
-interface DeleteDeckResponse {
-    id: ObjectId | null,
-    userId: ObjectId | null,
-    name: string,
-    message: string
-}
-
-interface DeleteDeckParams {
-    id: string,
-}
+import * as models from "glint-core/src/models";
 
 @Route("/api/v1/deleteDeck")
 export class DeleteDeckController extends Controller {
 
     @Post()
-    public async deleteCard(@Body() body: DeleteDeckParams, @Request() req: exp.Request) {
+    public async deleteCard(@Body() body: models.IDeleteDeckRequest, @Request() req: exp.Request) {
 
-        var deck_id = new ObjectId(body.id);
+        var deck_id = new ObjectId(body._id);
 
-        let deck = (await col("deck").findOneAndDelete({ "_id": deck_id })) as Doc<IDeck> | null
+        let deck = (await col("deck").findOneAndDelete({ "_id": deck_id })) as models.IDeckDoc | null
 
         if (deck === null) {
             this.setStatus(502);
-            let res: DeleteDeckResponse = {
-                id: null,
-                userId: null,
-                name: "",
+            let res: models.ErrorResponse = {
                 message: "Server could not find and delete deck."
             };
             return res;

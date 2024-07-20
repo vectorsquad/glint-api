@@ -1,4 +1,3 @@
-import { IUser } from "glint-core/src/models.js";
 import {
     Body,
     Controller,
@@ -7,37 +6,22 @@ import {
     Route,
 } from "tsoa";
 import * as bc from "bcrypt";
-import { ObjectId, WithId, Document } from "mongodb";
 import * as exp from "express";
-import { sendEmailVerificationCode, sendMail } from "../utils/email";
+import { sendEmailVerificationCode } from "../utils/email";
 import { randId } from "../utils";
 import { col } from "../utils";
+import * as models from "glint-core/src/models";
 
 const bcryptSaltRounds = 10;
-
-/** 
-* Fields for registering a new user.
-*/
-type RegisterUserParams = IUser;
-
-type Doc<T> = (T & WithId<Document>);
-
-interface IUserDb extends IUser {
-    email_verified: boolean;
-}
-
-interface ErrorResponse {
-    message: string;
-}
 
 @Route("/api/v1/register")
 export class RegisterUserController extends Controller {
 
     @Post()
-    public async registerUser(@Body() body: RegisterUserParams, @Request() req: exp.Request) {
+    public async registerUser(@Body() body: models.ISignUpRequest, @Request() req: exp.Request) {
 
         // Attempt to find user with existing email
-        let userWithEmail = (await col("user").findOne({ "email": body.email })) as Doc<IUserDb> | null
+        let userWithEmail = (await col("user").findOne({ "email": body.email })) as models.IUserDoc | null
 
         // Guard clause for if user already exists
         if (userWithEmail !== null) {
@@ -45,7 +29,7 @@ export class RegisterUserController extends Controller {
             // Not verified: user should check their inbox
             if (!userWithEmail.email_verified) {
                 this.setStatus(400);
-                let res: ErrorResponse = {
+                let res: models.ErrorResponse = {
                     message: "User exists, Email not verified."
                 };
 
@@ -54,7 +38,7 @@ export class RegisterUserController extends Controller {
 
             // Verified: can't register with already used email
             this.setStatus(400);
-            let res: ErrorResponse = {
+            let res: models.ErrorResponse = {
                 message: "User with provided email already exists."
             };
 
@@ -83,19 +67,19 @@ export class RegisterUserController extends Controller {
         // Respond with internal server error if could not insert
         if (!insertResult.acknowledged) {
             this.setStatus(500);
-            let resp: ErrorResponse = {
+            let resp: models.ErrorResponse = {
                 message: "Server could not save user."
             };
             return resp;
         }
 
         // Retrieve just now inserted user
-        let userDoc = await col("user").findOne({ email: body.email }) as Doc<IUser> | null;
+        let userDoc = await col("user").findOne({ email: body.email }) as models.IUserDoc | null;
 
         // Error early if unable to retrieve user
         if (userDoc === null) {
             this.setStatus(500);
-            let resp: ErrorResponse = {
+            let resp: models.ErrorResponse = {
                 message: "Server could not retrieve previously saved user."
             };
             return resp;
@@ -103,12 +87,7 @@ export class RegisterUserController extends Controller {
 
         sendEmailVerificationCode(rnd, body.email, body.name_first);
 
-        this.setStatus(200);
-        let res: ErrorResponse = {
-            message: "Success: user registered"
-        };
-
-        return res;
+        return;
     }
 
 }

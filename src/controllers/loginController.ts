@@ -1,4 +1,3 @@
-import { IUser } from "glint-core/src/models.js";
 import {
     Body,
     Controller,
@@ -7,40 +6,21 @@ import {
     Route,
 } from "tsoa";
 import * as exp from "express";
-import { WithId, Document } from "mongodb";
 import * as bc from "bcrypt";
 import { col, getJwt, setJwt } from "../utils";
-
-interface LoginParamsWithoutJwt {
-    username: string;
-    password_hash: string;
-}
-
-interface LoginParams {
-    login?: LoginParamsWithoutJwt
-}
-
-type Doc<T> = (T & WithId<Document>);
-
-interface IUserDb extends IUser {
-    email_verified: boolean;
-}
-
-interface LoginErrorResponse {
-    message: string;
-}
+import * as models from "glint-core/src/models";
 
 @Route('/api/v1/login')
 export class loginController extends Controller {
     @Post()
-    public async login(@Request() req: exp.Request, @Body() body: LoginParams) {
+    public async login(@Request() req: exp.Request, @Body() body: models.ISignInRequest) {
 
         if (body.login === undefined) {
             let user_jwt = getJwt(req);
 
             if (user_jwt === undefined) {
                 this.setStatus(400);
-                let res: LoginErrorResponse = {
+                let res: models.ErrorResponse = {
                     message: "Unable to fallback with JWT authentication."
                 };
                 return res;
@@ -49,11 +29,11 @@ export class loginController extends Controller {
             return;
         }
 
-        let user = (await col("user").findOne({ "username": body.login.username })) as Doc<IUserDb> | null
+        let user = (await col("user").findOne({ "username": body.login.username })) as models.IUserDoc | null
 
         if (user === null) {
             this.setStatus(404);
-            let res: LoginErrorResponse = {
+            let res: models.ErrorResponse = {
                 message: "Server could not find user."
             };
 
@@ -62,18 +42,18 @@ export class loginController extends Controller {
 
         if (!user.email_verified) {
             this.setStatus(400);
-            let res: LoginErrorResponse = {
+            let res: models.ErrorResponse = {
                 message: "Email not verified."
             };
             return res;
         }
 
 
-        let validPassword = await bc.compare(body.login.password_hash, user.password);
+        let validPassword = await bc.compare(body.login.password_hash, user.password_hash);
 
         if (!validPassword) {
             this.setStatus(400);
-            let res: LoginErrorResponse = {
+            let res: models.ErrorResponse = {
                 message: "Invalid Email or Password."
             };
 

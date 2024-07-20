@@ -5,45 +5,24 @@ import {
     Request,
     Route,
 } from "tsoa";
-import { ObjectId, WithId, Document } from "mongodb";
+import { ObjectId } from "mongodb";
 import * as exp from "express";
 import { col } from "../utils";
-
-interface IDeck {
-    _id: ObjectId,
-    id_user: ObjectId,
-    name: string
-}
-
-type Doc<T> = (T & WithId<Document>);
-
-interface DeckResponse {
-    id: string | null,
-    userId: string | null,
-    name: string,
-    message: string
-}
-
-interface CreateDeckParams {
-    deck_name: string
-}
+import * as models from "glint-core/src/models";
 
 @Route("/api/v1/createDeck")
 export class CreateDeckController extends Controller {
 
     @Post()
-    public async createDeck(@Body() body: CreateDeckParams, @Request() req: exp.Request) {
+    public async createDeck(@Body() body: models.ICreateDeckRequest, @Request() req: exp.Request) {
 
         var user_id = new ObjectId(req.res?.locals.jwt.sub);
 
-        let deck = (await col("deck").findOne({ "name": body.deck_name, "id_user": user_id })) as Doc<IDeck> | null
+        let deck = (await col("deck").findOne({ "name": body.name, "id_user": user_id })) as models.IDeckDoc | null
 
         if (deck !== null) {
             this.setStatus(400);
-            let res: DeckResponse = {
-                id: deck._id.toString(),
-                userId: deck.id_user.toString(),
-                name: deck.name,
+            let res: models.ErrorResponse = {
                 message: "Client provided a name for a deck that already exists."
             };
             return res;
@@ -51,28 +30,22 @@ export class CreateDeckController extends Controller {
 
         let deckDb = {
             id_user: user_id,
-            name: body.deck_name
+            name: body.name
         };
 
         let insertDeckDB = await col("deck").insertOne(deckDb);
 
         if (!insertDeckDB.acknowledged) {
             this.setStatus(502);
-            let res: DeckResponse = {
-                id: null,
-                userId: null,
-                name: "",
+            let res: models.ErrorResponse = {
                 message: "Server could not save deck."
             };
             return res;
         }
 
         this.setStatus(200);
-        let resp: DeckResponse = {
-            id: insertDeckDB.insertedId.toString(),
-            userId: user_id.toString(),
-            name: deckDb.name,
-            message: "Success: The deck was created"
+        let resp: models.ICreateDeckResponse = {
+            _id: insertDeckDB.insertedId.toString(),
         };
 
         return resp;

@@ -1,4 +1,3 @@
-import { IUser } from "glint-core/src/models.js";
 import {
     Controller,
     Get,
@@ -9,16 +8,7 @@ import {
 import { WithId, Document } from "mongodb";
 import { col, setJwt } from "../utils";
 import * as exp from "express";
-
-type Doc<T> = (T & WithId<Document>);
-
-interface IUserDb extends IUser {
-    email_verified: boolean;
-}
-
-interface VerificationErrorResponse {
-    message: string
-}
+import * as models from "glint-core/src/models";
 
 @Route("/api/v1/verify")
 export class verificationController extends Controller {
@@ -26,7 +16,7 @@ export class verificationController extends Controller {
     @Get()
     public async verifyEmail(@Query() code: string, @Request() req: exp.Request) {
 
-        const user = (await col("user").findOne({ "verification_code": code })) as Doc<IUserDb> | null
+        const user = (await col("user").findOne({ "verification_code": code })) as models.IUserDoc | null
 
         if (user !== null) {
             user.email_verified = true;
@@ -34,16 +24,12 @@ export class verificationController extends Controller {
             setJwt(req, user._id.toString());
 
             await col("user").updateOne({ _id: user._id }, { $set: { email_verified: true, verification_code: null } });
-            this.setStatus(200);
-            let res: VerificationErrorResponse = {
-                message: "Verified Email."
-            };
 
-            return res;
+            return;
         }
 
         this.setStatus(500);
-        let res: VerificationErrorResponse = {
+        let res: models.ErrorResponse = {
             message: "Server could not find user."
         };
 

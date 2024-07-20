@@ -8,33 +8,21 @@ import {
 import { ObjectId, } from "mongodb";
 import * as exp from "express";
 import { col } from "../utils";
-
-/** 
-* Fields for Deleting a card.
-*/
-interface CardDelete {
-    id: string;
-}
-
-type DeleteCardParams = CardDelete;
-
-interface DeleteCardErrorResponse {
-    message: string
-}
+import * as models from "glint-core/src/models";
 
 @Route("/api/v1/delete")
 export class DeleteCardController extends Controller {
 
     @Post()
-    public async deleteCard(@Body() body: DeleteCardParams, @Request() req: exp.Request) {
+    public async deleteCard(@Body() body: models.IDeleteCardRequest, @Request() req: exp.Request) {
 
         // Attempt to delete a card
-        let deleteResult = await col("card").findOneAndDelete({ "_id": new ObjectId(body.id) })
+        let deleteResult = await col("card").findOneAndDelete({ "_id": new ObjectId(body._id) })
 
         // Respond with internal server error if could not insert
         if (deleteResult === null) {
             this.setStatus(500);
-            let resp: DeleteCardErrorResponse = {
+            let resp: models.ErrorResponse = {
                 message: "Server could not delete card."
             };
             return resp;

@@ -41,124 +41,69 @@ import type { Request as ExRequest, Response as ExResponse, RequestHandler, Rout
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
-    "VerificationErrorResponse": {
-        "dataType": "refObject",
-        "properties": {
-            "message": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
+    "ErrorResponse": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"message":{"dataType":"string","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "NewPasswordParams": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"password":{"dataType":"string","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "IUpdatePasswordRequest": {
+        "dataType": "refAlias",
+        "type": {"ref":"NewPasswordParams","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Partial_Pick_IDeckNative.name__": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"name":{"dataType":"string"}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "DocNative": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"_id":{"dataType":"string","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "IUpdateDeckRequest": {
+        "dataType": "refAlias",
+        "type": {"dataType":"intersection","subSchemas":[{"ref":"Partial_Pick_IDeckNative.name__"},{"ref":"DocNative"}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Partial_ICardNative_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"side_front":{"dataType":"string"},"side_back":{"dataType":"string"},"id_deck":{"dataType":"string"},"_id":{"dataType":"string"}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "IUpdateCardRequest": {
+        "dataType": "refAlias",
+        "type": {"dataType":"intersection","subSchemas":[{"ref":"Partial_ICardNative_"},{"ref":"DocNative"}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Partial_Pick_IUserNative.username__": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"username":{"dataType":"string"}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Partial_Pick_IUserNative.email__": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"email":{"dataType":"string"}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ISendPasswordRecoveryRequest": {
+        "dataType": "refAlias",
+        "type": {"dataType":"intersection","subSchemas":[{"ref":"Partial_Pick_IUserNative.username__"},{"ref":"Partial_Pick_IUserNative.email__"}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ISendEmailVerificationRequest": {
+        "dataType": "refAlias",
+        "type": {"dataType":"intersection","subSchemas":[{"ref":"Partial_Pick_IUserNative.username__"},{"ref":"Partial_Pick_IUserNative.email__"}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ObjectId": {
         "dataType": "refAlias",
         "type": {"dataType":"string","validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "updatePasswordResponse": {
-        "dataType": "refObject",
-        "properties": {
-            "id": {"dataType":"union","subSchemas":[{"ref":"ObjectId"},{"dataType":"enum","enums":[null]}],"required":true},
-            "username": {"dataType":"string","required":true},
-            "email": {"dataType":"string","required":true},
-            "name_first": {"dataType":"string","required":true},
-            "name_last": {"dataType":"string","required":true},
-            "message": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "updatePasswordParams": {
-        "dataType": "refObject",
-        "properties": {
-            "password": {"dataType":"string","required":true},
-            "password_repeat": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "UpdateDeckResponse": {
-        "dataType": "refObject",
-        "properties": {
-            "id": {"dataType":"union","subSchemas":[{"ref":"ObjectId"},{"dataType":"enum","enums":[null]}],"required":true},
-            "userId": {"dataType":"union","subSchemas":[{"ref":"ObjectId"},{"dataType":"enum","enums":[null]}],"required":true},
-            "name": {"dataType":"string","required":true},
-            "message": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "updateDeckParams": {
-        "dataType": "refObject",
-        "properties": {
-            "deck_id": {"dataType":"string","required":true},
-            "deck_name": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "UpdateCardErrorResponse": {
-        "dataType": "refObject",
-        "properties": {
-            "message": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "CardUpdates": {
-        "dataType": "refObject",
-        "properties": {
-            "side_front": {"dataType":"string","required":true},
-            "side_back": {"dataType":"string","required":true},
-            "id": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "UpdateCardParams": {
-        "dataType": "refAlias",
-        "type": {"ref":"CardUpdates","validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "sendPasswordResponse": {
-        "dataType": "refObject",
-        "properties": {
-            "id": {"dataType":"union","subSchemas":[{"ref":"ObjectId"},{"dataType":"enum","enums":[null]}],"required":true},
-            "username": {"dataType":"string","required":true},
-            "email": {"dataType":"string","required":true},
-            "name_first": {"dataType":"string","required":true},
-            "name_last": {"dataType":"string","required":true},
-            "message": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "sendPasswordRecoveryParams": {
-        "dataType": "refObject",
-        "properties": {
-            "emailOrUsername": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "sendEmailResponse": {
-        "dataType": "refObject",
-        "properties": {
-            "id": {"dataType":"union","subSchemas":[{"ref":"ObjectId"},{"dataType":"enum","enums":[null]}],"required":true},
-            "username": {"dataType":"string","required":true},
-            "email": {"dataType":"string","required":true},
-            "name_first": {"dataType":"string","required":true},
-            "name_last": {"dataType":"string","required":true},
-            "message": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "sendEmailVerificationParams": {
-        "dataType": "refObject",
-        "properties": {
-            "emailOrUsername": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "runAppResponse": {
@@ -200,164 +145,84 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "ErrorResponse": {
-        "dataType": "refObject",
-        "properties": {
-            "message": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "IUser": {
-        "dataType": "refObject",
-        "properties": {
-            "username": {"dataType":"string","required":true},
-            "password_hash": {"dataType":"string","required":true},
-            "email": {"dataType":"string","required":true},
-            "name_first": {"dataType":"string","required":true},
-            "name_last": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "RegisterUserParams": {
+    "Pick_IUserNative.email-or-name_first-or-name_last-or-username-or-password_hash_": {
         "dataType": "refAlias",
-        "type": {"ref":"IUser","validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"username":{"dataType":"string","required":true},"email":{"dataType":"string","required":true},"name_first":{"dataType":"string","required":true},"name_last":{"dataType":"string","required":true},"password_hash":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "LoginErrorResponse": {
-        "dataType": "refObject",
-        "properties": {
-            "message": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
+    "ISignUpRequest": {
+        "dataType": "refAlias",
+        "type": {"ref":"Pick_IUserNative.email-or-name_first-or-name_last-or-username-or-password_hash_","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "LoginParamsWithoutJwt": {
-        "dataType": "refObject",
-        "properties": {
-            "username": {"dataType":"string","required":true},
-            "password_hash": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
+    "Pick_IUserNative.username-or-password_hash_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"username":{"dataType":"string","required":true},"password_hash":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "LoginParams": {
-        "dataType": "refObject",
-        "properties": {
-            "login": {"ref":"LoginParamsWithoutJwt"},
-        },
-        "additionalProperties": false,
+    "ISignInRequest": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"login":{"ref":"Pick_IUserNative.username-or-password_hash_"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "IDeck": {
+    "IDeckDoc": {
         "dataType": "refObject",
         "properties": {
             "_id": {"ref":"ObjectId","required":true},
+            "name": {"dataType":"string","required":true},
             "id_user": {"ref":"ObjectId","required":true},
-            "name": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "FindDeckParams": {
-        "dataType": "refObject",
-        "properties": {
-            "deck_name": {"dataType":"string"},
-            "deck_id": {"dataType":"string"},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "FindCardErrorResponse": {
-        "dataType": "refObject",
-        "properties": {
-            "message": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "ICard": {
-        "dataType": "refObject",
-        "properties": {
-            "side_front": {"dataType":"string","required":true},
-            "side_back": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "FindCardParams": {
+    "Partial_IDeckNative_": {
         "dataType": "refAlias",
-        "type": {"ref":"ICard","validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"name":{"dataType":"string"},"id_user":{"dataType":"string"},"_id":{"dataType":"string"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "DeleteDeckResponse": {
-        "dataType": "refObject",
-        "properties": {
-            "id": {"dataType":"union","subSchemas":[{"ref":"ObjectId"},{"dataType":"enum","enums":[null]}],"required":true},
-            "userId": {"dataType":"union","subSchemas":[{"ref":"ObjectId"},{"dataType":"enum","enums":[null]}],"required":true},
-            "name": {"dataType":"string","required":true},
-            "message": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "DeleteDeckParams": {
-        "dataType": "refObject",
-        "properties": {
-            "id": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "DeleteCardErrorResponse": {
-        "dataType": "refObject",
-        "properties": {
-            "message": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "CardDelete": {
-        "dataType": "refObject",
-        "properties": {
-            "id": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "DeleteCardParams": {
+    "IFindDeckRequest": {
         "dataType": "refAlias",
-        "type": {"ref":"CardDelete","validators":{}},
+        "type": {"ref":"Partial_IDeckNative_","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "DeckResponse": {
-        "dataType": "refObject",
-        "properties": {
-            "id": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
-            "userId": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
-            "name": {"dataType":"string","required":true},
-            "message": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
+    "IFindCardRequest": {
+        "dataType": "refAlias",
+        "type": {"ref":"Partial_ICardNative_","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "CreateDeckParams": {
-        "dataType": "refObject",
-        "properties": {
-            "deck_name": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
+    "Pick_IDeckNative._id_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"_id":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "CreateCardParams": {
-        "dataType": "refObject",
-        "properties": {
-            "side_front": {"dataType":"string","required":true},
-            "side_back": {"dataType":"string","required":true},
-            "id_deck": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
+    "IDeleteDeckRequest": {
+        "dataType": "refAlias",
+        "type": {"ref":"Pick_IDeckNative._id_","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "IDeleteCardRequest": {
+        "dataType": "refAlias",
+        "type": {"ref":"DocNative","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Pick_IDeckNative.name_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"name":{"dataType":"string","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ICreateDeckRequest": {
+        "dataType": "refAlias",
+        "type": {"ref":"Pick_IDeckNative.name_","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Pick_ICardNative.id_deck-or-side_front-or-side_back_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"side_front":{"dataType":"string","required":true},"side_back":{"dataType":"string","required":true},"id_deck":{"dataType":"string","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ICreateCardRequest": {
+        "dataType": "refAlias",
+        "type": {"ref":"Pick_ICardNative.id_deck-or-side_front-or-side_back_","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
@@ -407,7 +272,7 @@ export function RegisterRoutes(app: Router) {
 
             async function updatePasswordController_upadatePassword(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    body: {"in":"body","name":"body","required":true,"ref":"updatePasswordParams"},
+                    body: {"in":"body","name":"body","required":true,"ref":"IUpdatePasswordRequest"},
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
                     user_code: {"in":"query","name":"user_code","required":true,"dataType":"string"},
             };
@@ -439,7 +304,7 @@ export function RegisterRoutes(app: Router) {
 
             async function UpdateDeckController_FindDeck(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    body: {"in":"body","name":"body","required":true,"ref":"updateDeckParams"},
+                    body: {"in":"body","name":"body","required":true,"ref":"IUpdateDeckRequest"},
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
             };
 
@@ -470,7 +335,7 @@ export function RegisterRoutes(app: Router) {
 
             async function UpdateCardController_updateCard(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    body: {"in":"body","name":"body","required":true,"ref":"UpdateCardParams"},
+                    body: {"in":"body","name":"body","required":true,"ref":"IUpdateCardRequest"},
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
             };
 
@@ -501,7 +366,7 @@ export function RegisterRoutes(app: Router) {
 
             async function sendPasswordRecoveryController_sendPasswordRecovery(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    body: {"in":"body","name":"body","required":true,"ref":"sendPasswordRecoveryParams"},
+                    body: {"in":"body","name":"body","required":true,"ref":"ISendPasswordRecoveryRequest"},
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
             };
 
@@ -532,7 +397,7 @@ export function RegisterRoutes(app: Router) {
 
             async function sendEmailVerificationController_sendEmailVerification(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    body: {"in":"body","name":"body","required":true,"ref":"sendEmailVerificationParams"},
+                    body: {"in":"body","name":"body","required":true,"ref":"ISendEmailVerificationRequest"},
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
             };
 
@@ -625,7 +490,7 @@ export function RegisterRoutes(app: Router) {
 
             async function RegisterUserController_registerUser(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    body: {"in":"body","name":"body","required":true,"ref":"RegisterUserParams"},
+                    body: {"in":"body","name":"body","required":true,"ref":"ISignUpRequest"},
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
             };
 
@@ -657,7 +522,7 @@ export function RegisterRoutes(app: Router) {
             async function loginController_login(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
-                    body: {"in":"body","name":"body","required":true,"ref":"LoginParams"},
+                    body: {"in":"body","name":"body","required":true,"ref":"ISignInRequest"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -687,7 +552,7 @@ export function RegisterRoutes(app: Router) {
 
             async function FindDeckController_findDeck(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    body: {"in":"body","name":"body","required":true,"ref":"FindDeckParams"},
+                    body: {"in":"body","name":"body","required":true,"ref":"IFindDeckRequest"},
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
             };
 
@@ -718,7 +583,7 @@ export function RegisterRoutes(app: Router) {
 
             async function FindCardController_findCard(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    body: {"in":"body","name":"body","required":true,"ref":"FindCardParams"},
+                    body: {"in":"body","name":"body","required":true,"ref":"IFindCardRequest"},
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
             };
 
@@ -749,7 +614,7 @@ export function RegisterRoutes(app: Router) {
 
             async function DeleteDeckController_deleteCard(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    body: {"in":"body","name":"body","required":true,"ref":"DeleteDeckParams"},
+                    body: {"in":"body","name":"body","required":true,"ref":"IDeleteDeckRequest"},
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
             };
 
@@ -780,7 +645,7 @@ export function RegisterRoutes(app: Router) {
 
             async function DeleteCardController_deleteCard(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    body: {"in":"body","name":"body","required":true,"ref":"DeleteCardParams"},
+                    body: {"in":"body","name":"body","required":true,"ref":"IDeleteCardRequest"},
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
             };
 
@@ -811,7 +676,7 @@ export function RegisterRoutes(app: Router) {
 
             async function CreateDeckController_createDeck(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    body: {"in":"body","name":"body","required":true,"ref":"CreateDeckParams"},
+                    body: {"in":"body","name":"body","required":true,"ref":"ICreateDeckRequest"},
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
             };
 
@@ -842,7 +707,7 @@ export function RegisterRoutes(app: Router) {
 
             async function CreateCardController_createCard(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    body: {"in":"body","name":"body","required":true,"ref":"CreateCardParams"},
+                    body: {"in":"body","name":"body","required":true,"ref":"ICreateCardRequest"},
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
             };
 

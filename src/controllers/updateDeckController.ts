@@ -5,63 +5,33 @@ import {
     Post,
     Route,
 } from "tsoa";
-import { ObjectId, WithId, Document } from "mongodb";
+import { ObjectId } from "mongodb";
 import * as exp from "express";
 import { col } from "../utils";
-
-interface IDeck {
-    _id: ObjectId,
-    id_user: ObjectId,
-    name: string
-}
-
-type Doc<T> = (T & WithId<Document>);
-
-interface UpdateDeckResponse {
-    id: ObjectId | null,
-    userId: ObjectId | null,
-    name: string,
-    message: string
-}
-
-interface updateDeckParams {
-    deck_id: string,
-    deck_name: string
-}
+import * as models from "glint-core/src/models";
 
 @Route("/api/v1/updateDeck")
 export class UpdateDeckController extends Controller {
 
     @Post()
-    public async FindDeck(@Body() body: updateDeckParams, @Request() req: exp.Request) {
+    public async FindDeck(@Body() body: models.IUpdateDeckRequest, @Request() req: exp.Request) {
 
         const user_id = new ObjectId(req.res?.locals.jwt.sub);
-        var deck_id = new ObjectId(body.deck_id);
+        var deck_id = new ObjectId(body._id);
 
-        let deck = (await col("deck").findOne({ "_id": deck_id, "id_user": user_id })) as Doc<IDeck> | null
+        let deck = (await col("deck").findOne({ "_id": deck_id, "id_user": user_id })) as models.IUserDoc | null
 
         if (deck === null) {
             this.setStatus(404);
-            let res: UpdateDeckResponse = {
-                id: null,
-                userId: null,
-                name: "",
+            let res: models.ErrorResponse = {
                 message: "Server could not find deck."
             };
             return res;
         }
 
-        await col("deck").updateOne({ _id: deck._id }, { $set: { "name": body.deck_name } });
+        await col("deck").updateOne({ _id: deck._id }, { $set: { "name": body.name } });
 
-        this.setStatus(200);
-        let res: UpdateDeckResponse = {
-            id: deck._id,
-            userId: deck.id_user,
-            name: deck.name,
-            message: "Updated deck name."
-        };
-
-        return res;
+        return;
     }
 
 }
