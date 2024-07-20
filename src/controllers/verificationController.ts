@@ -5,7 +5,6 @@ import {
     Request,
     Route,
 } from "tsoa";
-import { WithId, Document } from "mongodb";
 import { col, setJwt } from "../utils";
 import * as exp from "express";
 import * as models from "glint-core/src/models";
@@ -16,23 +15,32 @@ export class verificationController extends Controller {
     @Get()
     public async verifyEmail(@Query() code: string, @Request() req: exp.Request) {
 
-        const user = (await col("user").findOne({ "verification_code": code })) as models.IUserDoc | null
+        const user = (await col("user").findOne({ email_verification_code: code })) as models.IUserDoc | null
 
-        if (user !== null) {
-            user.email_verified = true;
-
-            setJwt(req, user._id.toString());
-
-            await col("user").updateOne({ _id: user._id }, { $set: { email_verified: true, verification_code: null } });
-
-            return;
+        if (user === null) {
+            this.setStatus(500);
+            let res: models.ErrorResponse = {
+                message: "Server could not find user."
+            };
+            return res;
         }
 
-        this.setStatus(500);
-        let res: models.ErrorResponse = {
-            message: "Server could not find user."
-        };
+        user.email_verified = true;
 
-        return res;
+        setJwt(req, user._id.toString());
+
+        await col("user").updateOne(
+            { _id: user._id },
+            {
+                $set: {
+                    email_verified: true
+                },
+                $unset: {
+                    email_verification_code: ""
+                }
+            }
+        );
+
+        return;
     }
 }

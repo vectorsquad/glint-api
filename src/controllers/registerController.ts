@@ -51,14 +51,23 @@ export class RegisterUserController extends Controller {
 
         let rnd = randId(6);
 
-        let user = {
-            username: body.username,
-            password: body.password_hash,
-            email: body.email,
+        let user: Pick<
+            models.IUserDoc,
+            "name_first" |
+            "name_last" |
+            "username" |
+            "email" |
+            "email_verified" |
+            "email_verification_code" |
+            "password_hash"
+        > = {
             name_first: body.name_first,
             name_last: body.name_last,
+            username: body.username,
+            email: body.email,
             email_verified: false,
-            verification_code: rnd
+            email_verification_code: rnd,
+            password_hash: body.password_hash
         };
 
         // Attempt to insert user
