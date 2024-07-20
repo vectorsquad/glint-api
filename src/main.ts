@@ -61,3 +61,5 @@ app.use(function errorHandler(
 app.listen(GS.api.port, GS.api.address, () => {
     console.log(`Listening on ${GS.api.address}:${GS.api.port}`);
 })
+
+export default app;

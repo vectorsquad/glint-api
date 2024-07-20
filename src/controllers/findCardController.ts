@@ -4,7 +4,7 @@ import {
     Controller,
     Request,
     Post,
-    Route,
+    Route
 } from "tsoa";
 import { WithId, Document } from "mongodb";
 import * as exp from "express";
