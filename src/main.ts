@@ -15,6 +15,7 @@ await GS.mongo.client.connect();
 const app = exp.default();
 
 // Middleware
+app.use(cookieParser());
 app.use(Authenticate);
 
 // Swagger UI Docs
@@ -29,7 +30,6 @@ app.get("/", (req, res) => res.sendFile("/index.html"));
 
 // API Routes
 app.use(exp.json());
-app.use(cookieParser());
 RegisterRoutes(app);
 
 // Error handling middleware

@@ -53,5 +53,5 @@ export function setJwt(req: exp.Request, id_user: string) {
     let signedJwt = jwt.sign(authPayload, GlobalState.jwt.secret);
 
     // Set cookie header to contain JWT authentication payload
-    req.res?.setHeader("Set-Cookie", `auth=${signedJwt}`);
+    req.res?.setHeader("Set-Cookie", `auth=${signedJwt}; Path=/; SameSite=Strict`);
 }
