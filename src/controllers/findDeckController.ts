@@ -22,10 +22,19 @@ export class FindDeckController extends Controller {
             id_user: user_id
         };
 
-        if (body.name !== undefined) {
-            deckQuery.name = body.name;
+        if (body._id) {
+            deckQuery._id = body._id
 
-        } else if (body._id !== undefined) {
+        }
+
+        if (body.name) {
+            deckQuery.name = {
+                $regex: body.name,
+                $options: "i"
+            };
+        }
+
+        if (body._id) {
             deckQuery.id_user = body._id;
         }
 
