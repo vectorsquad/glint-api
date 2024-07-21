@@ -29,13 +29,9 @@ export class FindDeckController extends Controller {
 
         if (body.name) {
             deckQuery.name = {
-                $regex: body.name,
+                $regex: `^${body.name}`,
                 $options: "i"
             };
-        }
-
-        if (body._id) {
-            deckQuery.id_user = body._id;
         }
 
         const decks = await col("deck").find(deckQuery).toArray() as models.IDeckDoc[];
