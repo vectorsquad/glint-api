@@ -129,7 +129,7 @@ export function sendEmailPasswordUpdateCode(code: string, email: string, firstNa
             <div class="button-container">
                 <a href="${link}" class="button">Change Password</a>
             </div>
-            <p>If you didn't order a request to change your password, please ignore this email.</p>`;
+            <p>If you did not order a request to change your password, please ignore this email.</p>`;
 
     sendMail(email, firstName, bodyHtml, emailSubject);
 }
