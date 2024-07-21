@@ -36,7 +36,7 @@ export class updatePasswordController extends Controller {
         }
         else {
             let rnd = randId(6);
-            sendEmailPasswordRecovery(rnd, user.email, user.name_first);
+            sendEmailPasswordRecovery(rnd, user.email, user.name_first, req);
             await col("user").updateOne({ _id: user._id }, { $set: { password: body.password, verification_code: rnd } });
         }
 
