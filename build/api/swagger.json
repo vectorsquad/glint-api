@@ -80,6 +80,11 @@
 						"type": "string",
 						"description": "ID of deck that owns this card."
 					},
+					"deck_index": {
+						"type": "number",
+						"format": "double",
+						"description": "Deck relative index."
+					},
 					"_id": {
 						"type": "string"
 					}
@@ -374,6 +379,28 @@
 			"ICreateDeckRequest": {
 				"$ref": "#/components/schemas/Pick_IDeckNative.name_",
 				"description": "Parameters for creating a new deck."
+			},
+			"Pick_ICardNative.deck_index-or-_id_": {
+				"properties": {
+					"_id": {
+						"type": "string"
+					},
+					"deck_index": {
+						"type": "number",
+						"format": "double",
+						"description": "Deck relative index."
+					}
+				},
+				"required": [
+					"_id",
+					"deck_index"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"ICreateCardResponse": {
+				"$ref": "#/components/schemas/Pick_ICardNative.deck_index-or-_id_",
+				"description": "Payload after creating a card."
 			},
 			"Pick_ICardNative.id_deck-or-side_front-or-side_back_": {
 				"properties": {
@@ -884,7 +911,7 @@
 											"$ref": "#/components/schemas/ErrorResponse"
 										},
 										{
-											"$ref": "#/components/schemas/DocNative"
+											"$ref": "#/components/schemas/ICreateCardResponse"
 										}
 									]
 								}

@@ -27,10 +27,26 @@ export class CreateCardController extends Controller {
             };
         }
 
-        let card: Omit<models.ICardDoc, "_id"> = {
+        let filterFind: Pick<models.ICardDoc, "id_deck"> = {
+            id_deck: deck._id
+        };
+
+        let filterSort: { [key: string]: -1 } = {
+            deck_index: -1
+        };
+
+        let highestIndex = 0;
+
+        let highestIndexCard = await col("card").find(filterFind).sort(filterSort).limit(1).next() as models.ICardDoc | null;
+        if (highestIndexCard !== null) {
+            highestIndex = highestIndexCard.deck_index + 1;
+        }
+
+        let card: Pick<models.ICardDoc, "id_deck" | "side_front" | "side_back" | "deck_index"> = {
             id_deck: deck._id,
             side_front: body.side_front,
-            side_back: body.side_back
+            side_back: body.side_back,
+            deck_index: highestIndex
         }
 
         // Attempt to create a card
@@ -58,7 +74,8 @@ export class CreateCardController extends Controller {
         }
 
         let res: models.ICreateCardResponse = {
-            _id: createResult.insertedId.toString()
+            _id: createResult.insertedId.toString(),
+            deck_index: highestIndex
         }
 
         return res;
