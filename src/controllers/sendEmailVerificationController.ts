@@ -22,7 +22,7 @@ export class sendEmailVerificationController extends Controller {
         }
 
         if (user !== null && user.email_verified == false) {
-            sendEmailVerificationCode(user.verification_code, user.email, user.name_first);
+            sendEmailVerificationCode(user.email_verification_code, user.email, user.name_first, req);
             return;
         }
 

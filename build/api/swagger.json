@@ -523,7 +523,7 @@
 		},
 		"/api/v1/updatePassword": {
 			"post": {
-				"operationId": "UpadatePassword",
+				"operationId": "UpdatePassword",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -619,7 +619,7 @@
 		},
 		"/api/v1/swapCards": {
 			"post": {
-				"operationId": "CreateCard",
+				"operationId": "SwapCard",
 				"responses": {
 					"200": {
 						"description": "Ok",

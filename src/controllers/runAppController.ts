@@ -1,4 +1,4 @@
-import { ICard } from "glint-core/src/models.js";
+import * as models from "glint-core/src/models";
 import {
     Body,
     Controller,
@@ -15,14 +15,7 @@ interface runAppParameters {
     deckId: string
 }
 
-type Doc<T> = (T & WithId<Document>);
-
-interface IDeck {
-    _id: ObjectId,
-    name: string
-}
-
-interface ICardDb extends ICard {
+interface ICardDb extends models.ICardDoc {
     id_card: ObjectId,
     id_deck: ObjectId,
     card_shown: boolean
@@ -46,7 +39,7 @@ export class runAppController extends Controller {
         const user_id = new ObjectId(req.res?.locals.jwt.sub);
         var deck_id = new ObjectId(body.deckId);
 
-        let deck = (await col("deck").findOne({ "id_user": user_id, "_id": deck_id })) as Doc<IDeck> | null
+        let deck = (await col("deck").findOne({ "id_user": user_id, "_id": deck_id })) as models.IDeckDoc | null
 
         if (deck === null) {
             this.setStatus(404);
@@ -61,8 +54,8 @@ export class runAppController extends Controller {
             return res;
         }
 
-        let cards_in_deck = await col("card").find({ "id_deck": deck._id }).toArray() as Doc<ICard>[];
-        let cards_not_shown = await col("card").find({ "id_deck": deck._id, "card_shown": false }).toArray() as Doc<ICard>[];
+        let cards_in_deck = await col("card").find({ "id_deck": deck._id }).toArray() as ICardDb[];
+        let cards_not_shown = await col("card").find({ "id_deck": deck._id, "card_shown": false }).toArray() as ICardDb[];
 
         if (cards_in_deck.length === 0) {
             this.setStatus(404);
@@ -92,7 +85,7 @@ export class runAppController extends Controller {
 
         let random_card_number = Math.floor(Math.random() * (cards_not_shown.length - 1));
 
-        let chosen_card = cards_not_shown[random_card_number] as Doc<ICardDb>;
+        let chosen_card = cards_not_shown[random_card_number] as ICardDb;
 
         await col("card").updateOne({ "_id": chosen_card._id }, { $set: { "card_shown": true } });
 

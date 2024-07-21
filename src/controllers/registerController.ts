@@ -94,7 +94,7 @@ export class RegisterUserController extends Controller {
             return resp;
         }
 
-        sendEmailVerificationCode(rnd, body.email, body.name_first);
+        sendEmailVerificationCode(rnd, body.email, body.name_first, req);
 
         return;
     }

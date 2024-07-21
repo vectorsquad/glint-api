@@ -1,3 +1,4 @@
+import { Request } from "express";
 import nodemailer, { Transporter } from "nodemailer";
 
 export async function sendMail(email: string, firstName: string, bodyHtml: string, emailSubject: string) {
@@ -104,8 +105,10 @@ export async function sendMail(email: string, firstName: string, bodyHtml: strin
     }
 };
 
-export function sendEmailVerificationCode(code: string, email: string, firstName: string) {
-    let link = `https://glint.cleanmango.com/api/v1/verify/?code=${code}`;
+const urlReqPerspective = (req: Request) => req.protocol + '://' + req.get('host');
+
+export function sendEmailVerificationCode(code: string, email: string, firstName: string, req: Request) {
+    let link = `${urlReqPerspective(req)}/verify?code=${code}`;
     let emailSubject = "Email Verification"
 
     let bodyHtml = `<p>Thank you for signing up with Glint.</p>
@@ -118,26 +121,13 @@ export function sendEmailVerificationCode(code: string, email: string, firstName
     sendMail(email, firstName, bodyHtml, emailSubject);
 }
 
-export function sendEmailPasswordUpdateCode(code: string, email: string, firstName: string) {
-    let link = `https://glint.cleanmango.com/api/v1/updatePassword/?user_code=${code}`;
+export function sendEmailPasswordUpdateCode(code: string, email: string, firstName: string, req: Request) {
+    let link = `${urlReqPerspective(req)}/updatePassword?user_code=${code}`;
     let emailSubject = "Password Recovery Request"
 
     let bodyHtml = `<p>This is a request to change your Glint account's password. Please click the button below change your password.</p>
             <div class="button-container">
                 <a href="${link}" class="button">Change Password</a>
-            </div>
-            <p>If you didn't order a request to change your password, please ignore this email.</p>`;
-
-    sendMail(email, firstName, bodyHtml, emailSubject);
-}
-
-export function sendEmailPasswordRecovery(uniqueString: string, email: string, firstName: string) {
-    let link = "https://glint.cleanmango.com/api/v1/updatePassword/?user_code=";
-    let emailSubject = "Password Recovery Request"
-
-    let bodyHtml = `<p>This is a request to change your Glint account's password. Please click the button below change your password.</p>
-            <div class="button-container">
-                <a href="${link}${uniqueString}" class="button">Change Password</a>
             </div>
             <p>If you didn't order a request to change your password, please ignore this email.</p>`;
 

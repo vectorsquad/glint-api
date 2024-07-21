@@ -1,4 +1,4 @@
-import { ICard } from "glint-core/src/models.js";
+import * as models from "glint-core/src/models";
 import {
     Body,
     Controller,
@@ -15,15 +15,7 @@ interface restartAppParameters {
     deckId: string
 }
 
-type Doc<T> = (T & WithId<Document>);
-
-interface IDeck {
-    _id: ObjectId,
-    id_user: ObjectId,
-    name: string
-}
-
-interface ICardDb extends ICard {
+interface ICardDb extends models.ICardDoc {
     id_card: ObjectId,
     id_deck: ObjectId,
     card_shown: boolean
@@ -42,7 +34,7 @@ export class restartAppController extends Controller {
         const user_id = new ObjectId(req.res?.locals.jwt.sub);
         var deck_id = new ObjectId(body.deckId);
 
-        let deck = (await col("deck").findOne({ "id_user": user_id, "_id": deck_id })) as Doc<IDeck> | null
+        let deck = (await col("deck").findOne({ "id_user": user_id, "_id": deck_id })) as models.IDeckDoc | null
 
         if (deck === null) {
             this.setStatus(404);
@@ -52,7 +44,7 @@ export class restartAppController extends Controller {
             return res;
         }
 
-        let cards_shown = await col("card").find({ "id_deck": deck._id, "card_shown": true }).toArray() as Doc<ICardDb>[];
+        let cards_shown = await col("card").find({ "id_deck": deck._id, "card_shown": true }).toArray() as ICardDb[];
 
         if (cards_shown.length === 0) {
             this.setStatus(404);

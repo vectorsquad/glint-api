@@ -24,7 +24,7 @@ export class sendPasswordRecoveryController extends Controller {
         if (user !== null) {
             let rnd = randId(6);
             await col("user").updateOne({ _id: user._id }, { $set: { verification_code: rnd } });
-            sendEmailPasswordUpdateCode(rnd, user.email, user.name_first);
+            sendEmailPasswordUpdateCode(rnd, user.email, user.name_first, req);
 
             return;
         }

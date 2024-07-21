@@ -15,10 +15,10 @@ interface SwapFilter {
 }
 
 @Route("/api/v1/swapCards")
-export class CreateCardController extends Controller {
+export class SwapCardController extends Controller {
 
     @Post()
-    public async createCard(@Body() body: models.ISwapCardsRequest, @Request() req: exp.Request) {
+    public async swapCard(@Body() body: models.ISwapCardsRequest, @Request() req: exp.Request) {
 
         let filterCardFirst: SwapFilter = {
             _id: new ObjectId(body.card_first._id)

@@ -36,11 +36,12 @@ export class verificationController extends Controller {
                     email_verified: true
                 },
                 $unset: {
-                    email_verification_code: ""
+                    email_verification_code: null
                 }
             }
         );
 
+        this.setStatus(200);
         return;
     }
 }

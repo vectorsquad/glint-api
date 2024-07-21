@@ -11,7 +11,7 @@ import { UpdateDeckController } from './../../src/controllers/updateDeckControll
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { UpdateCardController } from './../../src/controllers/updateCardController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { CreateCardController } from './../../src/controllers/swapCardController';
+import { SwapCardController } from './../../src/controllers/swapCardController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { sendPasswordRecoveryController } from './../../src/controllers/sendPasswordRecoveryController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -300,9 +300,9 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/api/v1/updatePassword',
             ...(fetchMiddlewares<RequestHandler>(updatePasswordController)),
-            ...(fetchMiddlewares<RequestHandler>(updatePasswordController.prototype.upadatePassword)),
+            ...(fetchMiddlewares<RequestHandler>(updatePasswordController.prototype.updatePassword)),
 
-            async function updatePasswordController_upadatePassword(request: ExRequest, response: ExResponse, next: any) {
+            async function updatePasswordController_updatePassword(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
                     body: {"in":"body","name":"body","required":true,"ref":"IUpdatePasswordRequest"},
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
@@ -318,7 +318,7 @@ export function RegisterRoutes(app: Router) {
                 const controller = new updatePasswordController();
 
               await templateService.apiHandler({
-                methodName: 'upadatePassword',
+                methodName: 'updatePassword',
                 controller,
                 response,
                 next,
@@ -393,10 +393,10 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/api/v1/swapCards',
-            ...(fetchMiddlewares<RequestHandler>(CreateCardController)),
-            ...(fetchMiddlewares<RequestHandler>(CreateCardController.prototype.createCard)),
+            ...(fetchMiddlewares<RequestHandler>(SwapCardController)),
+            ...(fetchMiddlewares<RequestHandler>(SwapCardController.prototype.swapCard)),
 
-            async function CreateCardController_createCard(request: ExRequest, response: ExResponse, next: any) {
+            async function SwapCardController_swapCard(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
                     body: {"in":"body","name":"body","required":true,"ref":"ISwapCardsRequest"},
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
@@ -408,10 +408,10 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args, request, response });
 
-                const controller = new CreateCardController();
+                const controller = new SwapCardController();
 
               await templateService.apiHandler({
-                methodName: 'createCard',
+                methodName: 'swapCard',
                 controller,
                 response,
                 next,

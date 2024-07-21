@@ -9,7 +9,7 @@ import {
 
 import * as exp from "express";
 import * as bc from "bcrypt";
-import { col, randId, sendEmailPasswordRecovery } from "../utils"
+import { col, randId, sendEmailVerificationCode } from "../utils"
 import * as models from "glint-core/src/models";
 
 const bcryptSaltRounds = 10;
@@ -17,9 +17,11 @@ const bcryptSaltRounds = 10;
 @Route('/api/v1/updatePassword')
 export class updatePasswordController extends Controller {
     @Post()
-    public async upadatePassword(@Body() body: models.IUpdatePasswordRequest, @Request() req: exp.Request, @Query() user_code: string) {
+    public async updatePassword(@Body() body: models.IUpdatePasswordRequest, @Request() req: exp.Request, @Query() user_code: string) {
 
         let user = (await col("user").findOne({ "verification_code": user_code })) as models.IUserDoc | null
+
+        console.log(user);
 
         if (user === null) {
             this.setStatus(404);
@@ -31,15 +33,9 @@ export class updatePasswordController extends Controller {
 
         body.password = await bc.hash(body.password, bcryptSaltRounds);
 
-        if (user.email_verified) {
-            await col("user").updateOne({ _id: user._id }, { $set: { password: body.password, verification_code: null } });
-        }
-        else {
-            let rnd = randId(6);
-            sendEmailPasswordRecovery(rnd, user.email, user.name_first);
-            await col("user").updateOne({ _id: user._id }, { $set: { password: body.password, verification_code: rnd } });
-        }
+        await col("user").updateOne({ _id: user._id }, { $set: { password_hash: body.password }, $unset: { verification_code: ""} });
 
+        this.setStatus(200);
         return;
     }
 }
