@@ -35,22 +35,14 @@ export class CreateCardController extends Controller {
             deck_index: -1
         };
 
-        let highestIndex = 0;
-
         let highestIndexCard = await col("card").find(filterFind).sort(filterSort).limit(1).next() as models.ICardDoc | null;
-        if (highestIndexCard !== null) {
-            highestIndex = highestIndexCard.deck_index + 1;
-        }
 
-        let card: Pick<models.ICardDoc, "id_deck" | "side_front" | "side_back" | "deck_index"> = {
-            id_deck: deck._id,
-            side_front: body.side_front,
-            side_back: body.side_back,
-            deck_index: highestIndex
-        }
+        let highestIndex = highestIndexCard ? highestIndexCard.deck_index + 1 : 0;
+
+        (body as (typeof body) & Pick<models.ICardDoc, "deck_index">).deck_index = highestIndex;
 
         // Attempt to create a card
-        let createResult = await col("card").insertOne(card);
+        let createResult = await col("card").insertOne(body);
 
         // Respond with internal server error if could not insert
         if (!createResult.acknowledged) {

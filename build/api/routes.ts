@@ -247,14 +247,19 @@ const models: TsoaRoute.Models = {
         "type": {"ref":"Pick_ICardNative.deck_index-or-_id_","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_ICardNative.id_deck-or-side_front-or-side_back_": {
+    "Partial_Pick_ICardNative.side_front-or-side_back__": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"side_front":{"dataType":"string","required":true},"side_back":{"dataType":"string","required":true},"id_deck":{"dataType":"string","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"side_front":{"dataType":"string"},"side_back":{"dataType":"string"}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Pick_ICardNative.id_deck_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id_deck":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ICreateCardRequest": {
         "dataType": "refAlias",
-        "type": {"ref":"Pick_ICardNative.id_deck-or-side_front-or-side_back_","validators":{}},
+        "type": {"dataType":"intersection","subSchemas":[{"ref":"Partial_Pick_ICardNative.side_front-or-side_back__"},{"ref":"Pick_ICardNative.id_deck_"}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
