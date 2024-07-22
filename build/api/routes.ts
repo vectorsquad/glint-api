@@ -231,7 +231,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "IFindCardRequest": {
         "dataType": "refAlias",
-        "type": {"dataType":"intersection","subSchemas":[{"ref":"Partial_Pick_ICardNative.side_front-or-side_back-or-deck_index-or-_id__"},{"ref":"Pick_ICardNative.id_deck_"}],"validators":{}},
+        "type": {"dataType":"intersection","subSchemas":[{"ref":"Partial_Pick_ICardNative.side_front-or-side_back-or-deck_index-or-_id__"},{"ref":"Pick_ICardNative.id_deck_"},{"dataType":"nestedObjectLiteral","nestedProperties":{"count":{"dataType":"double"},"start_index":{"dataType":"double"}}}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Pick_IDeckNative._id_": {

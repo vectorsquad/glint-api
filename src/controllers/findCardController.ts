@@ -40,10 +40,22 @@ export class FindCardController extends Controller {
             }
         }
 
-        // Retrieve card
-        let cardDoc = await col("card").find(query).toArray() as models.ICardDoc[];
+        if (body.start_index) {
+            query.deck_index = {
+                $gte: body.start_index
+            }
+        }
 
-        return cardDoc;
+        // Retrieve card
+        let cardListCursor = col("card").find(query);
+
+        if (body.count) {
+            cardListCursor.limit(body.count);
+        }
+
+        let cardList = await cardListCursor.toArray() as models.ICardDoc[];
+
+        return cardList;
     }
 
 }

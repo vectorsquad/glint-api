@@ -470,6 +470,19 @@
 					},
 					{
 						"$ref": "#/components/schemas/Pick_ICardNative.id_deck_"
+					},
+					{
+						"properties": {
+							"count": {
+								"type": "number",
+								"format": "double"
+							},
+							"start_index": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"type": "object"
 					}
 				],
 				"description": "Parameters for finding a card."

@@ -36,6 +36,7 @@ export function getJwt(req: Request): CustomJwt | undefined {
         return verified_jwt as CustomJwt;
 
     } catch (e) {
+        console.log(e);
         return undefined;
     }
 
