@@ -19,7 +19,7 @@ export class updatePasswordController extends Controller {
     @Post()
     public async updatePassword(@Body() body: models.IUpdatePasswordRequest, @Request() req: exp.Request, @Query() user_code: string) {
 
-        let user = (await col("user").findOne({ "verification_code": user_code })) as models.IUserDoc | null
+        let user = (await col("user").findOne({ verification_code: user_code })) as models.IUserDoc | null
 
         console.log(user);
 
@@ -33,7 +33,7 @@ export class updatePasswordController extends Controller {
 
         body.password = await bc.hash(body.password, bcryptSaltRounds);
 
-        await col("user").updateOne({ _id: user._id }, { $set: { password_hash: body.password }, $unset: { verification_code: ""} });
+        await col("user").updateOne({ _id: user._id }, { $set: { password_hash: body.password }, $unset: { verification_code: "" } });
 
         this.setStatus(200);
         return;

@@ -29,7 +29,12 @@ export class loginController extends Controller {
             return;
         }
 
-        let user = (await col("user").findOne(body.login)) as models.IUserDoc | null
+        let user = (await col("user").findOne(
+            {
+                username: body.login.username,
+                password_hash: body.login.password_hash
+            }
+        )) as models.IUserDoc | null
 
         if (!user) {
             this.setStatus(404);
