@@ -6,6 +6,7 @@ import { GlobalState as GS } from "@state";
 import { ValidateError } from "tsoa";
 import cookieParser from "cookie-parser";
 import { Authenticate } from "./middleware/authentication";
+import path from "path";
 
 // Initiate connection to MongoDB
 console.log("Connecting to MongoDB...");
@@ -18,19 +19,21 @@ const app = exp.default();
 app.use(cookieParser());
 app.use(Authenticate);
 
+// API Routes
+app.use(exp.json());
+RegisterRoutes(app);
+
 // Swagger UI Docs
 app.use("/api/docs", sw_ui.serve);
 app.get("/api/docs", sw_ui.setup(spec));
 
 // Frontend
-app.use(exp.static('public'))
+app.use(exp.static('public'));
 
-// Catch-all for index.html
-app.get("/", (req, res) => res.sendFile("/index.html"));
-
-// API Routes
-app.use(exp.json());
-RegisterRoutes(app);
+// Catch-all for WebUI routes
+app.get("*", (_, res) => {
+    res.sendFile(path.resolve("./public", "index.html"));
+});
 
 // Error handling middleware
 app.use(function errorHandler(
