@@ -15,10 +15,10 @@ export class loginController extends Controller {
     @Post()
     public async login(@Request() req: exp.Request, @Body() body: models.ISignInRequest) {
 
-        if (body.login === undefined) {
+        if (!body.login) {
             let user_jwt = getJwt(req);
 
-            if (user_jwt === undefined) {
+            if (!user_jwt) {
                 this.setStatus(400);
                 let res: models.ErrorResponse = {
                     message: "Unable to fallback with JWT authentication."
@@ -29,9 +29,9 @@ export class loginController extends Controller {
             return;
         }
 
-        let user = (await col("user").findOne({ "username": body.login.username })) as models.IUserDoc | null
+        let user = (await col("user").findOne(body.login)) as models.IUserDoc | null
 
-        if (user === null) {
+        if (!user) {
             this.setStatus(404);
             let res: models.ErrorResponse = {
                 message: "Server could not find user."
@@ -48,9 +48,10 @@ export class loginController extends Controller {
             return res;
         }
 
-
         console.log("checking password...");
-        let validPassword = await bc.compare(body.login.password_hash, user.password_hash);
+        console.log(body.login.password_hash);
+        console.log(user.password_hash);
+        let validPassword = bc.compareSync(body.login.password_hash, user.password_hash);
         console.log("cached result of password similarity");
 
         if (!validPassword) {
