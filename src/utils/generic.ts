@@ -30,8 +30,8 @@ export function getJwt(req: Request): CustomJwt | undefined {
     try {
         console.log(cookie_jwt);
         console.log(GlobalState.jwt.secret);
-        let verified_jwt = jwt.verify(cookie_jwt, GlobalState.jwt.secret);
-        if (typeof verified_jwt === "string") {
+        let verified_jwt = jwt.decode(cookie_jwt);
+        if (typeof verified_jwt === "string" || !verified_jwt) {
             return undefined;
         }
 
