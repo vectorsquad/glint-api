@@ -49,7 +49,9 @@ export class loginController extends Controller {
         }
 
 
+        console.log("checking password...");
         let validPassword = await bc.compare(body.login.password_hash, user.password_hash);
+        console.log("cached result of password similarity");
 
         if (!validPassword) {
             this.setStatus(400);
