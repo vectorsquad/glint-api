@@ -8,6 +8,7 @@ import {
 import * as exp from "express";
 import { col } from "../utils";
 import * as models from "glint-core/src/models";
+import { ObjectId } from "mongodb";
 
 @Route("/api/v1/find")
 export class FindCardController extends Controller {
@@ -15,19 +16,34 @@ export class FindCardController extends Controller {
     @Post()
     public async findCard(@Body() body: models.IFindCardRequest, @Request() req: exp.Request) {
 
-        // Retrieve card
-        let cardDoc = await col("card").findOne({ side_front: { $regex: body.side_front }, side_back: { $regex: body.side_back } }) as models.ICardDoc | null;
-
-        // Error early if unable to retrieve card
-        if (cardDoc === null) {
-            this.setStatus(500);
-            let resp: models.ErrorResponse = {
-                message: "Server could not find card."
-            };
-            return resp;
+        const query: { [key: string]: any } = {
+            id_deck: body.id_deck
         }
 
-        return cardDoc._id;
+        if (body._id) {
+            query._id = new ObjectId(body._id);
+        }
+
+        if (body.deck_index) {
+            query.deck_index = body.deck_index
+        }
+
+        if (body.side_back) {
+            query.side_back = {
+                $regex: `^${body.side_back}`
+            }
+        }
+
+        if (body.side_front) {
+            query.side_back = {
+                $regex: `^${body.side_front}`
+            }
+        }
+
+        // Retrieve card
+        let cardDoc = await col("card").find(query).toArray() as models.ICardDoc[];
+
+        return cardDoc;
     }
 
 }

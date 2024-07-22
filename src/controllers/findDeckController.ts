@@ -23,7 +23,7 @@ export class FindDeckController extends Controller {
         };
 
         if (body._id) {
-            deckQuery._id = body._id
+            deckQuery._id = new ObjectId(body._id)
 
         }
 
