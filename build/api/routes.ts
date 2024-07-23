@@ -15,7 +15,7 @@ import { SwapCardController } from './../../src/controllers/swapCardController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { sendPasswordRecoveryController } from './../../src/controllers/sendPasswordRecoveryController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { sendEmailVerificationController } from './../../src/controllers/sendEmailVerificationController';
+import { verificationController } from './../../src/controllers/sendEmailVerificationController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { runAppController } from './../../src/controllers/runAppController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -114,11 +114,6 @@ const models: TsoaRoute.Models = {
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ISendPasswordRecoveryRequest": {
-        "dataType": "refAlias",
-        "type": {"dataType":"intersection","subSchemas":[{"ref":"Partial_Pick_IUserNative.username__"},{"ref":"Partial_Pick_IUserNative.email__"}],"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "ISendEmailVerificationRequest": {
         "dataType": "refAlias",
         "type": {"dataType":"intersection","subSchemas":[{"ref":"Partial_Pick_IUserNative.username__"},{"ref":"Partial_Pick_IUserNative.email__"}],"validators":{}},
     },
@@ -476,13 +471,13 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/api/v1/sendEmailVerification',
-            ...(fetchMiddlewares<RequestHandler>(sendEmailVerificationController)),
-            ...(fetchMiddlewares<RequestHandler>(sendEmailVerificationController.prototype.sendEmailVerification)),
+        app.get('/api/v1/sendEmailVerification',
+            ...(fetchMiddlewares<RequestHandler>(verificationController)),
+            ...(fetchMiddlewares<RequestHandler>(verificationController.prototype.verifyEmail)),
 
-            async function sendEmailVerificationController_sendEmailVerification(request: ExRequest, response: ExResponse, next: any) {
+            async function verificationController_verifyEmail(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    body: {"in":"body","name":"body","required":true,"ref":"ISendEmailVerificationRequest"},
+                    code: {"in":"query","name":"code","required":true,"dataType":"string"},
                     req: {"in":"request","name":"req","required":true,"dataType":"object"},
             };
 
@@ -492,10 +487,10 @@ export function RegisterRoutes(app: Router) {
             try {
                 validatedArgs = templateService.getValidatedArgs({ args, request, response });
 
-                const controller = new sendEmailVerificationController();
+                const controller = new verificationController();
 
               await templateService.apiHandler({
-                methodName: 'sendEmailVerification',
+                methodName: 'verifyEmail',
                 controller,
                 response,
                 next,

@@ -10,7 +10,7 @@ import { col, setJwt } from "../utils";
 import * as exp from "express";
 import * as models from "glint-core/src/models";
 
-@Route("/api/v1/verify")
+@Route("/api/v1/sendEmailVerification")
 export class verificationController extends Controller {
 
     @Get()
