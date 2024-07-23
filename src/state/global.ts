@@ -12,7 +12,8 @@ const gs = {
     },
     mongo: {
         client: new MongoClient(mongo_url),
-        db: {} as Db
+        db: {} as Db,
+        mongo_url: mongo_url
     },
     api: {
         address: "0.0.0.0",

@@ -1,7 +1,7 @@
 module.exports = {
-    testEnvironment: "node",
     extensionsToTreatAsEsm: [".ts"],
     preset: 'ts-jest/presets/default-esm',
+    preset: '@shelf/jest-mongodb',
     transform: {
         '^.+\\.(ts|tsx)?$': [
             'ts-jest',{
@@ -16,6 +16,6 @@ module.exports = {
     moduleNameMapper: {
         "@routes": "<rootDir>/build/api/routes",
         "@spec": "<rootDir>/build/api/swagger.json",
-        "@state": "<rootDir>/src/state/global"
+        "@state": "<rootDir>/src/state/global",
     }
 };

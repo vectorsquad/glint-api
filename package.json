@@ -4,7 +4,7 @@
     "start": "tsx src/main.ts",
     "build-and-start": "npm run build && npm run start",
     "dev": "onchange -i -k \"src/**/*.ts\" -- npm run build-and-start",
-    "test": "node --experimental-vm-modules node_modules/.bin/jest --experimental-specifier-resolution=node --runInBand --config jest.config.cjs",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --experimental-specifier-resolution=node --no-warnings --silent --runInBand --config jest.config.cjs",
     "lint": "oxlint"
   },
   "type": "module",
@@ -24,6 +24,7 @@
   "devDependencies": {
     "@babel/preset-env": "^7.24.8",
     "@babel/preset-react": "^7.24.7",
+    "@shelf/jest-mongodb": "^4.3.2",
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^16.0.0",
     "@types/bcrypt": "^5.0.2",
