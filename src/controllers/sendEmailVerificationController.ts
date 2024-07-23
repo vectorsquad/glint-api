@@ -11,7 +11,7 @@ import * as exp from "express";
 import * as models from "glint-core/src/models";
 
 @Route("/api/v1/sendEmailVerification")
-export class verificationController extends Controller {
+export class sendEmailVerificationController extends Controller {
 
     @Get()
     public async verifyEmail(@Query() code: string, @Request() req: exp.Request) {
