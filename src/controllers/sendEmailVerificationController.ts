@@ -14,12 +14,13 @@ import * as models from "glint-core/src/models";
 export class verificationController extends Controller {
 
     @Get()
-    public async verifyEmail(@Query() code: string, @Request() req: exp.Request, @Res() res: exp.Response) {
+    public async verifyEmail(@Query() code: string, @Request() req: exp.Request) {
 
         const user = (await col("user").findOne({ email_verification_code: code })) as models.IUserDoc | null
 
         if (user === null) {
-            return res.redirect('/verify-email?status=failure');
+            req.res?.redirect('/verify-email?status=failure');
+            return;
         }
 
         user.email_verified = true;
@@ -38,6 +39,7 @@ export class verificationController extends Controller {
             }
         );
 
-        return res.redirect('/verify-email?status=success');
+        req.res?.redirect('/verify-email?status=success');
+        return;
     }
 }
