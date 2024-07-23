@@ -334,8 +334,63 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"Partial_Pick_ICardNative.side_front-or-side_back-or-deck_index-or-_id__": {
+				"properties": {
+					"_id": {
+						"type": "string"
+					},
+					"side_front": {
+						"type": "string",
+						"description": "Front side of card."
+					},
+					"side_back": {
+						"type": "string",
+						"description": "Back side of card."
+					},
+					"deck_index": {
+						"type": "number",
+						"format": "double",
+						"description": "Deck relative index."
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			},
+			"Pick_ICardNative.id_deck_": {
+				"properties": {
+					"id_deck": {
+						"type": "string",
+						"description": "ID of deck that owns this card."
+					}
+				},
+				"required": [
+					"id_deck"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
 			"IFindCardRequest": {
-				"$ref": "#/components/schemas/Partial_ICardNative_",
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/Partial_Pick_ICardNative.side_front-or-side_back-or-deck_index-or-_id__"
+					},
+					{
+						"$ref": "#/components/schemas/Pick_ICardNative.id_deck_"
+					},
+					{
+						"properties": {
+							"count": {
+								"type": "number",
+								"format": "double"
+							},
+							"start_index": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"type": "object"
+					}
+				],
 				"description": "Parameters for finding a card."
 			},
 			"Pick_IDeckNative._id_": {
@@ -397,7 +452,7 @@
 				"$ref": "#/components/schemas/Pick_ICardNative.deck_index-or-_id_",
 				"description": "Payload after creating a card."
 			},
-			"Pick_ICardNative.id_deck-or-side_front-or-side_back_": {
+			"Partial_Pick_ICardNative.side_front-or-side_back__": {
 				"properties": {
 					"side_front": {
 						"type": "string",
@@ -406,22 +461,20 @@
 					"side_back": {
 						"type": "string",
 						"description": "Back side of card."
-					},
-					"id_deck": {
-						"type": "string",
-						"description": "ID of deck that owns this card."
 					}
 				},
-				"required": [
-					"side_front",
-					"side_back",
-					"id_deck"
-				],
 				"type": "object",
-				"description": "From T, pick a set of properties whose keys are in the union K"
+				"description": "Make all properties in T optional"
 			},
 			"ICreateCardRequest": {
-				"$ref": "#/components/schemas/Pick_ICardNative.id_deck-or-side_front-or-side_back_",
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/Partial_Pick_ICardNative.side_front-or-side_back__"
+					},
+					{
+						"$ref": "#/components/schemas/Pick_ICardNative.id_deck_"
+					}
+				],
 				"description": "Parameters for creating a card."
 			}
 		},
@@ -852,6 +905,35 @@
 						"application/json": {
 							"schema": {
 								"$ref": "#/components/schemas/ICreateDeckRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/createCard": {
+			"post": {
+				"operationId": "CreateCard",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Pick_ICardNative.id_deck_"
 							}
 						}
 					}

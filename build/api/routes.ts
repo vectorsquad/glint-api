@@ -31,6 +31,8 @@ import { DeleteCardController } from './../../src/controllers/deleteCardControll
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { CreateDeckController } from './../../src/controllers/createDeckController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { CreateCardController } from './../../src/controllers/createCardCustomController';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { CreateCardController } from './../../src/controllers/createCardController';
 import type { Request as ExRequest, Response as ExResponse, RequestHandler, Router } from 'express';
 
@@ -171,9 +173,19 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Partial_Pick_ICardNative.side_front-or-side_back-or-deck_index-or-_id__": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"_id":{"dataType":"string"},"side_front":{"dataType":"string"},"side_back":{"dataType":"string"},"deck_index":{"dataType":"double"}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Pick_ICardNative.id_deck_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id_deck":{"dataType":"string","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "IFindCardRequest": {
         "dataType": "refAlias",
-        "type": {"ref":"Partial_ICardNative_","validators":{}},
+        "type": {"dataType":"intersection","subSchemas":[{"ref":"Partial_Pick_ICardNative.side_front-or-side_back-or-deck_index-or-_id__"},{"ref":"Pick_ICardNative.id_deck_"},{"dataType":"nestedObjectLiteral","nestedProperties":{"count":{"dataType":"double"},"start_index":{"dataType":"double"}}}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Pick_IDeckNative._id_": {
@@ -211,14 +223,14 @@ const models: TsoaRoute.Models = {
         "type": {"ref":"Pick_ICardNative.deck_index-or-_id_","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_ICardNative.id_deck-or-side_front-or-side_back_": {
+    "Partial_Pick_ICardNative.side_front-or-side_back__": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"side_front":{"dataType":"string","required":true},"side_back":{"dataType":"string","required":true},"id_deck":{"dataType":"string","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"side_front":{"dataType":"string"},"side_back":{"dataType":"string"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ICreateCardRequest": {
         "dataType": "refAlias",
-        "type": {"ref":"Pick_ICardNative.id_deck-or-side_front-or-side_back_","validators":{}},
+        "type": {"dataType":"intersection","subSchemas":[{"ref":"Partial_Pick_ICardNative.side_front-or-side_back__"},{"ref":"Pick_ICardNative.id_deck_"}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
@@ -655,6 +667,37 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'createDeck',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/api/v1/createCard',
+            ...(fetchMiddlewares<RequestHandler>(CreateCardController)),
+            ...(fetchMiddlewares<RequestHandler>(CreateCardController.prototype.createCard)),
+
+            async function CreateCardController_createCard(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    body: {"in":"body","name":"body","required":true,"ref":"Pick_ICardNative.id_deck_"},
+                    req: {"in":"request","name":"req","required":true,"dataType":"object"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new CreateCardController();
+
+              await templateService.apiHandler({
+                methodName: 'createCard',
                 controller,
                 response,
                 next,
