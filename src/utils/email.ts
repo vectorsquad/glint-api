@@ -108,7 +108,7 @@ export async function sendMail(email: string, firstName: string, bodyHtml: strin
 const urlReqPerspective = (req: Request) => req.protocol + '://' + req.get('host');
 
 export function sendEmailVerificationCode(code: string, email: string, firstName: string, req: Request) {
-    let link = `${urlReqPerspective(req)}/api/v1/verify?code=${code}`;
+    let link = `${urlReqPerspective(req)}/verify?code=${code}`;
     let emailSubject = "Email Verification"
 
     let bodyHtml = `<p>Thank you for signing up with Glint.</p>
@@ -122,7 +122,7 @@ export function sendEmailVerificationCode(code: string, email: string, firstName
 }
 
 export function sendEmailPasswordUpdateCode(code: string, email: string, firstName: string, req: Request) {
-    let link = `${urlReqPerspective(req)}/api/v1/updatePassword?user_code=${code}`;
+    let link = `${urlReqPerspective(req)}/updatePassword?user_code=${code}`;
     let emailSubject = "Password Recovery Request"
 
     let bodyHtml = `<p>This is a request to change your Glint account's password. Please click the button below change your password.</p>
