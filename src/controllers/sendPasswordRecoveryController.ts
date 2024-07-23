@@ -17,16 +17,15 @@ export class sendPasswordRecoveryController extends Controller {
     public async sendPasswordRecovery(@Body() body: models.ISendPasswordRecoveryRequest, @Request() req: exp.Request) {
         let user = (await col("user").findOne({ "email": body.email })) as models.IUserDoc | null
 
-        if (user === null) {
-            user = (await col("user").findOne({ "username": body.username })) as models.IUserDoc | null
-        }
-
         if (user !== null) {
+            this.setStatus(200);
             let rnd = randId(6);
             await col("user").updateOne({ _id: user._id }, { $set: { verification_code: rnd } });
             sendEmailPasswordUpdateCode(rnd, user.email, user.name_first, req);
-
-            return;
+            let res: models.ErrorResponse = {
+                message: "Email sent!"
+            }
+            return res;
         }
 
         this.setStatus(404);

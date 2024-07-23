@@ -15,8 +15,6 @@ import { SwapCardController } from './../../src/controllers/swapCardController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { sendPasswordRecoveryController } from './../../src/controllers/sendPasswordRecoveryController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { sendEmailVerificationController } from './../../src/controllers/sendEmailVerificationController';
-// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { RegisterUserController } from './../../src/controllers/registerController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { loginController } from './../../src/controllers/loginController';
@@ -419,37 +417,6 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'sendPasswordRecovery',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: undefined,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.get('/api/v1/sendEmailVerification',
-            ...(fetchMiddlewares<RequestHandler>(sendEmailVerificationController)),
-            ...(fetchMiddlewares<RequestHandler>(sendEmailVerificationController.prototype.verifyEmail)),
-
-            async function sendEmailVerificationController_verifyEmail(request: ExRequest, response: ExResponse, next: any) {
-            const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    code: {"in":"query","name":"code","required":true,"dataType":"string"},
-                    req: {"in":"request","name":"req","required":true,"dataType":"object"},
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args, request, response });
-
-                const controller = new sendEmailVerificationController();
-
-              await templateService.apiHandler({
-                methodName: 'verifyEmail',
                 controller,
                 response,
                 next,

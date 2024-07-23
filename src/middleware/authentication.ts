@@ -8,7 +8,6 @@ function isApiRequest(path: string) {
 const whitelistedApiRoutes = [
     "register",
     "login",
-    "sendEmailVerification",
     "sendPasswordRecovery",
     "verify",
 ];

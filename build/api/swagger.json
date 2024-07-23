@@ -182,9 +182,6 @@
 			"ISendPasswordRecoveryRequest": {
 				"allOf": [
 					{
-						"$ref": "#/components/schemas/Partial_Pick_IUserNative.username__"
-					},
-					{
 						"$ref": "#/components/schemas/Partial_Pick_IUserNative.email__"
 					}
 				],
@@ -672,27 +669,6 @@
 						}
 					}
 				}
-			}
-		},
-		"/api/v1/sendEmailVerification": {
-			"get": {
-				"operationId": "VerifyEmail",
-				"responses": {
-					"204": {
-						"description": "No content"
-					}
-				},
-				"security": [],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "code",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
 			}
 		},
 		"/api/v1/register": {
