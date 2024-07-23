@@ -4,7 +4,8 @@
     "start": "tsx src/main.ts",
     "build-and-start": "npm run build && npm run start",
     "dev": "onchange -i -k \"src/**/*.ts\" -- npm run build-and-start",
-    "test": "node --experimental-vm-modules node_modules/.bin/jest --experimental-specifier-resolution=node --runInBand --config jest.config.cjs"
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --experimental-specifier-resolution=node --runInBand --config jest.config.cjs",
+    "lint": "oxlint"
   },
   "type": "module",
   "dependencies": {
@@ -38,6 +39,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "node-mocks-http": "^1.15.0",
     "onchange": "^7.1.0",
+    "oxlint": "^0.6.1",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.3",
     "tsoa": "^6.3.1"
