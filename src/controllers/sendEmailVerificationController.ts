@@ -1,35 +1,43 @@
 import {
-    Body,
     Controller,
+    Get,
+    Query,
     Request,
-    Post,
     Route,
+    Res
 } from "tsoa";
-
+import { col, setJwt } from "../utils";
 import * as exp from "express";
-import { sendEmailVerificationCode } from "../utils";
-import { col } from "../utils";
 import * as models from "glint-core/src/models";
 
-@Route('/api/v1/sendEmailVerification')
-export class sendEmailVerificationController extends Controller {
-    @Post()
-    public async sendEmailVerification(@Body() body: models.ISendEmailVerificationRequest, @Request() req: exp.Request) {
-        let user = (await col("user").findOne({ "email": body.email })) as models.IUserDoc | null
+@Route("/api/v1/verify")
+export class verificationController extends Controller {
+
+    @Get()
+    public async verifyEmail(@Query() code: string, @Request() req: exp.Request, @Res() res: exp.Response) {
+
+        const user = (await col("user").findOne({ email_verification_code: code })) as models.IUserDoc | null
 
         if (user === null) {
-            user = (await col("user").findOne({ "username": body.username })) as models.IUserDoc | null
+            return res.redirect('/verify-email?status=failure');
         }
 
-        if (user !== null && user.email_verified == false) {
-            sendEmailVerificationCode(user.email_verification_code, user.email, user.name_first, req);
-            return;
-        }
+        user.email_verified = true;
 
-        this.setStatus(404);
-        let res: models.ErrorResponse = {
-            message: "Error: The user was not found"
-        }
-        return res;
+        setJwt(req, user._id.toString());
+
+        await col("user").updateOne(
+            { _id: user._id },
+            {
+                $set: {
+                    email_verified: true
+                },
+                $unset: {
+                    email_verification_code: null
+                }
+            }
+        );
+
+        return res.redirect('/verify-email?status=success');
     }
 }
